@@ -3,8 +3,9 @@ import Field from '../../components/layout/ui/Field';
 import Input from '../../components/layout/ui/Input';
 import Button from '../../components/layout/ui/Button';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
 import axios from 'axios';
 
 const SignUpPage = () => {
@@ -12,18 +13,31 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        router.replace('/app');
+      } else {
+        setLoading(false);
+      }
+    });
+  }, [router]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    axios
-      .post('/api/auth/sign-up', { email, password })
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = axios.post('/api/auth/sign-up', { email, password });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
-
   return (
     <Page title={'Sign Up'}>
       <form onSubmit={handleSubmit}>
