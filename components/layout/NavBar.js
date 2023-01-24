@@ -1,13 +1,16 @@
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-import Button from './ui/Button';
+import Button from '../ui/Button';
+import { useRouter } from 'next/router';
 
 const NavBar = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
+  const router = useRouter();
 
   const handleLogout = () => {
     signOut();
+    router.push('/');
   };
 
   return (

@@ -1,7 +1,7 @@
 import Page from '../../components/layout/Page';
-import Field from '../../components/layout/ui/Field';
-import Input from '../../components/layout/ui/Input';
-import Button from '../../components/layout/ui/Button';
+import Field from '../../components/ui/Field';
+import Input from '../../components/ui/Input';
+import Button from '../../components/ui/Button';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';

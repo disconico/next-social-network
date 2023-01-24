@@ -40,7 +40,7 @@ export default NextAuth({
         if (!isValid) {
           throw new Error('Wrong Password !');
         }
-        user.id && console.log('user id :', user.id);
+        user.id && console.log('user:', user);
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
