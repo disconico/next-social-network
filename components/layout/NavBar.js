@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-import Button from '../ui/Button';
 import { useRouter } from 'next/router';
+import Button from '../ui/Button';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const NavBar = () => {
   const { data: session, status } = useSession();
@@ -39,6 +40,7 @@ const NavBar = () => {
           <Link href='/auth/sign-up'>sign-up</Link>
         </li>
       </ul>
+      <ThemeSwitcher />
     </nav>
   );
 };
