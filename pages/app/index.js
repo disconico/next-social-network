@@ -2,29 +2,27 @@ import Page from '../../components/layout/Page';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Spinner from '../../components/ui/Spinner';
 
 const AppHomePage = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const getSessionData = async () => {
-      try {
-        const session = await getSession();
+    getSession()
+      .then((session) => {
+        console.log('getSession called in AppHomePage');
         if (!session) {
           router.replace('/');
         } else {
           setLoading(false);
         }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getSessionData();
+      })
+      .catch((err) => console.log(err));
   }, [router]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (

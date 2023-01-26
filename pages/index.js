@@ -10,19 +10,15 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const getSessionData = async () => {
-      try {
-        const session = await getSession();
+    getSession()
+      .then((session) => {
         if (session) {
           router.replace('/app');
         } else {
           setLoading(false);
         }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getSessionData();
+      })
+      .catch((err) => console.log(err));
   }, [router]);
 
   if (loading) {

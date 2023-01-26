@@ -1,17 +1,16 @@
 import Link from 'next/link';
 import { FcApproval, FcBusinessman } from 'react-icons/fc';
 import { IconContext } from 'react-icons';
-import ThemeSwitcher from './layout/ThemeSwitcher';
 import Typed from 'react-typed';
 import svg from '../public/assets/svg/svg';
+import H1 from './ui/headings/H1';
 
 const Onboarding = () => {
   const { chevronRight, arrowRight, linkedin, github } = svg;
 
   return (
-    <section className=' mx-auto text-center h-full bg-white dark:bg-gray-900 flex justify-center'>
+    <section className=' mx-auto text-center h-full flex justify-center'>
       <main className='max-w-screen-lg h-full flex flex-col justify-center items-center gap-2 max-sm:pt-4'>
-        <ThemeSwitcher />
         <Link
           href='/auth/sign-up'
           className='inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -19,22 +18,24 @@ const Onboarding = () => {
         >
           <span className='text-xs bg-primary-500 rounded-full text-white px-4 py-1.5 mr-3'>
             New
-          </span>{' '}
+          </span>
           <span className='text-sm font-medium'>
             DiscoNetwork is out ! See what&apos;s new !
           </span>
           {chevronRight}
         </Link>
-        <h1 className='mb-4 mx-2 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>
+        <H1>
           <span>Meet and </span>
           <Typed
             strings={['connect', 'laugh', 'share']}
             typeSpeed={200}
             backSpeed={100}
-            loop={false}
+            loop={true}
           />
+          <br />
           <span> with people around you</span>
-        </h1>
+        </H1>
+
         <p className='mb-8 text-lg font-normal mx-2 text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400'>
           Unlock your potential with DiscoNetwork: Dance to the beat of tech
           innovation and financial growth, and join a community of like-minded
@@ -45,7 +46,7 @@ const Onboarding = () => {
             href='/auth/sign-up'
             className='inline-flex min-w-[180px] justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900'
           >
-            Sign up for free
+            <span className='mr-2'>Sign up for free</span>
             {arrowRight}
           </Link>
           <Link

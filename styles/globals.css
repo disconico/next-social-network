@@ -26,3 +26,21 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.form-input input:not(:placeholder-shown):valid {
+  background-image: url(../public/assets/images/ok.png);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position-x: 98%;
+  background-position-y: center;
+}
+
+.form-input input:not(:placeholder-shown):not(:valid):not(:focus) {
+  background-image: url(../public/assets/images/cross.png);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position-x: 98%;
+  background-position-y: center;
+  border: 1px solid #d55c5f;
+  box-shadow: none;
+}

@@ -9,13 +9,14 @@ async function handler(req, res) {
 
   console.log('req.body: ', req.body);
 
-  const { email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   if (
     !email ||
     !email.includes('@') ||
     !password ||
-    password.trim().length < 7
+    password.trim().length < 8 ||
+    password.trim().length > 20
   ) {
     res.status(422).json({
       message:
@@ -39,7 +40,12 @@ async function handler(req, res) {
   const hashedPassword = await hashPassword(password);
 
   // MongoDB insert user into database
-  const user = await User.create({ email, password: hashedPassword });
+  const user = await User.create({
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    email: email.trim(),
+    password: hashedPassword,
+  });
   console.log(user);
   // return success message
   res.status(201).json({ message: 'Created user!' });

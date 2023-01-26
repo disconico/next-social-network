@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import UserProfile from '../../components/UserProfile';
 import Page from '../../components/layout/Page';
+import Spinner from '../../components/ui/Spinner';
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -15,12 +16,12 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!loading && !session) {
-      router.push('/');
+      router.replace('/');
     }
   }, [loading, session, router]);
 
   if (loading || status === 'unauthenticated') {
-    return <p />;
+    return <Spinner />;
   }
 
   if (session) {
