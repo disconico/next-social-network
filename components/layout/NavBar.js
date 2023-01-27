@@ -7,8 +7,8 @@ const NavBar = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    await signOut();
   };
 
   return (

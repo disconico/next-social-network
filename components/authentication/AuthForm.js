@@ -38,7 +38,7 @@ const AuthForm = ({ isLoggingIn }) => {
       });
       console.log('status:', status);
       if (!status.error) {
-        router.push('/');
+        router.push('/app');
       } else if (status.error) {
         setSignInError(status.error);
         console.log(status.error);
@@ -59,6 +59,7 @@ const AuthForm = ({ isLoggingIn }) => {
     if (isLoggingIn) {
       await signUserIn();
     } else if (!isLoggingIn) {
+
       try {
         const isValid = await comparePasswords(
           user.password,
@@ -68,12 +69,10 @@ const AuthForm = ({ isLoggingIn }) => {
           setSignInError('Passwords do not match!');
           return;
         }
-
         const res = await axios.post('/api/auth/sign-up', { ...user });
         if (res.status === 201) {
           console.log('res: ', res);
           await signUserIn();
-          router.push('/app');
         }
       } catch (err) {
         setSignInError(
