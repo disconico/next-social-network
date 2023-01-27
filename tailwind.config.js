@@ -21,6 +21,25 @@ module.exports = {
           900: '#78350f',
         },
       },
+      fontFamily: {
+        neon: ['neon', 'sans-serif'],
+        bungee: ['bungee', 'sans-serif'],
+      },
+      animation: {
+        text: 'text 10s ease infinite',
+      },
+      keyframes: {
+        text: {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+      },
     },
   },
 };

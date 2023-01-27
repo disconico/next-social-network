@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import Field from '../ui/Field';
 import Input from '../ui/Input';
+import Checkbox from '../ui/Checkbox';
 import Button from '../ui/Button';
-import H1 from '../ui/headings/H1';
+import H1Gradient from '../ui/headings/H1Gradient';
 import H2 from '../ui/headings/H2';
 
 import axios from 'axios';
@@ -10,6 +11,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 import { comparePasswords } from '../../lib/auth';
 
@@ -20,6 +22,7 @@ const AuthForm = ({ isLoggingIn }) => {
     email: '',
     password: '',
     confirmedPassword: '',
+    isAwesome: false,
   });
 
   const [signInError, setSignInError] = useState(null);
@@ -83,8 +86,10 @@ const AuthForm = ({ isLoggingIn }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevState) => ({ ...prevState, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    const val = type === 'checkbox' ? checked : value;
+    setUser((prevState) => ({ ...prevState, [name]: val }));
+    console.log(user.isAwesome);
   };
 
   return (
@@ -94,13 +99,19 @@ const AuthForm = ({ isLoggingIn }) => {
       </Head>
       <section className=' mx-auto h-full'>
         <main className='max-w-screen-lg mx-auto h-full flex flex-col items-center  justify-center'>
-          <div className='sm:max-w-lg max-w-full w-96 p-4'>
-            <H1>あなたの運命へようこそ</H1>
-            <p>
-              It&apos;s time to meet your destiny, register and chose your path
-              between, <strong>Rōnin</strong>, <strong>Hatamoto</strong> and{' '}
-              <strong>Shogun</strong>.
-            </p>
+          <div className='sm:max-w-lg max-w-full w-96 p-4 pb-0'>
+            <H1Gradient>WELCOME TO DISCO NETWORK</H1Gradient>
+            {isLoggingIn ? (
+              <p>
+                It&apos;s time to meet your destiny, <strong>log in</strong> to
+                get your <strong>groove</strong> on !{' '}
+              </p>
+            ) : (
+              <p>
+                It&apos;s time to meet your destiny, <strong>register</strong>{' '}
+                now and get <strong>groovin&apos;</strong> on DiscoNetwork !
+              </p>
+            )}
           </div>
           <form
             onSubmit={handleSubmit}
@@ -131,7 +142,6 @@ const AuthForm = ({ isLoggingIn }) => {
                 </Field>
               </>
             )}
-
             <Field label={'E-mail address :'}>
               <Input
                 type='email'
@@ -174,10 +184,44 @@ const AuthForm = ({ isLoggingIn }) => {
                 </Field>
               </>
             )}
+            {!isLoggingIn && (
+              <div className='flex gap-2 mb-2'>
+                <label htmlFor='isAwesome'>I confirm being awesome :</label>
+                <Checkbox
+                  name='isAwesome'
+                  value={user.isAwesome}
+                  onChange={handleChange}
+                />
+              </div>
+            )}
 
             <Button type={'submit'}>{`${
               isLoggingIn ? 'Log In' : 'Sign up'
             }`}</Button>
+
+            <p className='flex mt-2 gap-1'>
+              {isLoggingIn ? 'Not a member yet ?' : 'Already a member ?'}
+              {isLoggingIn ? (
+                <Link
+                  href='/auth/sign-up'
+                  className='font-semibold text-primary-600'
+                >
+                  Register
+                </Link>
+              ) : (
+                <Link
+                  href='/auth/sign-in'
+                  className='font-semibold text-primary-600'
+                >
+                  Log in
+                </Link>
+              )}{' '}
+              or{' '}
+              <Link href={'/'} className='font-semibold text-primary-600'>
+                Go back Home
+              </Link>
+            </p>
+
             {signInError && <p className='text-red-700 mt-4'>{signInError}</p>}
           </form>
         </main>

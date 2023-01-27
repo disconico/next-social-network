@@ -9,7 +9,7 @@ async function handler(req, res) {
 
   console.log('req.body: ', req.body);
 
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, isAwesome } = req.body;
 
   if (
     !email ||
@@ -45,6 +45,7 @@ async function handler(req, res) {
     lastName: lastName.trim(),
     email: email.trim(),
     password: hashedPassword,
+    isAwesome,
   });
   console.log(user);
   // return success message
