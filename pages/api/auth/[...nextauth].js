@@ -43,13 +43,20 @@ export default NextAuth({
         user.id && console.log('user:', user);
 
         if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return { email: user.email };
+          return {
+            email: user.email,
+            name: user.firstName,
+          };
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
           return null;
         }
       },
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+  },
 });

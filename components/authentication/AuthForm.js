@@ -59,7 +59,6 @@ const AuthForm = ({ isLoggingIn }) => {
     if (isLoggingIn) {
       await signUserIn();
     } else if (!isLoggingIn) {
-
       try {
         const isValid = await comparePasswords(
           user.password,
@@ -96,7 +95,7 @@ const AuthForm = ({ isLoggingIn }) => {
       <Head>
         <title>{'Authentication - DiscoNetwork'}</title>
       </Head>
-      <section className=' mx-auto h-full'>
+      <div className=' mx-auto h-full'>
         <main className='max-w-screen-lg mx-auto h-full flex flex-col items-center  justify-center'>
           <div className='sm:max-w-lg max-w-full w-96 p-4 pb-0'>
             <H1Gradient>WELCOME TO DISCO NETWORK</H1Gradient>
@@ -224,7 +223,7 @@ const AuthForm = ({ isLoggingIn }) => {
             {signInError && <p className='text-red-700 mt-4'>{signInError}</p>}
           </form>
         </main>
-      </section>
+      </div>
     </>
   );
 };

@@ -29,6 +29,7 @@ const ProfilePage = () => {
   }
 
   console.log('session', session);
+
   return (
     <Page title={'Your Profile'}>
       <UserProfile />

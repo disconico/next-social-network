@@ -11,7 +11,6 @@ const AppHomePage = () => {
   useEffect(() => {
     getSession()
       .then((session) => {
-        console.log('getSession called in AppHomePage');
         if (!session) {
           router.replace('/');
         } else {

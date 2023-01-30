@@ -1,6 +1,6 @@
-import Title from './Title.js';
+import { Fragment } from 'react';
 import Head from 'next/head';
-import NavBar from './NavBar';
+import NavBar from './navigation/Navbar';
 import PropTypes from 'prop-types';
 
 const Page = ({ title, children }) => {
@@ -9,13 +9,10 @@ const Page = ({ title, children }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <header>
+      <div className=' mx-auto h-full'>
         <NavBar />
-      </header>
-      <main className='p-4'>
-        <Title>{title}</Title>
-        {children}
-      </main>
+        <Fragment>{children}</Fragment>
+      </div>
     </>
   );
 };

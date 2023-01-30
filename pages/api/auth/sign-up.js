@@ -1,4 +1,4 @@
-import { hashPassword } from '../../../lib/auth';
+import { hashPassword, isAlphanumeric } from '../../../lib/auth';
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
 
@@ -25,6 +25,23 @@ async function handler(req, res) {
     return;
   }
 
+  console.log('firstName : ', firstName, isAlphanumeric(firstName));
+
+  // Add alphanumerical check for password, firstName, lastName
+  if (
+    !firstName ||
+    !lastName ||
+    !firstName.trim().length ||
+    !lastName.trim().length ||
+    isAlphanumeric(firstName) === false ||
+    isAlphanumeric(lastName) === false
+  ) {
+    res.status(422).json({
+      message: 'Invalid input - firstName and lastName should be alphanumeric.',
+    });
+    return;
+  }
+
   await dbConnect();
 
   // MongoDB check if user with given email already exists
@@ -41,6 +58,7 @@ async function handler(req, res) {
 
   // MongoDB insert user into database
   const user = await User.create({
+    user: firstName.trim(),
     firstName: firstName.trim(),
     lastName: lastName.trim(),
     email: email.trim(),
