@@ -80,9 +80,8 @@ const Onboarding = () => {
               className='mr-5 mb-5 lg:mb-0  hover:text-gray-800 dark:hover:text-gray-400 '
             >
               <div className='flex justify-center min-w-[180px] gap-4 '>
-                <div className='transition-transform duration-250 ease-in-out hover:transform-rotate-360 hover:scale-130'>
-                  {linkedin}
-                </div>
+                <div className='ml-2 w-10 h-10'>{linkedin}</div>
+
                 <h3 className='text-2xl font-semibold align-baseline pt-1'>
                   Linkedin
                 </h3>
@@ -95,7 +94,7 @@ const Onboarding = () => {
               className='mr-5 mb-5 lg:mb-0  hover:text-gray-800 dark:hover:text-gray-400'
             >
               <div className='flex justify-center min-w-[180px] gap-4 '>
-                <div>{github}</div>
+                <div className='ml-2 w-10 h-10'>{github}</div>
                 <h3 className='text-2xl font-semibold align-baseline pt-1'>
                   GitHub
                 </h3>

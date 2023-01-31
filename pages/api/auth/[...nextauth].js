@@ -46,6 +46,7 @@ export default NextAuth({
           return {
             email: user.email,
             name: user.firstName,
+            id: user.id,
           };
         } else {
           return null;
@@ -54,9 +55,20 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
-      user && (token.user = user);
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.uid;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
       return token;
     },
+  },
+  pages: {
+    signIn: '/auth/sign-in',
   },
 });

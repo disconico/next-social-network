@@ -1,5 +1,4 @@
 import AuthForm from '../../components/authentication/AuthForm';
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';

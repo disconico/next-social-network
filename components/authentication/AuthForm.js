@@ -87,7 +87,6 @@ const AuthForm = ({ isLoggingIn }) => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
     setUser((prevState) => ({ ...prevState, [name]: val }));
-    console.log(user.isAwesome);
   };
 
   return (

@@ -12,6 +12,11 @@
   src: url('../public/assets/fonts/bungee.ttf');
 }
 
+@font-face {
+  font-family: 'nabla';
+  src: url('../public/assets/fonts/nabla.ttf');
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

@@ -38,7 +38,6 @@ const svg = {
       version='1.1'
       viewBox='0 0 48 48'
       xmlns='http://www.w3.org/2000/svg'
-      className='ml-2 w-10 h-10'
     >
       <circle cx='24' cy='24' fill='#1686B0' r='24' />
       <path
@@ -48,7 +47,7 @@ const svg = {
     </svg>
   ),
   github: (
-    <svg viewBox='0 0 128 128' className='ml-2 w-10 h-10 '>
+    <svg viewBox='0 0 128 128'>
       <g fill='#181616'>
         <path
           fillRule='evenodd'

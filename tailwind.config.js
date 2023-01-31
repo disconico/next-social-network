@@ -25,6 +25,7 @@ module.exports = {
       fontFamily: {
         neon: ['neon', 'sans-serif'],
         bungee: ['bungee', 'sans-serif'],
+        nabla: ['nabla', 'sans-serif'],
       },
       animation: {
         text: 'text 10s ease infinite',
