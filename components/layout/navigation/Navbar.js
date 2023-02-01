@@ -24,29 +24,30 @@ const NavBar = () => {
             DN
           </Link>
         </div>
-        <div className='flex items-center gap-2'>
-          <>
-            <Link
-              href={'/app/posts'}
-              className='hover:border-b-2 hover:border-primary-600'
-            >
-              Posts
-            </Link>
-            <Link
-              href={'/app/users'}
-              className='hover:border-b-2 hover:border-primary-600'
-            >
-              Users
-            </Link>
-          </>
+        <div className='flex items-center gap-4'>
+          {width > 768 && (
+            <>
+              {' '}
+              <Link
+                href={'/app/users'}
+                className='hover:border-b-2 hover:border-primary-600'
+              >
+                Browse Users
+              </Link>
+              <Link
+                href={'/app/posts'}
+                className='hover:border-b-2 hover:border-primary-600'
+              >
+                See All Posts
+              </Link>
+            </>
+          )}
 
           <div className=' w-auto text-right'>
             <Menu as='div' className='relative inline-block text-left'>
               <div>
                 <Menu.Button className='inline-flex w-full justify-center items-center hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-                  <p className='hover:border-b-2 hover:border-primary-600'>
-                    {session && !loading && session.user.name}
-                  </p>
+                  <p className=''>{session && !loading && session.user.name}</p>
                   <ChevronDownIcon
                     className='ml-2 -mr-1 mt-[2px] h-5 w-5 text-primary-500 hover:text-primary-700'
                     aria-hidden='true'

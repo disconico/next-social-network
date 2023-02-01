@@ -10,7 +10,7 @@ const Onboarding = () => {
 
   return (
     <section className=' mx-auto text-center h-full flex justify-center'>
-      <main className='max-w-screen-lg h-full flex flex-col justify-center items-center gap-2 max-sm:pt-4'>
+      <main className='max-w-screen-lg h-full flex flex-col justify-center items-center gap-2 pt-4'>
         <Link
           href='/auth/sign-up'
           className='inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
