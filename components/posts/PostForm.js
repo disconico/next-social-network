@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useQueryClient, useMutation } from 'react-query';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
@@ -14,11 +15,9 @@ const PostForm = () => {
     }
   }, [session]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const postPost = async () => {
     try {
-      axios
+      await axios
         .post('/api/posts', {
           title,
           content,
@@ -33,6 +32,19 @@ const PostForm = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(postPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('posts');
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate();
   };
 
   return (
@@ -55,6 +67,8 @@ const PostForm = () => {
         />
       </div>
       <button type='submit'>Create Post</button>
+      {mutation.isLoading && <p>Loading...</p>}
+      {mutation.isError && <p>Error: {mutation.error.message}</p>}
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
@@ -9,8 +10,8 @@ import ThemeSwitcher from '../../ui/ThemeSwitcher';
 const NavBar = () => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
-
   const { width } = useWindowSize();
+  const router = useRouter();
 
   const handleLogout = async () => {
     await signOut();
@@ -27,16 +28,33 @@ const NavBar = () => {
         <div className='flex items-center gap-4'>
           {width > 768 && (
             <>
-              {' '}
+              <Link
+                href={'/app'}
+                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                  router.pathname.match(/app$/)
+                    ? 'border-b-2 border-primary-300'
+                    : ''
+                }`}
+              >
+                News Feed
+              </Link>
               <Link
                 href={'/app/users'}
-                className='hover:border-b-2 hover:border-primary-600'
+                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                  router.pathname.includes('users')
+                    ? 'border-b-2 border-primary-300'
+                    : ''
+                }`}
               >
                 Browse Users
               </Link>
               <Link
                 href={'/app/posts'}
-                className='hover:border-b-2 hover:border-primary-600'
+                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                  router.pathname.includes('posts')
+                    ? 'border-b-2 border-primary-300'
+                    : ''
+                }`}
               >
                 See All Posts
               </Link>

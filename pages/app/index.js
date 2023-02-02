@@ -1,41 +1,38 @@
 import Page from '../../components/layout/Page';
 import PostForm from '../../components/posts/PostForm';
-import { useQuery, useQueryClient } from 'react-query';
-import axios from 'axios';
+import NewsFeed from '../../components/posts/NewsFeed';
+import { getSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const AppHomePage = () => {
-  const queryClient = useQueryClient();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
-  const { isLoading, isError, data, error } = useQuery('posts', async () => {
-    try {
-      return await axios.get('/api/posts');
-    } catch (error) {
-      console.log(error);
-      throw new Error('Something went wrong!');
-    }
-  });
+  useEffect(() => {
+    getSession()
+      .then((session) => {
+        if (!session) {
+          router.replace('/auth/sign-in');
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [router]);
 
-  console.log('data', data);
+  if (loading) {
+    return <p></p>;
+  }
 
   return (
     <Page title='Next Social Media'>
       <div className='max-w-screen-lg mx-auto p-2'>
         <PostForm />
       </div>
-
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error: {error.message}</div>}
-
-      {!isLoading && data && !error && (
-        <div className='max-w-screen-lg mx-auto p-2'>
-          {data.data.returnedPosts.map((post, index) => (
-            <div key={index} className='bg-white shadow-md rounded-md p-4 my-4'>
-              <h2 className='text-2xl font-bold'>{post.title}</h2>
-              <p className='text-gray-500'>{post.content}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className='max-w-screen-lg mx-auto p-2'>
+        <NewsFeed />
+      </div>
     </Page>
   );
 };

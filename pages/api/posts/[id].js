@@ -1,5 +1,4 @@
 import Post from '../../../models/Post';
-import User from '../../../models/User';
 import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
 
@@ -9,6 +8,7 @@ const clientPost = (post, author) => {
     title: post.title,
     content: post.content,
     createdAt: post.createdAt,
+    likes: post.likes,
     author: {
       _id: author._id,
       firstName: author.firstName,
@@ -17,46 +17,20 @@ const clientPost = (post, author) => {
   };
 };
 
-const handlePostPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return res.status(401).json({ message: 'Not authenticated' });
-  }
-
-  const { title, content, authorId } = req.body;
-  console.log('req.body: ', req.body);
-  try {
-    await dbConnect();
-    const author = await User.findById(authorId);
-
-    // Don't over populate the database with post's author details
-    const post = await Post.create({
-      title,
-      content,
-      author: author._id,
-    });
-    console.log('post: ', post);
-
-    // Still return some author details for the client
-    const returnedPost = clientPost(post, author);
-    res.status(201).json({ returnedPost });
-  } catch (err) {
-    console.log('Post POST API :', err.message);
-    res.status(401).end();
-  }
-};
-
 const handleGetPost = async (req, res) => {
   const session = await getSession({ req });
   if (!session) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  const { _id } = req.query;
-  console.log('_id: ', _id);
+  const { id } = req.query;
+  console.log('_id: ', id);
   try {
     await dbConnect();
-    const post = await Post.findById(_id).populate('author');
+    const post = await Post.findById(id).populate('author');
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
     const returnedPost = clientPost(post, post.author);
     res.status(200).json({ returnedPost });
   } catch (err) {
@@ -65,12 +39,37 @@ const handleGetPost = async (req, res) => {
   }
 };
 
+const handlePatchPost = async (req, res) => {
+  const session = await getSession({ req });
+  if (!session) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  const { id } = req.query;
+  console.log('_id: ', id);
+  try {
+    await dbConnect();
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    post.likes++;
+    await post.save();
+    res.status(200).json({ post });
+  } catch (err) {
+    console.log('Post PATCH API :', err.message);
+    res.status(401).end();
+  }
+};
+
 const handler = async (req, res) => {
   switch (req.method) {
-    case 'POST':
-      return handlePostPost(req, res);
+    //   case 'POST':
+    //     return handlePostPost(req, res);
     case 'GET':
       return handleGetPost(req, res);
+    case 'PATCH':
+      return handlePatchPost(req, res);
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }
