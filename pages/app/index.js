@@ -13,7 +13,7 @@ const AppHomePage = () => {
     getSession()
       .then((session) => {
         if (!session) {
-          router.replace('/auth/sign-in');
+          router.replace('/');
         } else {
           setLoading(false);
         }

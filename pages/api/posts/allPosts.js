@@ -1,21 +1,7 @@
 import Post from '../../../models/Post';
-// import User from '../../../models/User';
 import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
-
-const clientPost = (post, author) => {
-  return {
-    _id: post._id,
-    title: post.title,
-    content: post.content,
-    createdAt: post.createdAt,
-    author: {
-      _id: author._id,
-      firstName: author.firstName,
-      lastName: author.lastName,
-    },
-  };
-};
+import { clientPost } from '../../../lib/posts';
 
 const handleGetPost = async (req, res) => {
   const session = await getSession({ req });
@@ -39,8 +25,6 @@ const handleGetPost = async (req, res) => {
 
 const handler = async (req, res) => {
   switch (req.method) {
-    //   case 'POST':
-    //     return handlePostPost(req, res);
     case 'GET':
       return handleGetPost(req, res);
     default:

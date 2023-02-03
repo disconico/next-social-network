@@ -1,21 +1,7 @@
 import Post from '../../../models/Post';
 import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
-
-const clientPost = (post, author) => {
-  return {
-    _id: post._id,
-    title: post.title,
-    content: post.content,
-    createdAt: post.createdAt,
-    likes: post.likes,
-    author: {
-      _id: author._id,
-      firstName: author.firstName,
-      lastName: author.lastName,
-    },
-  };
-};
+import { clientPost } from '../../../lib/posts';
 
 const handleGetPost = async (req, res) => {
   const session = await getSession({ req });
@@ -24,7 +10,7 @@ const handleGetPost = async (req, res) => {
   }
 
   const { id } = req.query;
-  console.log('_id: ', id);
+
   try {
     await dbConnect();
     const post = await Post.findById(id).populate('author');
