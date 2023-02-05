@@ -1,5 +1,21 @@
 import LikeButton from './LikeButton';
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
+import { Transition } from 'react-transition-group';
+
+const duration = 300;
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+};
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+};
 
 const PostPreview = ({
   handleNavigateToPost,
@@ -11,11 +27,32 @@ const PostPreview = ({
   status,
   postId,
 }) => {
+  const nodeRef = useRef(null);
+
   return (
     <div className='bg-white shadow-md rounded-md p-4 my-4'>
       <h2 className='text-2xl font-bold'>{title}</h2>
       <p className='text-gray-500'>{content}</p>
-      <p className='text-gray-500'> Likes: {likes}</p>
+      {/* <Transition in={true} timeout={duration} nodeRef={nodeRef}>
+        {(state) => (
+          <div
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
+            ref={nodeRef}
+          >
+            <p className='text-gray-500'>Likes: {likes}</p>
+          </div>
+        )}
+      </Transition> */}
+      <div className='text-gray-500 flex gap-1'>
+        <p>Likes :</p>
+        <p key={likes} className='roll-out'>
+          {likes}
+        </p>
+      </div>
+
       <button onClick={() => handleNavigateToPost(postId)}>
         Show post details
       </button>

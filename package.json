@@ -16,6 +16,7 @@
     "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "flowbite": "^1.6.3",
+    "gsap": "^3.11.4",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.3",
     "next": "13.1.2",
@@ -27,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-query": "^3.39.3",
+    "react-transition-group": "^4.4.5",
     "react-typed": "^1.2.0"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import LikeButton from './LikeButton';
+import { gsap } from 'gsap';
 
 const Post = ({
   author,
@@ -13,15 +14,74 @@ const Post = ({
 }) => {
   const { _id, firstName, lastName } = author;
 
+  // const handleClick = (e) => {
+  //   e.preventDefault();
+  //   console.log('clicked');
+  //   const button = e.target.closest('button');
+  //   button.classList.toggle('liked');
+  //   if (button.classList.contains('liked')) {
+  //     gsap.fromTo(
+  //       button,
+  //       {
+  //         '--hand-rotate': 8,
+  //       },
+  //       {
+  //         ease: 'none',
+  //         keyframes: [
+  //           {
+  //             '--hand-rotate': -45,
+  //             duration: 0.16,
+  //             ease: 'none',
+  //           },
+  //           {
+  //             '--hand-rotate': 15,
+  //             duration: 0.12,
+  //             ease: 'none',
+  //           },
+  //           {
+  //             '--hand-rotate': 0,
+  //             duration: 0.2,
+  //             ease: 'none',
+  //             clearProps: true,
+  //           },
+  //         ],
+  //       }
+  //     );
+  //   }
+  // };
+
   return (
     <div>
       <h1 className='text-xg font-bold'>{title}</h1>
       <p>
         by {firstName} {lastName}
       </p>
-      <p>{content}</p>
+      {/* <p>{content}</p>
+      <button onClick={handleClick} className=' button dark'>
+        <div className='hand'>
+          <div className='thumb'></div>
+        </div>
+        <span>
+          Like<span>d</span>
+        </span>
+      </button>
 
-      <p>Likes : {likes}</p>
+      <button onClick={handleClick} className='button'>
+        <div className='hand'>
+          <div className='thumb'></div>
+        </div>
+        <span>
+          Like<span>d</span>
+        </span>
+      </button> */}
+
+      <div className='text-gray-500 flex gap-1'>
+        <p>Likes :</p>
+        <p key={likes} className='roll-out'>
+          {likes}
+        </p>
+      </div>
+
       <LikeButton
         session={session}
         status={status}
