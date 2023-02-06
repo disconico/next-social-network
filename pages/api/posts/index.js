@@ -10,7 +10,11 @@ const handlePostPost = async (req, res) => {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  const { title, content, authorId } = req.body;
+  const { content, authorId } = req.body;
+
+  if (!content) {
+    return res.status(400).json({ message: 'Content is required' });
+  }
 
   try {
     await dbConnect();
@@ -18,7 +22,6 @@ const handlePostPost = async (req, res) => {
 
     // Don't over populate the database with post's author details
     const post = await Post.create({
-      title,
       content,
       author: author._id,
     });

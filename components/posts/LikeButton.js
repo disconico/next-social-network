@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { useQueryClient, useMutation } from 'react-query';
 import PropTypes from 'prop-types';
+import { useQueryClient, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
-import { gsap } from 'gsap';
 
 const LikeButton = ({ session, status, postId, likedBy }) => {
   const router = useRouter();
@@ -27,72 +26,38 @@ const LikeButton = ({ session, status, postId, likedBy }) => {
     }
   );
 
-  const handleLikePost = async (e) => {
+  const handleLikePost = () => {
     if (!session || !session.user || status === 'loading') {
       return;
     }
     mutation.mutate();
-    const button = e.target.closest('button');
-    button.classList.toggle('liked');
-    if (button.classList.contains('liked')) {
-      gsap.fromTo(
-        button,
-        {
-          '--hand-rotate': 8,
-        },
-        {
-          ease: 'none',
-          keyframes: [
-            {
-              '--hand-rotate': -45,
-              duration: 0.16,
-              ease: 'none',
-            },
-            {
-              '--hand-rotate': 15,
-              duration: 0.12,
-              ease: 'none',
-            },
-            {
-              '--hand-rotate': 0,
-              duration: 0.2,
-              ease: 'none',
-              clearProps: true,
-            },
-          ],
-        }
-      );
-    }
   };
 
   return (
     <>
-      {' '}
-      {/* <button
+      <div
+        className='w-7 h-7 hover:bg-gray-300 flex justify-center items-center rounded-full hover:[&>svg]:scale-110'
         onClick={handleLikePost}
-        className={`${
-          likedBy.some((user) => user._id === session.user.id)
-            ? 'liked'
-            : 'like'
-        }`}
       >
-        {likedBy.some((user) => user._id === session.user.id)
-          ? 'Liked'
-          : 'Like'}
-      </button> */}
-      <button
-        onClick={handleLikePost}
-        className={`button ${
-          likedBy.some((user) => user._id === session.user.id) ? 'liked' : ''
-        }`}
-      >
-        <div className='hand'>
-          <div className='thumb'></div>
-        </div>
-        <span>
-          Like<span>d</span>
-        </span>
-      </button>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill={
+            likedBy.some((user) => user._id === session.user.id)
+              ? 'red'
+              : 'white'
+          }
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='red'
+          className='w-5 h-5'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
+          />
+        </svg>
+      </div>
     </>
   );
 };

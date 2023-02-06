@@ -13,7 +13,7 @@ const SinglePostPage = () => {
     isError,
     data: {
       data: {
-        returnedPost: { author, title, content, likes, likedBy } = {},
+        returnedPost: { author, comments, title, content, likes, likedBy } = {},
       } = {},
     } = {},
     error,
@@ -38,6 +38,7 @@ const SinglePostPage = () => {
           <Post
             author={author}
             title={title}
+            comments={comments}
             content={content}
             likes={likes}
             likedBy={likedBy}

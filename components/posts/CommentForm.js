@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useQueryClient, useMutation } from 'react-query';
-import { useSession } from 'next-auth/react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import LoadingButton from '../ui/LoadingButton';
 
-const PostForm = () => {
+const CommentForm = ({ postId, session }) => {
   const [content, setContent] = useState('');
   const [authorId, setAuthorId] = useState('');
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { data: session } = useSession();
 
   useEffect(() => {
     if (session) {
@@ -17,12 +16,13 @@ const PostForm = () => {
     }
   }, [session]);
 
-  const postPost = async () => {
+  const postComment = async () => {
     try {
       await axios
-        .post('/api/posts', {
+        .patch('/api/posts/comments', {
           content,
           authorId,
+          postId,
         })
         .then((res) => {
           console.log(res);
@@ -42,8 +42,9 @@ const PostForm = () => {
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(postPost, {
+  const mutation = useMutation(postComment, {
     onSuccess: () => {
+      queryClient.invalidateQueries('singlePost', postId);
       queryClient.invalidateQueries('posts');
       setContent('');
     },
@@ -62,7 +63,7 @@ const PostForm = () => {
       <div className='mb-2'>
         <textarea
           id='content'
-          rows='5'
+          rows='3'
           className={`block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
             isError ? 'border-red-500' : ''
           }`}
@@ -70,13 +71,13 @@ const PostForm = () => {
           value={content}
           required={true}
           // minLength='1'
-          maxLength='1000'
+          maxLength='240'
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
       <div className='flex justify-between'>
         <p className='text-sm text-gray-500 dark:text-gray-400'>
-          {content.length}/1000
+          {content.length}/240
         </p>
         {mutation.isLoading ? (
           <LoadingButton />
@@ -85,7 +86,7 @@ const PostForm = () => {
             type='submit'
             className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32 '
           >
-            Create Post
+            Add comment
           </button>
         )}
       </div>
@@ -97,4 +98,9 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+CommentForm.propTypes = {
+  postId: PropTypes.string.isRequired,
+  session: PropTypes.object.isRequired,
+};
+
+export default CommentForm;

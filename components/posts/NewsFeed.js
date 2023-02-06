@@ -2,7 +2,6 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import LikeButton from './LikeButton';
 import PostPreview from './PostPreview';
 
 const NewsFeed = () => {
@@ -37,10 +36,11 @@ const NewsFeed = () => {
               <PostPreview
                 key={index}
                 handleNavigateToPost={handleNavigateToPost}
-                title={post.title}
                 content={post.content}
                 likes={post.likes}
                 likedBy={post.likedBy}
+                comments={post.comments}
+                author={post.author}
                 session={session}
                 status={status}
                 postId={post._id}

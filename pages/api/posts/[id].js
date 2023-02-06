@@ -13,10 +13,30 @@ const handleGetPost = async (req, res) => {
 
   try {
     await dbConnect();
-    const post = await Post.findById(id).populate('author');
+    const post = await Post.findById(id)
+      .populate('author')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'author',
+          model: 'User',
+        },
+      });
+    console.log('post: ', post);
+    console.log('post.comments: ', post.comments);
+
+    // https://stackoverflow.com/questions/19222520/populate-nested-array-in-mongoose
+
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
+
+    // // populate the comments array
+    // const comments = await Comment.find({ _id: { $in: post.comments } })
+    //   .populate('author')
+    //   .populate('likedBy');
+    // console.log('comments: ', comments);
+
     const returnedPost = clientPost(post, post.author);
     res.status(200).json({ returnedPost });
   } catch (err) {
