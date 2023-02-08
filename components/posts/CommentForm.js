@@ -10,6 +10,20 @@ const CommentForm = ({ postId, session }) => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const openComments = () => {
+    const commentsDiv = document.getElementById(
+      `hs-unstyled-collapse-heading-${postId}`
+    );
+    window.HSCollapse.show(commentsDiv);
+  };
+
+  const closeCommentForm = () => {
+    const commentFormDiv = document.getElementById(
+      `hs-unstyled-collapse-heading-comment-${postId}`
+    );
+    window.HSCollapse.hide(commentFormDiv);
+  };
+
   useEffect(() => {
     if (session) {
       setAuthorId(session.user.id);
@@ -44,6 +58,8 @@ const CommentForm = ({ postId, session }) => {
 
   const mutation = useMutation(postComment, {
     onSuccess: () => {
+      openComments();
+      closeCommentForm();
       queryClient.invalidateQueries('singlePost', postId);
       queryClient.invalidateQueries('posts');
       setContent('');
@@ -56,10 +72,7 @@ const CommentForm = ({ postId, session }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='max-w-screen-lg w-3/5 max-md:w-full p-2'
-    >
+    <form onSubmit={handleSubmit} className='max-w-screen-lg max-md:w-full p-2'>
       <div className='mb-2'>
         <textarea
           id='content'
@@ -85,6 +98,7 @@ const CommentForm = ({ postId, session }) => {
           <button
             type='submit'
             className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32 '
+            // data-hs-collapse={`#hs-unstyled-collapse-heading-comment-${postId}`}
           >
             Add comment
           </button>

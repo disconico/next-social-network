@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -11,6 +11,10 @@ export default function App({
   pageProps: { session, ...pageProps },
 }) {
   const [queryClient] = useState(() => new QueryClient());
+
+  useEffect(() => {
+    import('preline');
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

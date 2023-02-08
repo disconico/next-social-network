@@ -36,7 +36,7 @@ const LikeButton = ({ session, status, postId, likedBy }) => {
   return (
     <>
       <div
-        className='w-7 h-7 hover:bg-gray-300 flex justify-center items-center rounded-full hover:[&>svg]:scale-110'
+        className='w-7 h-7 hover:bg-gray-300 flex justify-center items-center rounded-full hover:[&>svg]:scale-110 cursor-pointer'
         onClick={handleLikePost}
       >
         <svg

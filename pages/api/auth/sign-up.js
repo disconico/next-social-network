@@ -1,4 +1,4 @@
-import { hashPassword, isAlphanumeric } from '../../../lib/auth';
+import { hashPassword } from '../../../lib/auth';
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
 
@@ -25,16 +25,12 @@ async function handler(req, res) {
     return;
   }
 
-  console.log('firstName : ', firstName, isAlphanumeric(firstName));
-
   // Add alphanumerical check for password, firstName, lastName
   if (
     !firstName ||
     !lastName ||
     !firstName.trim().length ||
-    !lastName.trim().length ||
-    isAlphanumeric(firstName) === false ||
-    isAlphanumeric(lastName) === false
+    !lastName.trim().length
   ) {
     res.status(422).json({
       message: 'Invalid input - firstName and lastName should be alphanumeric.',

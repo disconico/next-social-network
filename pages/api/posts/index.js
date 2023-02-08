@@ -1,6 +1,7 @@
+import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import User from '../../../models/User';
-import dbConnect from '../../../lib/db/dbConnect';
+import Comment from '../../../models/Comment';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
@@ -46,7 +47,15 @@ const handleGetPost = async (req, res) => {
   console.log('_id: ', _id);
   try {
     await dbConnect();
-    const post = await Post.findById(_id).populate('author');
+    const post = await Post.findById(_id)
+      .populate('author')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'author',
+          model: 'User',
+        },
+      });
     const returnedPost = clientPost(post, post.author);
     res.status(200).json({ returnedPost });
   } catch (err) {

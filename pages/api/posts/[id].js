@@ -1,5 +1,5 @@
-import Post from '../../../models/Post';
 import dbConnect from '../../../lib/db/dbConnect';
+import Post from '../../../models/Post';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
@@ -30,12 +30,6 @@ const handleGetPost = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-
-    // // populate the comments array
-    // const comments = await Comment.find({ _id: { $in: post.comments } })
-    //   .populate('author')
-    //   .populate('likedBy');
-    // console.log('comments: ', comments);
 
     const returnedPost = clientPost(post, post.author);
     res.status(200).json({ returnedPost });

@@ -1,7 +1,7 @@
+import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import User from '../../../models/User';
-import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
@@ -36,18 +36,17 @@ const handlePatchPost = async (req, res) => {
       console.log('Author not found');
       return res.status(404).json({ message: 'Author not found' });
     }
-    console.log('author: ', author);
 
     const comment = new Comment({
       content,
       author,
       post,
     });
+
     await comment.save();
     await post.comments.push(comment);
     await post.populate('comments');
     await post.save();
-    console.log('post: ', post);
 
     const returnedPost = clientPost(post, post.author);
 

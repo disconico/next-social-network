@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import Page from '../../../components/layout/Page';
 import Spinner from '../../../components/ui/Spinner';
+
 const ProfilePage = () => {
   const { data: session, status } = useSession();
 

@@ -182,7 +182,7 @@ const AuthForm = ({ isLoggingIn }) => {
               </>
             )}
             {!isLoggingIn && (
-              <div className='flex gap-2 mb-2'>
+              <div className='flex gap-2 mb-2 items-center'>
                 <label htmlFor='isAwesome'>I confirm being awesome :</label>
                 <Checkbox
                   name='isAwesome'

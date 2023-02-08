@@ -37,6 +37,7 @@ const NewsFeed = () => {
                 key={index}
                 handleNavigateToPost={handleNavigateToPost}
                 content={post.content}
+                createdAt={post.createdAt}
                 likes={post.likes}
                 likedBy={post.likedBy}
                 comments={post.comments}

@@ -1,5 +1,5 @@
-import Post from '../../../models/Post';
 import dbConnect from '../../../lib/db/dbConnect';
+import Post from '../../../models/Post';
 import { getSession } from 'next-auth/react';
 import { checkIfLikedByUser, clientPost } from '../../../lib/posts';
 
@@ -23,7 +23,15 @@ const handlePatchPost = async (req, res) => {
   try {
     await dbConnect();
 
-    const post = await Post.findById(postId).populate('author');
+    const post = await Post.findById(postId)
+      .populate('author')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'author',
+          model: 'User',
+        },
+      });
 
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
