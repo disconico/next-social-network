@@ -20,7 +20,7 @@ const PostPreview = ({
   postId,
 }) => {
   return (
-    <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm'>
+    <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
       <div className='flex gap-2 items-center h-9 pb-1'>
         <Image
           src={pp}
@@ -35,7 +35,7 @@ const PostPreview = ({
         <p className='text-gray-500 text-xs'>{formatDate(createdAt)}</p>
       </div>
       <hr />
-      <p className=' break-words py-2'>{content}</p>
+      <p className=' break-words py-4'>{content}</p>
       <hr />
       <div className='flex justify-between py-2'>
         <button
@@ -64,7 +64,6 @@ const PostPreview = ({
       </div>
       <Modal likes={likes} likedBy={likedBy} postId={postId} />
 
-      <hr />
       <div
         className='hs-collapse hidden w-full overflow-hidden transition-[height] duration-300 '
         id={`hs-unstyled-collapse-heading-${postId}`}
@@ -77,7 +76,7 @@ const PostPreview = ({
       {/* <button onClick={() => handleNavigateToPost(postId)}>
         Show post details
       </button> */}
-      <div className='flex justify-between py-2'>
+      <div className='flex justify-between'>
         <div className='flex items-center'>
           <LikeButton
             postId={postId}

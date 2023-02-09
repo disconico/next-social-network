@@ -57,7 +57,7 @@ const PostForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='max-w-screen-lg w-3/5 max-md:w-full p-2'
+      className='w-full max-w-xl max-md:w-full  p-4 pr-0 max-sm:p-2'
     >
       <div className='mb-2'>
         <textarea

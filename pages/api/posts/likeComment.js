@@ -1,8 +1,7 @@
 import dbConnect from '../../../lib/db/dbConnect';
-import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import { getSession } from 'next-auth/react';
-import { clientPost, checkIfLikedByUser } from '../../../lib/posts';
+import { checkIfLikedByUser } from '../../../lib/posts';
 
 const handler = async (req, res) => {
   switch (req.method) {

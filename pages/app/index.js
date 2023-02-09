@@ -27,14 +27,14 @@ const AppHomePage = () => {
 
   return (
     <Page title='Next Social Media'>
-      <div className='max-w-screen-lg mx-auto p-2 flex justify-center'>
-        <PostForm />
-      </div>
-      <div className='flex justify-center'>
-        <main className='max-w-screen-lg w-3/5 max-md:w-full p-2'>
-          <NewsFeed />
-        </main>
-        <aside className='max-md:hidden'>
+      <div className='max-w-screen-lg mx-auto md:gap-2 p-2 flex md:grid md:grid-cols-[1fr_250px]  '>
+        <div className='w-full flex flex-col items-end max-md:items-center'>
+          <PostForm />
+          <main className='w-full flex flex-col items-end max-md:items-center md:mr-6'>
+            <NewsFeed />
+          </main>
+        </div>
+        <aside className='max-md:hidden p-2 pt-4'>
           <h1>New Users</h1>
           <div>
             <p>Some new users</p>

@@ -10,20 +10,6 @@ const CommentForm = ({ postId, session }) => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const openComments = () => {
-    const commentsDiv = document.getElementById(
-      `hs-unstyled-collapse-heading-${postId}`
-    );
-    window.HSCollapse.show(commentsDiv);
-  };
-
-  const closeCommentForm = () => {
-    const commentFormDiv = document.getElementById(
-      `hs-unstyled-collapse-heading-comment-${postId}`
-    );
-    window.HSCollapse.hide(commentFormDiv);
-  };
-
   useEffect(() => {
     if (session) {
       setAuthorId(session.user.id);
@@ -57,12 +43,23 @@ const CommentForm = ({ postId, session }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(postComment, {
-    onSuccess: () => {
-      openComments();
-      closeCommentForm();
-      queryClient.invalidateQueries('singlePost', postId);
-      queryClient.invalidateQueries('posts');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('singlePost', postId);
+      await queryClient.invalidateQueries('posts');
+    },
+    onSettled: () => {
       setContent('');
+
+      const commentsDiv = document.getElementById(
+        `hs-unstyled-collapse-heading-${postId}`
+      );
+      commentsDiv.classList.remove('hidden');
+      commentsDiv.classList.add('open');
+
+      const commentFormDiv = document.getElementById(
+        `hs-unstyled-collapse-heading-comment-${postId}`
+      );
+      window.HSCollapse.hide(commentFormDiv);
     },
   });
 

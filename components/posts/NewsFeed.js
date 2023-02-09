@@ -27,7 +27,7 @@ const NewsFeed = () => {
   return (
     <>
       {!isLoading && data && !error && (
-        <div>
+        <>
           {data.returnedPosts
             .sort((a, b) => {
               return new Date(b.createdAt) - new Date(a.createdAt);
@@ -47,7 +47,7 @@ const NewsFeed = () => {
                 postId={post._id}
               />
             ))}
-        </div>
+        </>
       )}
     </>
   );
