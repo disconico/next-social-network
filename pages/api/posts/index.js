@@ -64,12 +64,43 @@ const handleGetPost = async (req, res) => {
   }
 };
 
+const handleDeletePost = async (req, res) => {
+  const session = await getSession({ req });
+  if (!session) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  const { postId, userId, authorId } = req.body;
+
+  if (!postId) {
+    return res.status(400).json({ message: 'Post ID is required' });
+  }
+
+  if (userId !== authorId) {
+    return res
+      .status(400)
+      .json({ message: 'You are not authorized to delete this post' });
+  }
+
+  try {
+    await dbConnect();
+    await Post.findByIdAndDelete(postId);
+    console.log('Ok deleted');
+    res.status(200).json({ message: 'Post deleted' });
+  } catch (err) {
+    console.log('Post DELETE API :', err.message);
+    res.status(401).json({ message: 'Error deleting post!' });
+  }
+};
+
 const handler = async (req, res) => {
   switch (req.method) {
     case 'POST':
       return handlePostPost(req, res);
     case 'GET':
       return handleGetPost(req, res);
+    case 'DELETE':
+      return handleDeletePost(req, res);
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }

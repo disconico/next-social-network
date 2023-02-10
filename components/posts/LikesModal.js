@@ -8,7 +8,7 @@ const Modal = ({ likes, likedBy, postId }) => {
     return;
   }
 
-  console.log(likedBy);
+  console.log('LikesModal -> postId', postId);
 
   return (
     <div>
