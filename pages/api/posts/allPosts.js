@@ -14,6 +14,7 @@ const handleGetPost = async (req, res) => {
     await dbConnect();
     const posts = await Post.find()
       .populate('author')
+      .populate('likedBy')
       .populate({
         path: 'comments',
         populate: {
@@ -21,9 +22,14 @@ const handleGetPost = async (req, res) => {
           model: 'User',
         },
       });
+
+    console.log('posts: ', posts);
     const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);
     });
+
+    console.log('returnedPosts: ', returnedPosts);
+    console.log('returnedPosts[0].comments: ', returnedPosts[0].comments);
 
     res.status(200).json({ returnedPosts });
   } catch (err) {

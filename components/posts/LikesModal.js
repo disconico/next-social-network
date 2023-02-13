@@ -8,8 +8,6 @@ const Modal = ({ likes, likedBy, postId }) => {
     return;
   }
 
-  console.log('LikesModal -> postId', postId);
-
   return (
     <div>
       <div
@@ -53,10 +51,10 @@ const Modal = ({ likes, likedBy, postId }) => {
                   <div className='flex items-center gap-3 py-2'>
                     <div className='flex-shrink-0'>
                       <Image
-                        src={pp}
-                        width={26}
-                        height={26}
-                        className='rounded-full'
+                        src={user.profilePicture.imageUrl}
+                        width={200}
+                        height={200}
+                        className='rounded-full h-8 w-8'
                         alt='like author image'
                       />
                     </div>

@@ -6,8 +6,6 @@ import Comment from './CommentSection';
 import CommentForm from './CommentForm';
 import Modal from './LikesModal';
 import DeletePostModal from './DeletePostModal';
-import pp from '../../public/assets/images/pp.png';
-import { useState, useEffect } from 'react';
 
 const PostPreview = ({
   handleNavigateToPost,
@@ -21,23 +19,15 @@ const PostPreview = ({
   status,
   postId,
 }) => {
-  const [postIdIsReceived, setPostIdIsReceived] = useState(false);
-
-  useEffect(() => {
-    if (postId) {
-      setPostIdIsReceived(true);
-    }
-  }, [session, postId]);
-
   return (
     <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
       <div className='flex justify-between items-center'>
         <div className='flex gap-2 items-center h-9 pb-1'>
           <Image
-            src={pp}
-            width={26}
-            height={26}
-            className='rounded-full'
+            src={author.profilePicture.imageUrl}
+            width={200}
+            height={200}
+            className='rounded-full h-8 w-8'
             alt='author image'
           />
           <p>

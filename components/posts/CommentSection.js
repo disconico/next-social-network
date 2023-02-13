@@ -8,10 +8,10 @@ const Comment = ({ comment, session }) => {
   const imageDiv = (
     <div>
       <Image
-        src={pp}
-        width={26}
-        height={26}
-        className='rounded-full'
+        src={comment.author.profilePicture.imageUrl}
+        width={200}
+        height={200}
+        className='rounded-full h-7 w-7'
         alt='author image'
       />
     </div>

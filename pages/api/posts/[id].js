@@ -15,6 +15,7 @@ const handleGetPost = async (req, res) => {
     await dbConnect();
     const post = await Post.findById(id)
       .populate('author')
+      .populate('likedBy')
       .populate({
         path: 'comments',
         populate: {

@@ -47,6 +47,7 @@ export default NextAuth({
             email: user.email,
             name: user.firstName,
             id: user.id,
+            image: user.profilePicture.imageUrl,
           };
         } else {
           return null;

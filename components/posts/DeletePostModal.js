@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
-import Link from 'next/link';
 
 const DeletePostModal = ({ session, author, postId }) => {
   const deletePost = async () => {
