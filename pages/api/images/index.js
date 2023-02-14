@@ -35,14 +35,14 @@ const handler = nc({
       // create image
       const createImage = async (img) => {
         // convert buffer to base64
-        const base6img = parser.format(
+        const base64img = parser.format(
           path.extname(img.originalname).toString(),
           img.buffer
         ).content;
 
         // upload image to cloudinary
         const uploadedResponse = await cloudinary.uploader.upload(
-          base6img,
+          base64img,
           'DiscoNetwork',
           { resource_type: 'image' }
         );

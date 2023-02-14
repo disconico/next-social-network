@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { validateSize, isImage } from '../../lib/fileValidation';
+import LoadingButton from '../ui/LoadingButton';
 import axios from 'axios';
 
 const ImageUploader = () => {
@@ -62,15 +63,18 @@ const ImageUploader = () => {
     formData.append('image', image);
 
     try {
-      const res = await fetch('api/images', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      console.log(data);
+      await axios
+        .post('/api/images', formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error);
     } finally {
+      document.getElementById('imageUploader').value = '';
       setImageSrc('');
       setImage(null);
       setIsLoading(false);
@@ -88,7 +92,12 @@ const ImageUploader = () => {
               <span className='text-red-400'>*</span>
             </label>
             <p className='my-5 text-red-400'>{imageError}</p>
-            <input type='file' onChange={handleImageChange} className='block' />
+            <input
+              type='file'
+              id='imageUploader'
+              onChange={handleImageChange}
+              className='block'
+            />
           </div>
           {image && (
             <Image
@@ -103,12 +112,16 @@ const ImageUploader = () => {
         </div>
 
         <div className='my-5'>
-          <button
-            type='submit'
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          >
-            {isLoading ? 'Loading...' : 'Upload'}
-          </button>
+          {isLoading ? (
+            <LoadingButton />
+          ) : (
+            <button
+              type='submit'
+              className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32 '
+            >
+              Upload
+            </button>
+          )}
         </div>
       </form>
     </div>

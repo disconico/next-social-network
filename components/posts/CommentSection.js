@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import pp from '../../public/assets/images/pp.png';
 import formatDate from '../../lib/date';
 import LikeComment from './LikeComment';
 

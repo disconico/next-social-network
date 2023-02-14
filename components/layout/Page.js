@@ -9,7 +9,7 @@ const Page = ({ title, children }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <div className=' mx-auto h-full'>
+      <div className=' mx-auto h-full '>
         <NavBar />
         <Fragment>{children}</Fragment>
       </div>

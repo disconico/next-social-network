@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import LikeButton from './LikeButton';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
@@ -19,6 +20,8 @@ const PostPreview = ({
   status,
   postId,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
       <div className='flex justify-between items-center'>
@@ -100,7 +103,6 @@ const PostPreview = ({
           <Comment key={comment._id} comment={comment} session={session} />
         ))}
       </div>
-
       {/* <button onClick={() => handleNavigateToPost(postId)}>
         Show post details
       </button> */}
