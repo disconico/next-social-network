@@ -19,7 +19,7 @@ const NavBar = () => {
   };
 
   return (
-    <header>
+    <header className='border-b'>
       <nav className='max-w-screen-lg mx-auto flex justify-between items-center p-2 h-13'>
         <div>
           <Link href='/app' className='font-nabla text-4xl'>
@@ -74,8 +74,9 @@ const NavBar = () => {
                       src={session.user.image}
                       width={100}
                       height={100}
-                      className='rounded-full h-7 w-7'
+                      className='rounded-full h-7 w-7 select-none'
                       alt='user profile picture'
+                      draggable='false'
                     />
                   )}
 

@@ -27,6 +27,8 @@ const handlePostPost = async (req, res) => {
       author: author._id,
     });
     console.log('post: ', post);
+    await author.posts.push(post._id);
+    await author.save();
 
     // Still return some author details for the client
     const returnedPost = clientPost(post, author);

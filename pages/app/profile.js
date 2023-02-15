@@ -30,17 +30,11 @@ const ProfilePage = () => {
     return <Spinner />;
   }
 
-  if (session) {
-    console.log('session', session);
-  }
-
-  const { user } = session;
-
-  console.log('user', user);
-
   return (
     <Page title={'Your Profile'}>
-      <UserProfile />
+      <div className='max-w-screen-lg mx-auto md:gap-2 p-2  '>
+        <UserProfile />
+      </div>
     </Page>
   );
 };

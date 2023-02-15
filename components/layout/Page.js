@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import Head from 'next/head';
 import NavBar from './navigation/Navbar';
+import BackToTopBtn from '../ui/BackToTop';
 import PropTypes from 'prop-types';
 
 const Page = ({ title, children }) => {
@@ -9,9 +10,10 @@ const Page = ({ title, children }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <div className=' mx-auto h-full '>
+      <div className=' mx-auto h-full bg-bg-light dark:bg-bg-dark '>
         <NavBar />
         <Fragment>{children}</Fragment>
+        <BackToTopBtn />
       </div>
     </>
   );

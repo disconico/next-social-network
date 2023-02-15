@@ -43,8 +43,9 @@ const PostForm = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(postPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('posts');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('posts');
+      await queryClient.invalidateQueries('user');
       setContent('');
     },
   });

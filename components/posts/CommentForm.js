@@ -44,8 +44,8 @@ const CommentForm = ({ postId, session }) => {
 
   const mutation = useMutation(postComment, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries('singlePost', postId);
       await queryClient.invalidateQueries('posts');
+      await queryClient.invalidateQueries('user');
     },
     onSettled: () => {
       setContent('');

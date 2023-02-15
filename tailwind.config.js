@@ -23,6 +23,10 @@ module.exports = {
           900: '#78350f',
         },
       },
+      backgroundImage: {
+        'bg-light': 'url(/assets/svg/bg-light.svg)',
+        'bg-dark': 'url(/assets/svg/bg-dark.svg)',
+      },
       fontFamily: {
         neon: ['neon', 'sans-serif'],
         bungee: ['bungee', 'sans-serif'],

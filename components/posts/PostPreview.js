@@ -9,7 +9,6 @@ import Modal from './LikesModal';
 import DeletePostModal from './DeletePostModal';
 
 const PostPreview = ({
-  handleNavigateToPost,
   content,
   createdAt,
   likes,
@@ -20,8 +19,6 @@ const PostPreview = ({
   status,
   postId,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
       <div className='flex justify-between items-center'>
@@ -138,7 +135,6 @@ const PostPreview = ({
 };
 
 PostPreview.propTypes = {
-  handleNavigateToPost: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,

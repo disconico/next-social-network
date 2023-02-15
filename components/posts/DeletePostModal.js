@@ -43,7 +43,7 @@ const DeletePostModal = ({ session, author, postId }) => {
   const mutation = useMutation(deletePost, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('posts');
-      await queryClient.invalidateQueries('singlePost', postId);
+      await queryClient.invalidateQueries('user');
     },
   });
 

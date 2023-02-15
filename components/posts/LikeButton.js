@@ -19,9 +19,9 @@ const LikeButton = ({ session, status, postId, likedBy }) => {
       }
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries('singlePost', router.query.id);
-        queryClient.invalidateQueries('posts');
+      onSuccess: async () => {
+        await queryClient.invalidateQueries('posts');
+        await queryClient.invalidateQueries('user');
       },
     }
   );

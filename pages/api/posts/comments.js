@@ -47,6 +47,8 @@ const handlePatchPost = async (req, res) => {
     await post.comments.push(comment);
     await post.populate('comments');
     await post.save();
+    await author.comments.push(comment);
+    await author.save();
 
     const returnedPost = clientPost(post, post.author);
 
