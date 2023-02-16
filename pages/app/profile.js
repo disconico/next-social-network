@@ -1,4 +1,4 @@
-import UserProfile from '../../components/UserProfile';
+import UserProfile from '../../components/users/UserProfile';
 import Page from '../../components/layout/Page';
 import Spinner from '../../components/ui/Spinner';
 import { getSession, useSession } from 'next-auth/react';

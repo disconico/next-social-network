@@ -5,7 +5,7 @@ import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
-const handleGetPost = async (req, res) => {
+const handleGetUserDetails = async (req, res) => {
   const session = await getSession({ req });
   if (!session) {
     return res.status(401).json({ message: 'Not authenticated' });
@@ -45,7 +45,9 @@ const handleGetPost = async (req, res) => {
             model: 'User',
           },
         },
-      });
+      })
+      .populate('following')
+      .populate('followers');
 
     const postsLikedByUser = await Post.find({
       likedBy: session.user.id,
@@ -76,19 +78,21 @@ const handleGetPost = async (req, res) => {
       email: userDetails.email,
       posts: returnedPosts,
       postsLikedByUser: returnedPostsLikedByUser,
+      following: userDetails.following,
+      followers: userDetails.followers,
     };
 
     res.status(200).json({ returnedUserDetails });
   } catch (err) {
     console.log('userDetails GET API :', err.message);
-    res.status(401).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
-      return handleGetPost(req, res);
+      return handleGetUserDetails(req, res);
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }

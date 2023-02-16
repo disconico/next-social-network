@@ -1,18 +1,23 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useQueryClient, useMutation } from 'react-query';
-import { useRouter } from 'next/router';
 
 const LikeButton = ({ session, status, postId, likedBy }) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
     async () => {
       try {
-        return await axios.patch('/api/posts/likePost', {
-          postId,
-        });
+        await axios
+          .patch('/api/posts/likePost', {
+            postId,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (error) {
         console.log(error);
         throw new Error('Bug in ClientFetch');

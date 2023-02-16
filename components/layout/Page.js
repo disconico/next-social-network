@@ -8,7 +8,7 @@ const Page = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>DiscoNetwork | {title}</title>
       </Head>
       <div className=' mx-auto h-full bg-bg-light dark:bg-bg-dark '>
         <NavBar />

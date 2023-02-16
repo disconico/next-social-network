@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import PostPreview from './posts/PostPreview';
+import PostPreview from '../posts/PostPreview';
 
 const UserProfile = () => {
   const { data: session, status } = useSession();

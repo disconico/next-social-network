@@ -2,6 +2,7 @@ import Page from '../../components/layout/Page';
 import PostForm from '../../components/posts/PostForm';
 import NewsFeed from '../../components/posts/NewsFeed';
 import ImageUploader from '../../components/posts/ImageUploader';
+import DiscoverNewUsers from '../../components/users/DiscoverNewUsers';
 import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -37,10 +38,8 @@ const AppHomePage = () => {
           </main>
         </div>
         <aside className='max-md:hidden p-2 pt-4'>
-          <h1>New Users</h1>
-          <div>
-            <p>Some new users</p>
-          </div>
+          <h1>Discover new users :</h1>
+          <DiscoverNewUsers />
         </aside>
       </div>
     </Page>

@@ -23,18 +23,14 @@ const handleGetPost = async (req, res) => {
         },
       });
 
-    console.log('posts: ', posts);
     const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);
     });
 
-    console.log('returnedPosts: ', returnedPosts);
-    console.log('returnedPosts[0].comments: ', returnedPosts[0].comments);
-
     res.status(200).json({ returnedPosts });
   } catch (err) {
     console.log('AllPost GET API :', err.message);
-    res.status(401).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
