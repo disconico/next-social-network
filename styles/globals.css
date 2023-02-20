@@ -44,6 +44,7 @@ body {
 body {
   display: flex;
   min-height: 100vh;
+  overflow-y: overlay;
 }
 
 #__next {

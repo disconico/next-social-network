@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from 'react-query';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import LoadingButton from '../ui/LoadingButton';
+import { toast } from 'react-toastify';
 
 const PostForm = () => {
   const [content, setContent] = useState('');
@@ -45,6 +46,7 @@ const PostForm = () => {
   const mutation = useMutation(postPost, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('posts');
+      await queryClient.invalidateQueries('featuredPosts');
       await queryClient.invalidateQueries('user');
       setContent('');
     },
@@ -52,7 +54,12 @@ const PostForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate();
+    toast.promise(mutation.mutateAsync(), {
+      pending: 'Creating post...',
+      success: 'Post created!',
+      error: 'Error creating post',
+    });
+    // mutation.mutateAsync();
   };
 
   return (

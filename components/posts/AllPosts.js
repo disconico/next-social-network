@@ -5,21 +5,18 @@ import { useSession } from 'next-auth/react';
 import PostPreview from './PostPreview';
 import PropTypes from 'prop-types';
 
-const NewsFeed = ({ search }) => {
+const AllPosts = ({ search }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { isLoading, isError, data, error } = useQuery(
-    'featuredPosts',
-    async () => {
-      try {
-        const res = await axios.get('/api/posts/featuredPosts');
-        return res.data;
-      } catch (error) {
-        console.log(error);
-        throw new Error('Something went wrong!');
-      }
+  const { isLoading, isError, data, error } = useQuery('posts', async () => {
+    try {
+      const res = await axios.get('/api/posts/allPosts');
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Something went wrong!');
     }
-  );
+  });
 
   const handleNavigateToPost = (id) => {
     router.push(`/app/posts/${id}`);
@@ -30,13 +27,6 @@ const NewsFeed = ({ search }) => {
 
   return (
     <>
-      {!isLoading && data && !error && data.returnedPosts.length === 0 && (
-        <>
-          <h1 className='text-xl font-bold text-gray-700 max-w-lg'>
-            No featured posts yet! Follow some users to see their posts here 🥷
-          </h1>
-        </>
-      )}
       {!isLoading && data && !error && (
         <>
           {data.returnedPosts
@@ -83,8 +73,8 @@ const NewsFeed = ({ search }) => {
   );
 };
 
-NewsFeed.propTypes = {
+AllPosts.propTypes = {
   search: PropTypes.string,
 };
 
-export default NewsFeed;
+export default AllPosts;

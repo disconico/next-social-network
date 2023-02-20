@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { validateSize, isImage } from '../../lib/fileValidation';
 import LoadingButton from '../ui/LoadingButton';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ImageUploader = () => {
   const { data: session, status } = useSession();
@@ -63,13 +64,14 @@ const ImageUploader = () => {
     formData.append('image', image);
 
     try {
-      await axios
-        .post('/api/images', formData)
-        .then((res) => {
-          console.log(res);
+      await toast
+        .promise(axios.post('/api/images', formData), {
+          pending: 'Uploading image...',
+          success: 'Image uploaded!',
+          error: 'Error uploading image',
         })
-        .catch((err) => {
-          console.log(err);
+        .then((res) => {
+          console.log('Toast res :', res);
         });
     } catch (error) {
       console.log(error);

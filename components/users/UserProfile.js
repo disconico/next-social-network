@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import PostPreview from '../posts/PostPreview';
+import FollowDialog from './FollowDialog';
 
 const UserProfile = () => {
   const { data: session, status } = useSession();
@@ -29,11 +30,25 @@ const UserProfile = () => {
 
       {!isLoading && data && !error && (
         <main className='w-full flex flex-col items-center'>
-          <div>
+          <div className='flex gap-2'>
             <button onClick={() => setUserDisplay('posts')}>My Posts</button>
             <button onClick={() => setUserDisplay('likedPosts')}>
               Liked Posts
             </button>
+            {/* <button>
+              Following{' '}
+              <span className='text-xs'>
+                ({data.returnedUserDetails.following.length})
+              </span>
+            </button> */}
+            <FollowDialog
+              type={'following'}
+              followArray={data.returnedUserDetails.following}
+            />
+            <FollowDialog
+              type={'followers'}
+              followArray={data.returnedUserDetails.followers}
+            />
           </div>
           {userDisplay === 'posts' && (
             <>

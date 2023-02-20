@@ -31,9 +31,9 @@ const NewUsers = () => {
         </>
       )}
       {data.returnedUsers.length === 0 && (
-        <div>
-          <p>There are no new users to discover at this time.</p>
-        </div>
+        <p className='text-sm m-2'>
+          There are no new users to discover at this time.
+        </p>
       )}
     </>
   );

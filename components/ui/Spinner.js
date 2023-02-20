@@ -1,6 +1,6 @@
 const Spinner = () => {
   return (
-    <div className=' mx-auto text-center h-full bg-white dark:bg-gray-900 flex justify-center'>
+    <div className=' mx-auto text-center h-full flex justify-center'>
       <div
         role='status'
         className='flex flex-col justify-center align-middle text-center'

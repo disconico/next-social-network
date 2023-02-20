@@ -26,6 +26,7 @@ const LikeButton = ({ session, status, postId, likedBy }) => {
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries('posts');
+        await queryClient.invalidateQueries('featuredPosts');
         await queryClient.invalidateQueries('user');
       },
     }

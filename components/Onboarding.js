@@ -44,7 +44,7 @@ const Onboarding = () => {
         <div className='flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4'>
           <Link
             href='/auth/sign-up'
-            className='inline-flex min-w-[180px] justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900'
+            className='inline-flex min-w-[180px] justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-secondary-700 hover:bg-secondary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-secondary-900'
           >
             <span className='mr-2'>Sign up for free</span>
             {arrowRight}

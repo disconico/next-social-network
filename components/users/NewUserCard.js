@@ -22,7 +22,12 @@ const NewUserCard = ({ user, session }) => {
           </p>
         </Link>
       </div>
-      <FollowButton id={id} followers={followers} session={session} />
+      <FollowButton
+        id={id}
+        followers={followers}
+        session={session}
+        firstName={firstName}
+      />
     </div>
   );
 };

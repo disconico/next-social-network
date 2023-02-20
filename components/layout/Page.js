@@ -8,9 +8,9 @@ const Page = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>DiscoNetwork | {title}</title>
+        <title>{`DiscoNetwork | ${title}`}</title>
       </Head>
-      <div className=' mx-auto h-full bg-bg-light dark:bg-bg-dark '>
+      <div className=' mx-auto h-full bg-bg-light dark:bg-bg-dark'>
         <NavBar />
         <Fragment>{children}</Fragment>
         <BackToTopBtn />

@@ -21,6 +21,7 @@ const LikeComment = ({ commentId, session, likedBy }) => {
       onSuccess: async () => {
         // queryClient.invalidateQueries(['singlePost', postId]);
         await queryClient.invalidateQueries('posts');
+        await queryClient.invalidateQueries('featuredPosts');
         await queryClient.invalidateQueries('user');
       },
     }

@@ -34,11 +34,12 @@ const AppHomePage = () => {
           <PostForm />
           <ImageUploader />
           <main className='w-full flex flex-col items-end max-md:items-center md:mr-6'>
-            <NewsFeed />
+            <NewsFeed search={''} />
           </main>
         </div>
-        <aside className='max-md:hidden p-2 pt-4'>
-          <h1>Discover new users :</h1>
+        <aside className='max-md:hidden p-2 pt-4 shadow-md rounded-md'>
+          <h1 className='text-l font-medium'>🚀 Discover More Users ⬇️</h1>
+
           <DiscoverNewUsers />
         </aside>
       </div>

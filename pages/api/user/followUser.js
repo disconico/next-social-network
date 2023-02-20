@@ -10,17 +10,30 @@ const handlePatchUser = async (req, res) => {
 
   try {
     await dbConnect();
-    const userDetails = await User.findById(session.user.id);
+    const userDetails = await User.findById(session.user.id).populate();
     const followedUser = await User.findById(req.body.id);
 
     if (userDetails.following.includes(req.body.id)) {
-      return res.status(412).json({ message: 'You already follow this user' });
+      const index = userDetails.following.indexOf(req.body.id);
+      if (index > -1) {
+        userDetails.following.splice(index, 1);
+      }
+      await userDetails.save();
+
+      const index2 = followedUser.followers.indexOf(session.user.id);
+      if (index2 > -1) {
+        followedUser.followers.splice(index2, 1);
+      }
+      await followedUser.save();
+
+      // return res.status(412).json({ message: 'You already follow this user' });
+      res.status(200).json({ message: 'User unfollowed' });
     } else {
       await userDetails.following.push(req.body.id);
       await userDetails.save();
       await followedUser.followers.push(session.user.id);
       await followedUser.save();
-      res.status(200).json({ message: 'Success' });
+      res.status(200).json({ message: 'User followed' });
     }
   } catch (error) {
     console.log('Patch follow API :', error.message);

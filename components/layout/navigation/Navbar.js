@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import useWindowSize from '../../../hooks/useWindowSize';
 import ThemeSwitcher from '../../ui/ThemeSwitcher';
 
@@ -19,10 +19,10 @@ const NavBar = () => {
   };
 
   return (
-    <header className='border-b'>
-      <nav className='max-w-screen-lg mx-auto flex justify-between items-center p-2 h-13'>
+    <header className='border-b sticky top-0 z-50 bg-white dark:bg-slate-800 '>
+      <nav className='max-w-screen-lg mx-auto flex justify-between items-center p-2 h-13 '>
         <div>
-          <Link href='/app' className='font-nabla text-4xl'>
+          <Link href='/app' className='font-nabla text-4xl cursor-pointer '>
             DN
           </Link>
         </div>
@@ -31,7 +31,7 @@ const NavBar = () => {
             <>
               <Link
                 href={'/app'}
-                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
                   router.pathname.match(/app$/)
                     ? 'border-b-2 border-primary-300'
                     : ''
@@ -41,7 +41,7 @@ const NavBar = () => {
               </Link>
               <Link
                 href={'/app/users'}
-                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
                   router.pathname.includes('users')
                     ? 'border-b-2 border-primary-300'
                     : ''
@@ -51,7 +51,7 @@ const NavBar = () => {
               </Link>
               <Link
                 href={'/app/posts'}
-                className={`hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
+                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
                   router.pathname.includes('posts')
                     ? 'border-b-2 border-primary-300'
                     : ''
@@ -66,10 +66,8 @@ const NavBar = () => {
             <Menu as='div' className='relative inline-block text-left'>
               <div>
                 <Menu.Button className='inline-flex w-full justify-center items-center hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-                  <p className='mr-2'>
-                    {session && !loading && session.user.name}
-                  </p>
-                  {session && !loading && (
+                  <p className=''>{session && !loading && session.user.name}</p>
+                  {/* {session && !loading && (
                     <Image
                       src={session.user.image}
                       width={100}
@@ -78,7 +76,7 @@ const NavBar = () => {
                       alt='user profile picture'
                       draggable='false'
                     />
-                  )}
+                  )} */}
 
                   <ChevronDownIcon
                     className='ml-2 -mr-1 mt-[2px] h-5 w-5 text-primary-500 hover:text-primary-700'
