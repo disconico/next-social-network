@@ -1,12 +1,10 @@
 import UserProfile from '../../components/users/UserProfile';
 import Page from '../../components/layout/Page';
-import Spinner from '../../components/ui/Spinner';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const ProfilePage = () => {
-  const { status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -22,19 +20,14 @@ const ProfilePage = () => {
       .catch((err) => console.log(err));
   }, [router]);
 
-  if (loading) {
-    return <p></p>;
-  }
-
-  if (status === 'loading' || status === 'unauthenticated') {
-    return <Spinner />;
-  }
-
   return (
     <Page title={'Your Profile'}>
-      <div className='max-w-screen-lg mx-auto md:gap-2 p-2  '>
-        <UserProfile />
-      </div>
+      {loading && <p></p>}
+      {!loading && (
+        <div className='max-w-screen-lg mx-auto md:gap-2 p-2  '>
+          <UserProfile />
+        </div>
+      )}
     </Page>
   );
 };

@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Page from '../../../components/layout/Page';
-import Spinner from '../../../components/ui/Spinner';
+import UserHero from '../../../components/users/UserHero';
+import UserPosts from '../../../components/users/UserPosts';
 
 const UserPage = () => {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -16,6 +17,9 @@ const UserPage = () => {
       .then((session) => {
         if (!session) {
           router.replace('/');
+        }
+        if (session && session.user.id === router.query.id) {
+          router.replace('/app/profile');
         } else {
           setLoading(false);
         }
@@ -38,11 +42,14 @@ const UserPage = () => {
           postsLikedByUser,
           followers,
           following,
+          isAwesome,
+          isFollowed,
+          createdAt,
         } = {},
       } = {},
     } = {},
     // data,
-    error,
+    // error,
   } = useQuery(['singleUser', router.query.id], async () => {
     try {
       return await axios.get(`/api/user/${router.query.id}`);
@@ -55,19 +62,34 @@ const UserPage = () => {
     }
   });
 
-  if (loading) {
-    return <p></p>;
-  }
-
-  if (status === 'loading' || status === 'unauthenticated') {
-    return <Spinner />;
-  }
-
   return (
-    <Page title={'View Porfile'}>
-      <div className='max-w-screen-lg mx-auto md:gap-2 p-2  '>
-        {/* <UserProfile /> */}
-      </div>
+    <Page title={'View Profile'}>
+      {loading && <p></p>}
+      {!loading && !isLoading && !isError && (
+        <div className='max-w-screen-lg mx-auto md:gap-2 flex flex-col items-center '>
+          <UserHero
+            _id={_id}
+            profilePicture={profilePicture}
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            posts={posts}
+            postsLikedByUser={postsLikedByUser}
+            followers={followers}
+            following={following}
+            isAwesome={isAwesome}
+            createdAt={createdAt}
+            isFollowed={isFollowed}
+            session={session}
+          />
+          <UserPosts
+            posts={posts}
+            postsLikedByUser={postsLikedByUser}
+            firstName={firstName}
+            session={session}
+          />
+        </div>
+      )}
     </Page>
   );
 };

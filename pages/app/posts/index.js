@@ -12,15 +12,6 @@ const AllPostsPage = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    console.log('search :', search);
-  };
-
-  const resetSearch = () => {
-    setSearch('');
-  };
-
   useEffect(() => {
     getSession()
       .then((session) => {
@@ -33,27 +24,31 @@ const AllPostsPage = () => {
       .catch((err) => console.log(err));
   }, [router]);
 
-  if (loading) {
-    return <p></p>;
-  }
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    console.log('search :', search);
+  };
 
-  if (status === 'loading' || status === 'unauthenticated') {
-    return <Spinner />;
-  }
+  const resetSearch = () => {
+    setSearch('');
+  };
 
   return (
     <Page title={'Posts'}>
-      <div className='max-w-screen-lg mx-auto p-2 '>
-        <SearchBar
-          handleSearch={handleSearch}
-          resetSearch={resetSearch}
-          search={search}
-          placeholder={'Search Posts...'}
-        />
-        <main className='w-full flex flex-col items-center max-md:items-center'>
-          <AllPosts search={search} />
-        </main>
-      </div>
+      {loading && <p></p>}
+      {!loading && (
+        <div className='max-w-screen-lg mx-auto p-2 '>
+          <SearchBar
+            handleSearch={handleSearch}
+            resetSearch={resetSearch}
+            search={search}
+            placeholder={'Search Posts...'}
+          />
+          <main className='w-full flex flex-col items-center max-md:items-center'>
+            <AllPosts search={search} />
+          </main>
+        </div>
+      )}
     </Page>
   );
 };

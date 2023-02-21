@@ -23,26 +23,25 @@ const AppHomePage = () => {
       .catch((err) => console.log(err));
   }, [router]);
 
-  if (loading) {
-    return <p></p>;
-  }
-
   return (
     <Page title='Next Social Media'>
-      <div className='max-w-screen-lg mx-auto md:gap-2 p-2 flex md:grid md:grid-cols-[1fr_250px]  '>
-        <div className='w-full flex flex-col items-end max-md:items-center'>
-          <PostForm />
-          <ImageUploader />
-          <main className='w-full flex flex-col items-end max-md:items-center md:mr-6'>
-            <NewsFeed search={''} />
-          </main>
-        </div>
-        <aside className='max-md:hidden p-2 pt-4 shadow-md rounded-md'>
-          <h1 className='text-l font-medium'>🚀 Discover More Users ⬇️</h1>
+      {loading && <p></p>}
+      {!loading && (
+        <div className='max-w-screen-lg mx-auto md:gap-2 p-2 flex md:grid md:grid-cols-[1fr_250px]  '>
+          <div className='w-full flex flex-col items-end max-md:items-center'>
+            <PostForm />
+            <ImageUploader />
+            <main className='w-full flex flex-col items-end max-md:items-center md:mr-6'>
+              <NewsFeed search={''} />
+            </main>
+          </div>
+          <aside className='max-md:hidden p-2 pt-4 shadow-md rounded-md'>
+            <h1 className='text-l font-medium'>🚀 Discover More Users ⬇️</h1>
 
-          <DiscoverNewUsers />
-        </aside>
-      </div>
+            <DiscoverNewUsers />
+          </aside>
+        </div>
+      )}
     </Page>
   );
 };

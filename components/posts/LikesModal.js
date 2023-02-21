@@ -43,28 +43,32 @@ const Modal = ({ likes, likedBy, postId }) => {
             </div>
             <div className='p-4 overflow-y-auto'>
               {likedBy.map((user) => (
-                <Link
+                <div
                   key={user._id}
                   href={`/app/users/${user._id}`}
                   data-hs-overlay={`#hs-vertically-centered-scrollable-modal-${postId}`}
                 >
                   <div className='flex items-center gap-3 py-2'>
                     <div className='flex-shrink-0'>
-                      <Image
-                        src={user.profilePicture.imageUrl}
-                        width={200}
-                        height={200}
-                        className='rounded-full h-8 w-8'
-                        alt='like author image'
-                      />
+                      <Link href={`/app/users/${user._id}`}>
+                        <Image
+                          src={user.profilePicture.imageUrl}
+                          width={200}
+                          height={200}
+                          className='rounded-full h-8 w-8'
+                          alt='like author image'
+                        />
+                      </Link>
                     </div>
-                    <div className='flex-grow'>
-                      <h4 className='font-medium text-gray-800 dark:text-white'>
-                        {user.firstName} {user.lastName}
-                      </h4>
+                    <div className=''>
+                      <Link href={`/app/users/${user._id}`}>
+                        <h4 className='font-medium text-gray-800 dark:text-white'>
+                          {user.firstName} {user.lastName}
+                        </h4>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
             <div className='flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700'>

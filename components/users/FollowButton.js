@@ -48,6 +48,9 @@ const FollowButton = ({
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries('user');
+        await queryClient.invalidateQueries('singleUser', {
+          id,
+        });
         await queryClient.invalidateQueries('discoverNewUsers');
         await queryClient.invalidateQueries('usersList');
         await queryClient.invalidateQueries('featuredPosts');

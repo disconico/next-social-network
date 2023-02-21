@@ -47,6 +47,9 @@ const CommentForm = ({ postId, session }) => {
       await queryClient.invalidateQueries('posts');
       await queryClient.invalidateQueries('featuredPosts');
       await queryClient.invalidateQueries('user');
+      await queryClient.invalidateQueries('singleUser', {
+        id: authorId,
+      });
     },
     onSettled: () => {
       setContent('');

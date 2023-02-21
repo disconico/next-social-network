@@ -45,6 +45,9 @@ const DeletePostModal = ({ session, author, postId }) => {
       await queryClient.invalidateQueries('posts');
       await queryClient.invalidateQueries('featuredPosts');
       await queryClient.invalidateQueries('user');
+      await queryClient.invalidateQueries('singleUser', {
+        id: session.user.id,
+      });
     },
   });
 

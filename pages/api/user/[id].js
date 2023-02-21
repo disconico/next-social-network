@@ -63,7 +63,7 @@ const handleGetUserDetails = async (req, res) => {
       .populate('followers');
 
     const postsLikedByUser = await Post.find({
-      likedBy: session.user.id,
+      likedBy: req.query.id,
     })
       .populate('author')
       .populate('likedBy')
@@ -97,6 +97,7 @@ const handleGetUserDetails = async (req, res) => {
         (follower) => follower._id.toString() === userId
       ),
       isAwesome: userDetails.isAwesome,
+      createdAt: userDetails.createdAt,
     };
 
     res.status(200).json({ returnedUserDetails });

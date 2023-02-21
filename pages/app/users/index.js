@@ -12,15 +12,6 @@ const BrowseUsersPage = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    console.log('search :', search);
-  };
-
-  const resetSearch = () => {
-    setSearch('');
-  };
-
   useEffect(() => {
     getSession()
       .then((session) => {
@@ -33,24 +24,29 @@ const BrowseUsersPage = () => {
       .catch((err) => console.log(err));
   }, [router]);
 
-  if (loading) {
-    return <p></p>;
-  }
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    console.log('search :', search);
+  };
 
-  if (status === 'loading' || status === 'unauthenticated') {
-    return <Spinner />;
-  }
+  const resetSearch = () => {
+    setSearch('');
+  };
+
   return (
     <Page title={'Browse Users'}>
-      <div className='max-w-screen-lg mx-auto p-2 '>
-        <SearchUsers
-          handleSearch={handleSearch}
-          resetSearch={resetSearch}
-          search={search}
-          placeholder={'Search Users...'}
-        />
-        <UsersList search={search} />
-      </div>
+      {loading && <p></p>}
+      {!loading && (
+        <div className='max-w-screen-lg mx-auto p-2 '>
+          <SearchUsers
+            handleSearch={handleSearch}
+            resetSearch={resetSearch}
+            search={search}
+            placeholder={'Search Users...'}
+          />
+          <UsersList search={search} />
+        </div>
+      )}
     </Page>
   );
 };

@@ -24,21 +24,23 @@ const handleGetUsers = async (req, res) => {
     await dbConnect();
     const users = await User.find().populate('posts');
 
-    const returnedUsers = users.map((user) => {
-      return {
-        _id: user._id,
-        profilePicture: user.profilePicture,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        createdAt: user.createdAt,
-        email: user.email,
-        posts: user.posts,
-        following: user.following.map(returnedFollow),
-        followers: user.followers.map(returnedFollow),
-        isFollowed: user.followers.includes(userId),
-        isAwesome: user.isAwesome,
-      };
-    });
+    const returnedUsers = users
+      .filter((user) => user._id.toString() !== userId)
+      .map((user) => {
+        return {
+          _id: user._id,
+          profilePicture: user.profilePicture,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          createdAt: user.createdAt,
+          email: user.email,
+          posts: user.posts,
+          following: user.following.map(returnedFollow),
+          followers: user.followers.map(returnedFollow),
+          isFollowed: user.followers.includes(userId),
+          isAwesome: user.isAwesome,
+        };
+      });
 
     res.status(200).json({ returnedUsers });
   } catch (err) {

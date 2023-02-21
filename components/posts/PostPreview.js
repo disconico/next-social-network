@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
 import LikeButton from './LikeButton';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import formatDate from '../../lib/date';
@@ -23,16 +23,21 @@ const PostPreview = ({
     <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
       <div className='flex justify-between items-center'>
         <div className='flex gap-2 items-center h-9 pb-1'>
-          <Image
-            src={author.profilePicture.imageUrl}
-            width={200}
-            height={200}
-            className='rounded-full h-8 w-8'
-            alt='author image'
-          />
-          <p>
-            {author.firstName} {author.lastName}
-          </p>
+          <Link href={`/app/users/${author._id}`}>
+            <Image
+              src={author.profilePicture.imageUrl}
+              width={200}
+              height={200}
+              className='rounded-full h-8 w-8'
+              alt='author image'
+            />
+          </Link>
+          <Link href={`/app/users/${author._id}`}>
+            <p>
+              {author.firstName} {author.lastName}
+            </p>
+          </Link>
+
           <p className='text-gray-500 text-xs'>{formatDate(createdAt)}</p>
         </div>
         <div>
@@ -97,7 +102,12 @@ const PostPreview = ({
         id={`hs-unstyled-collapse-heading-${postId}`}
       >
         {comments.map((comment) => (
-          <Comment key={comment._id} comment={comment} session={session} />
+          <Comment
+            key={comment._id}
+            comment={comment}
+            session={session}
+            postAuthorId={author._id}
+          />
         ))}
       </div>
       {/* <button onClick={() => handleNavigateToPost(postId)}>
@@ -110,6 +120,7 @@ const PostPreview = ({
             likedBy={likedBy}
             session={session}
             status={status}
+            authorId={author._id}
           />
           {likedBy.some((like) => like._id === session.user.id) && (
             <p className='text-gray-500 text-xs ml-2'>You liked this post</p>

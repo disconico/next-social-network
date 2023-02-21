@@ -2,7 +2,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useQueryClient, useMutation } from 'react-query';
 
-const LikeButton = ({ session, status, postId, likedBy }) => {
+const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -28,6 +28,9 @@ const LikeButton = ({ session, status, postId, likedBy }) => {
         await queryClient.invalidateQueries('posts');
         await queryClient.invalidateQueries('featuredPosts');
         await queryClient.invalidateQueries('user');
+        await queryClient.invalidateQueries('singleUser', {
+          id: authorId,
+        });
       },
     }
   );
@@ -73,6 +76,7 @@ LikeButton.propTypes = {
   status: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   likedBy: PropTypes.array.isRequired,
+  authorId: PropTypes.string.isRequired,
 };
 
 export default LikeButton;

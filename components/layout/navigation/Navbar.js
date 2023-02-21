@@ -15,7 +15,7 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut();
+    await signOut({ callbackUrl: '/' });
   };
 
   return (
@@ -26,7 +26,7 @@ const NavBar = () => {
             DN
           </Link>
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4 mr-2'>
           {width > 768 && (
             <>
               <Link
