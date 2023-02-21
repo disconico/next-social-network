@@ -20,7 +20,7 @@ async function handler(req, res) {
   ) {
     res.status(422).json({
       message:
-        'Invalid input - password should also be at least 7 characters long.',
+        'Invalid input - password should also be between 7 and 20 characters.',
     });
     return;
   }

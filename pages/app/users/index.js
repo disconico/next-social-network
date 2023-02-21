@@ -1,13 +1,11 @@
 import Page from '../../../components/layout/Page';
-import Spinner from '../../../components/ui/Spinner';
 import UsersList from '../../../components/users/UsersList';
 import SearchUsers from '../../../components/ui/SearchBar';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const BrowseUsersPage = () => {
-  const { status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -26,7 +24,6 @@ const BrowseUsersPage = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    console.log('search :', search);
   };
 
   const resetSearch = () => {

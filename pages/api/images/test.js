@@ -32,31 +32,23 @@ const handler = nc({
     const parser = new DatauriParser();
 
     try {
-      // create image
-      const createImage = async (img) => {
-        // convert buffer to base64
-        const base64img = parser.format(
-          path.extname(img.originalname).toString(),
-          img.buffer
-        ).content;
+      // convert buffer to base64
+      const base64img = parser.format(
+        path.extname(image.originalname).toString(),
+        image.buffer
+      ).content;
 
-        // upload image to cloudinary
-        const uploadedResponse = await cloudinary.uploader.upload(
-          base64img,
-          'DiscoNetwork',
-          { resource_type: 'image' }
-        );
+      // upload image to cloudinary
+      const uploadedResponse = await cloudinary.uploader.upload(
+        base64img,
+        'DiscoNetwork',
+        { resource_type: 'image' }
+      );
 
-        // return image
-        return uploadedResponse;
-      };
-
-      // saving information about image
-      const createdImage = await createImage(image);
-      console.log('createdImage: ', createdImage);
-      const imageUrl = createdImage.secure_url;
-      const publicId = createdImage.public_id;
-      const imageSignature = createdImage.signature;
+      // returning image
+      const imageUrl = uploadedResponse.secure_url;
+      const publicId = uploadedResponse.public_id;
+      const imageSignature = uploadedResponse.signature;
 
       // saving image to database
       await dbConnect();

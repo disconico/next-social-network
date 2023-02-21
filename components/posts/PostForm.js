@@ -26,18 +26,19 @@ const PostForm = () => {
           authorId,
         })
         .then((res) => {
-          console.log(res);
+          console.log('creating post res:', res);
           setIsError(false);
           setErrorMessage('');
         })
         .catch((err) => {
-          console.log(err);
+          console.log('creating post error:', err);
           setIsError(true);
           setErrorMessage(err.response.data.message);
         });
     } catch (err) {
       console.log(err);
       setIsError(true);
+      throw new Error(err.message);
     }
   };
 
@@ -49,6 +50,10 @@ const PostForm = () => {
       await queryClient.invalidateQueries('featuredPosts');
       await queryClient.invalidateQueries('user');
       setContent('');
+    },
+    onError: () => {
+      setContent('');
+      // throw new Error('Error creating post');
     },
   });
 

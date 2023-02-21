@@ -8,7 +8,7 @@ import UserHero from '../../../components/users/UserHero';
 import UserPosts from '../../../components/users/UserPosts';
 
 const UserPage = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 

@@ -65,7 +65,7 @@ const ImageUploader = () => {
 
     try {
       await toast
-        .promise(axios.post('/api/images', formData), {
+        .promise(axios.post('/api/images/test', formData), {
           pending: 'Uploading image...',
           success: 'Image uploaded!',
           error: 'Error uploading image',

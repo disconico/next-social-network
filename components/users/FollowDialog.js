@@ -61,15 +61,12 @@ const FollowDialog = ({ followArray, type, className, name }) => {
                     {type === 'following' ? 'Following :' : 'Followers :'}
                   </Dialog.Title>
                   <div className='p-4 overflow-y-auto'>
-                    {followArray.map((user) => (
-                      <div
-                        key={user._id}
-                        className='flex items-center gap-3 py-2'
-                      >
+                    {followArray.map((user, index) => (
+                      <div key={index} className='flex items-center gap-3 py-2'>
                         <Link
                           href={`/app/users/${user._id}`}
                           className='flex items-center gap-3'
-                          //   onClick={closeModal}
+                          onClick={closeModal}
                         >
                           <div className='flex-shrink-0'>
                             <Image

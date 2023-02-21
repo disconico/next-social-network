@@ -4,6 +4,7 @@ import Comment from '../../../models/Comment';
 import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
+import { hashPassword, verifyPassword } from '../../../lib/auth';
 
 const handleGetUserDetails = async (req, res) => {
   const session = await getSession({ req });
@@ -80,6 +81,7 @@ const handleGetUserDetails = async (req, res) => {
       postsLikedByUser: returnedPostsLikedByUser,
       following: userDetails.following,
       followers: userDetails.followers,
+      isAwesome: userDetails.isAwesome,
     };
 
     res.status(200).json({ returnedUserDetails });
@@ -89,10 +91,60 @@ const handleGetUserDetails = async (req, res) => {
   }
 };
 
+const handleUpdateUserPassword = async (req, res) => {
+  const session = await getSession({ req });
+  if (!session) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  const { oldPassword, newPassword } = req.body;
+
+  if (
+    !newPassword ||
+    newPassword.trim().length < 8 ||
+    newPassword.trim().length > 20
+  ) {
+    res.status(422).json({
+      message:
+        'Invalid input - password should also be between 7 and 20 characters.',
+    });
+    return;
+  }
+
+  try {
+    await dbConnect();
+    const user = await User.findById(session.user.id);
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    const currentPassword = user.password;
+    const passwordsMatch = await verifyPassword(oldPassword, currentPassword);
+
+    if (!passwordsMatch) {
+      res.status(403).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).json({ message: 'Password updated' });
+  } catch (err) {
+    console.log('userDetails PATCH API :', err.message);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetUserDetails(req, res);
+    case 'PATCH':
+      return handleUpdateUserPassword(req, res);
+
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }

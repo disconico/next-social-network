@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PostPreview from '../posts/PostPreview';
 
-const UserPosts = ({ firstName, posts, postsLikedByUser, session }) => {
+const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
   const [userDisplay, setUserDisplay] = useState('posts');
 
   return (
@@ -26,7 +26,9 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session }) => {
           {posts.length === 0 ? (
             <div className='w-full flex justify-center items-center'>
               <h1 className='text-xl font-medium text-gray-800 dark:text-white'>
-                {`${firstName} has no posts`}
+                {type === 'profile'
+                  ? ' You do not have any post yet !'
+                  : ` ${firstName} has no posts yet`}
               </h1>
             </div>
           ) : (
@@ -56,7 +58,7 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session }) => {
           {postsLikedByUser.length === 0 ? (
             <div className='w-full flex justify-center items-center'>
               <h1 className='text-xl font-medium text-gray-800 dark:text-white'>
-                {`${firstName} has no liked posts`}
+                {` ${firstName} has no liked posts`}
               </h1>
             </div>
           ) : (
@@ -90,6 +92,7 @@ UserPosts.propTypes = {
   firstName: PropTypes.string.isRequired,
   postsLikedByUser: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 export default UserPosts;
