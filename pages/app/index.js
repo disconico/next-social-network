@@ -26,15 +26,15 @@ const AppHomePage = () => {
     <Page title='Next Social Media'>
       {loading && <p></p>}
       {!loading && (
-        <div className='max-w-screen-lg mx-auto md:gap-2 p-2 flex md:grid md:grid-cols-[1fr_250px]  '>
-          <div className='w-full flex flex-col items-end max-md:items-center'>
+        <div className='max-w-screen-lg mx-auto md:gap-2 p-2 flex md:grid md:grid-cols-[1fr_260px]  '>
+          <div className='w-full flex flex-col items-center max-md:items-center'>
             <PostForm />
-            <main className='w-full flex flex-col items-end max-md:items-center md:mr-6'>
+            <main className='w-full flex flex-col items-center max-md:items-center '>
               <NewsFeed search={''} />
             </main>
           </div>
-          <aside className='max-md:hidden p-2 pt-4 shadow-md rounded-md'>
-            <h1 className='text-l font-medium'>🚀 Discover More Users ⬇️</h1>
+          <aside className='max-md:hidden p-2 mr-1 pt-4 shadow-md rounded-md bg-white min-h-fit dark:bg-slate-800 dark:border-gray-600 dark:text-white'>
+            <h1 className='text-xl font-medium pl-2 mb-4'>Suggestions</h1>
 
             <DiscoverNewUsers />
           </aside>

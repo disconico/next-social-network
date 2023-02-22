@@ -19,42 +19,38 @@ const NavBar = () => {
   };
 
   return (
-    <header className='border-b sticky top-0 z-50 bg-white dark:bg-slate-800 '>
+    <header className='border-b sticky top-0 z-50 bg-white dark:bg-[#111827] '>
       <nav className='max-w-screen-lg mx-auto flex justify-between items-center p-2 h-13 '>
         <div>
-          <Link href='/app' className='font-nabla text-4xl cursor-pointer '>
-            DN
+          <Link href='/app'>
+            <p className='font-TiltWrap text-3xl cursor-pointer md:ml-4 bg-gradient-to-r from-yellow-400 via-purple-500 to-primary-700 bg-clip-text text-transparent '>
+              DiscoNetwork.
+            </p>
           </Link>
         </div>
-        <div className='flex items-center gap-4 mr-2'>
+        <div className='flex items-center gap-4 mr-2 text-sm '>
           {width > 768 && (
             <>
               <Link
                 href={'/app'}
-                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
-                  router.pathname.match(/app$/)
-                    ? 'border-b-2 border-primary-300'
-                    : ''
+                className={`cursor-pointer hover:mb-1  ${
+                  router.pathname.match(/app$/) ? 'underline-magical' : ''
                 }`}
               >
                 News Feed
               </Link>
               <Link
                 href={'/app/users'}
-                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
-                  router.pathname.includes('users')
-                    ? 'border-b-2 border-primary-300'
-                    : ''
+                className={`cursor-pointer hover:mb-1 ${
+                  router.pathname.includes('users') ? 'underline-magical' : ''
                 }`}
               >
                 Browse Users
               </Link>
               <Link
                 href={'/app/posts'}
-                className={`cursor-pointer hover:border-b-2 hover:border-primary-600 active:border-primary-600 ${
-                  router.pathname.includes('posts')
-                    ? 'border-b-2 border-primary-300'
-                    : ''
+                className={`cursor-pointer  hover:mb-1  ${
+                  router.pathname.includes('posts') ? 'underline-magical' : ''
                 }`}
               >
                 See All Posts
@@ -66,7 +62,15 @@ const NavBar = () => {
             <Menu as='div' className='relative inline-block text-left'>
               <div>
                 <Menu.Button className='inline-flex w-full justify-center items-center hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-                  <p className=''>{session && !loading && session.user.name}</p>
+                  <p
+                    className={`cursor-pointer  hover:mb-1  ${
+                      router.pathname.includes('profile')
+                        ? 'underline-magical'
+                        : ''
+                    }`}
+                  >
+                    {session && !loading && session.user.name}
+                  </p>
                   {/* {session && !loading && (
                     <Image
                       src={session.user.image}
@@ -79,7 +83,7 @@ const NavBar = () => {
                   )} */}
 
                   <ChevronDownIcon
-                    className='ml-2 -mr-1 mt-[2px] h-5 w-5 text-primary-500 hover:text-primary-700'
+                    className='ml-2 -mr-1 mt-[2px] h-5 w-5 hover:bg-slate-100 rounded-full '
                     aria-hidden='true'
                   />
                 </Menu.Button>

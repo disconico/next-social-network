@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import PostPreview from './PostPreview';
 import PropTypes from 'prop-types';
 
-const AllPosts = ({ search }) => {
+const AllPosts = ({ search, sortedPostsBy }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { isLoading, isError, data, error } = useQuery('posts', async () => {
@@ -30,9 +30,7 @@ const AllPosts = ({ search }) => {
       {!isLoading && data && !error && (
         <>
           {data.returnedPosts
-            .sort((a, b) => {
-              return new Date(b.createdAt) - new Date(a.createdAt);
-            })
+
             .filter((post) => {
               if (search === '') {
                 return post;
@@ -49,6 +47,16 @@ const AllPosts = ({ search }) => {
                   .includes(search.toLowerCase())
               ) {
                 return post;
+              }
+              return null;
+            })
+            .sort((a, b) => {
+              if (sortedPostsBy === 'newest') {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              } else if (sortedPostsBy === 'oldest') {
+                return new Date(a.createdAt) - new Date(b.createdAt);
+              } else if (sortedPostsBy === 'most-liked') {
+                return b.likes - a.likes;
               }
               return null;
             })
@@ -75,6 +83,7 @@ const AllPosts = ({ search }) => {
 
 AllPosts.propTypes = {
   search: PropTypes.string,
+  sortedPostsBy: PropTypes.string,
 };
 
 export default AllPosts;

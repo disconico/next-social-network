@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     isAwesome: Boolean,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -82,6 +82,7 @@ const handleGetUserDetails = async (req, res) => {
       following: userDetails.following,
       followers: userDetails.followers,
       isAwesome: userDetails.isAwesome,
+      isAdmin: userDetails.isAdmin,
     };
 
     res.status(200).json({ returnedUserDetails });

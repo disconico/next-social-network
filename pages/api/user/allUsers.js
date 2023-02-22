@@ -39,6 +39,7 @@ const handleGetUsers = async (req, res) => {
           followers: user.followers.map(returnedFollow),
           isFollowed: user.followers.includes(userId),
           isAwesome: user.isAwesome,
+          isAdmin: user.isAdmin,
         };
       });
 

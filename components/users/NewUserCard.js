@@ -2,13 +2,23 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Image from 'next/image';
 import FollowButton from './FollowButton';
+import { MdVerified } from 'react-icons/md';
+import { IconContext } from 'react-icons';
 
 const NewUserCard = ({ user, session }) => {
-  const { firstName, lastName, profilePicture, _id: id, followers } = user;
+  const {
+    firstName,
+    lastName,
+    profilePicture,
+    _id: id,
+    followers,
+    isAwesome,
+    isAdmin,
+  } = user;
 
   return (
-    <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
-      <div className='flex items-center'>
+    <div className=' mt-2 p-1  max-w-lg text-xs w-full flex justify-between'>
+      <div className='flex items-center gap-2'>
         <Link href={`/app/users/${id}`}>
           <Image
             src={profilePicture.imageUrl}
@@ -17,16 +27,30 @@ const NewUserCard = ({ user, session }) => {
             className='rounded-full h-8 w-8'
             alt='user image'
           />
+        </Link>
+        <Link href={`/app/users/${id}`}>
           <p>
             {firstName} {lastName}
           </p>
         </Link>
+        {isAwesome && !isAdmin && (
+          <IconContext.Provider value={{ size: '1rem', color: 'green' }}>
+            <MdVerified />
+          </IconContext.Provider>
+        )}
+        {isAwesome && isAdmin && (
+          <IconContext.Provider value={{ size: '1rem', color: 'gold' }}>
+            <MdVerified />
+          </IconContext.Provider>
+        )}
       </div>
+
       <FollowButton
         id={id}
         followers={followers}
         session={session}
         firstName={firstName}
+        className='text-xs rounded-md hover:bg-slate-100 hover:font-medium p-1 hover:text-slate-800 w-12'
       />
     </div>
   );

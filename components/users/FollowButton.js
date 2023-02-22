@@ -4,6 +4,7 @@ import { useQueryClient, useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import Spinner from '../ui/Spinner';
 
 const FollowButton = ({
   id,
@@ -11,6 +12,7 @@ const FollowButton = ({
   session,
   firstName,
   isFollowed = false,
+  className,
 }) => {
   const { theme } = useTheme();
   const queryClient = useQueryClient();
@@ -65,9 +67,9 @@ const FollowButton = ({
 
   return (
     <>
-      {mutation.isLoading && <button>Loading...</button>}
+      {mutation.isLoading && <button className={className}>...</button>}
       {!mutation.isLoading && !followers.includes(session.user.id) && (
-        <button onClick={handleFollow}>
+        <button onClick={handleFollow} className={className}>
           {isFollowed ? 'Unfollow' : 'Follow'}
         </button>
       )}
@@ -81,6 +83,7 @@ FollowButton.propTypes = {
   firstName: PropTypes.string.isRequired,
   isFollowed: PropTypes.bool,
   session: PropTypes.object.isRequired,
+  className: PropTypes.string,
 };
 
 export default FollowButton;

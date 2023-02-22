@@ -43,6 +43,7 @@ module.exports = {
         neon: ['neon', 'sans-serif'],
         bungee: ['bungee', 'sans-serif'],
         nabla: ['nabla', 'sans-serif'],
+        TiltWrap: ['TiltWrap', 'sans-serif'],
       },
       animation: {
         text: 'text 10s ease infinite',

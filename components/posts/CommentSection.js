@@ -18,7 +18,7 @@ const Comment = ({ comment, session, postAuthorId }) => {
   );
 
   const commentDiv = (
-    <div className='w-3/4 bg-gray-100 p-2 pt-1 rounded flex flex-col text-xs'>
+    <div className='w-3/4 bg-gray-100 dark:bg-gray-700  p-2 pt-1 rounded flex flex-col text-xs'>
       <div className='flex items-center justify-between'>
         <div className='flex gap-2 '>
           <Link href={`/app/users/${comment.author._id}`}>
@@ -26,13 +26,15 @@ const Comment = ({ comment, session, postAuthorId }) => {
               {comment.author.firstName} {comment.author.lastName}
             </p>
           </Link>
-          <p className='text-gray-500 text-xs'>
+          <p className='text-gray-500 dark:text-slate-300 text-xs'>
             {formatDate(comment.createdAt)}
           </p>
         </div>
         <div className='flex items-center self-end gap-[2px]'>
           {comment.likes > 0 && (
-            <p className='text-gray-500  text-[10px] '>{comment.likes}</p>
+            <p className='text-gray-500  dark:text-slate-300 text-[10px] '>
+              {comment.likes}
+            </p>
           )}
 
           <LikeComment

@@ -97,6 +97,7 @@ const handleGetUserDetails = async (req, res) => {
         (follower) => follower._id.toString() === userId
       ),
       isAwesome: userDetails.isAwesome,
+      isAdmin: userDetails.isAdmin,
       createdAt: userDetails.createdAt,
     };
 

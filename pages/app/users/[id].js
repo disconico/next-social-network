@@ -81,6 +81,7 @@ const UserPage = () => {
             createdAt={createdAt}
             isFollowed={isFollowed}
             session={session}
+            type={'otherUser'}
           />
           <UserPosts
             posts={posts}

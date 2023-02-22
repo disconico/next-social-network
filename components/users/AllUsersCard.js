@@ -14,10 +14,11 @@ const AllUsersCard = ({ user, session }) => {
     _id: id,
     followers,
     isFollowed,
+    isAdmin,
   } = user;
 
   return (
-    <div className='bg-white shadow-md rounded-md p-4 my-4 sm:w-80 w-full'>
+    <div className='bg-white dark:bg-slate-800 shadow-md rounded-md p-4 my-4 sm:w-80 w-full'>
       <div className='flex justify-between items-center mb-2'>
         <div className='flex items-center gap-3'>
           <Link href={`/app/users/${id}`}>
@@ -35,14 +36,19 @@ const AllUsersCard = ({ user, session }) => {
             </p>
           </Link>
         </div>
-        {user.isAwesome && (
+        {user.isAwesome && !isAdmin && (
           <IconContext.Provider value={{ size: '1.5rem', color: 'green' }}>
+            <MdVerified />
+          </IconContext.Provider>
+        )}
+        {user.isAwesome && isAdmin && (
+          <IconContext.Provider value={{ size: '1.5rem', color: 'gold' }}>
             <MdVerified />
           </IconContext.Provider>
         )}
       </div>
       <div className='mb-2'>
-        <p className='text-sm text-gray-500'>
+        <p className='text-sm text-gray-500  dark:text-slate-300'>
           Member since{' '}
           {
             // Format the date to be more readable
@@ -52,14 +58,14 @@ const AllUsersCard = ({ user, session }) => {
             })
           }
         </p>
-        <p className='text-sm text-gray-500'>
+        <p className='text-sm text-gray-500  dark:text-slate-300'>
           {followers.length} {followers.length === 1 ? 'follower' : 'followers'}
         </p>
-        <p className='text-sm text-gray-500'>
+        <p className='text-sm text-gray-500  dark:text-slate-300'>
           {user.following.length}{' '}
           {user.following.length === 1 ? 'following' : 'followings'}
         </p>
-        <p className='text-sm text-gray-500'>
+        <p className='text-sm text-gray-500  dark:text-slate-300'>
           {user.posts.length} {user.posts.length === 1 ? 'post' : 'posts'}
         </p>
       </div>

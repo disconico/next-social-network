@@ -16,6 +16,16 @@
   font-family: 'nabla';
   src: url('../public/assets/fonts/nabla.ttf');
 }
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../public/assets/fonts/SF.ttf');
+}
+
+@font-face {
+  font-family: 'TiltWrap';
+  src: url('../public/assets/fonts/TiltWrap.ttf');
+}
 /* 
 @keyframes rollout {
   0% {
@@ -39,6 +49,7 @@
 html,
 body {
   max-width: 100vw;
+  font-family: 'SF', sans-serif;
 }
 
 body {
@@ -103,4 +114,12 @@ a {
 .back-button.show {
   opacity: 1;
   visibility: visible;
+}
+
+.underline-magical {
+  background-image: linear-gradient(120deg, #f7d06b 0%, #f39e71 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0 88%;
+  transition: background-size 0.25s ease-in;
 }

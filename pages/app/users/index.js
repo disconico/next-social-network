@@ -1,6 +1,7 @@
 import Page from '../../../components/layout/Page';
 import UsersList from '../../../components/users/UsersList';
 import SearchUsers from '../../../components/ui/SearchBar';
+import Sorter from '../../../components/ui/Sorter';
 import { getSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -9,6 +10,7 @@ const BrowseUsersPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [sortedUsersBy, setSortedUsersBy] = useState('newest');
 
   useEffect(() => {
     getSession()
@@ -30,18 +32,33 @@ const BrowseUsersPage = () => {
     setSearch('');
   };
 
+  const handleSort = (e) => {
+    setSortedUsersBy(e.target.value);
+  };
+
   return (
     <Page title={'Browse Users'}>
       {loading && <p></p>}
       {!loading && (
         <div className='max-w-screen-lg mx-auto p-2 '>
-          <SearchUsers
-            handleSearch={handleSearch}
-            resetSearch={resetSearch}
-            search={search}
-            placeholder={'Search Users...'}
-          />
-          <UsersList search={search} />
+          <div className='flex justify-center w-full gap-2'>
+            <SearchUsers
+              handleSearch={handleSearch}
+              resetSearch={resetSearch}
+              search={search}
+              placeholder={'Search Users...'}
+            />
+            <Sorter
+              handleSort={handleSort}
+              sortedBy={sortedUsersBy}
+              options={[
+                { value: 'newest', label: 'Newest' },
+                { value: 'oldest', label: 'Oldest' },
+                { value: 'most-followers', label: 'Most Followers' },
+              ]}
+            />
+          </div>
+          <UsersList search={search} sortedUsersBy={sortedUsersBy} />
         </div>
       )}
     </Page>

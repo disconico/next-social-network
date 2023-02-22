@@ -5,7 +5,7 @@ import Spinner from '../ui/Spinner';
 import AllUsersCard from './AllUsersCard';
 import PropTypes from 'prop-types';
 
-const UsersList = ({ search = '' }) => {
+const UsersList = ({ search = '', sortedUsersBy }) => {
   const { data: session } = useSession();
   const { isLoading, isError, data, error } = useQuery(
     'usersList',
@@ -39,15 +39,19 @@ const UsersList = ({ search = '' }) => {
               }
               return null;
             })
+            // sort users depending of the sortedUsersBy state, it can be sort by newest, oldest, or most followed user first.
+
             .sort((a, b) => {
-              if (a.firstName < b.firstName) {
-                return -1;
+              if (sortedUsersBy === 'newest') {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              } else if (sortedUsersBy === 'oldest') {
+                return new Date(a.createdAt) - new Date(b.createdAt);
+              } else if (sortedUsersBy === 'most-followers') {
+                return b.followers.length - a.followers.length;
               }
-              if (a.firstName > b.firstName) {
-                return 1;
-              }
-              return 0;
+              return null;
             })
+
             .map((user, index) => (
               <AllUsersCard key={index} user={user} session={session} />
             ))}
@@ -59,6 +63,7 @@ const UsersList = ({ search = '' }) => {
 
 UsersList.propTypes = {
   search: PropTypes.string.isRequired,
+  sortedUsersBy: PropTypes.string.isRequired,
 };
 
 export default UsersList;

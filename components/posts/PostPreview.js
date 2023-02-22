@@ -20,9 +20,9 @@ const PostPreview = ({
   postId,
 }) => {
   return (
-    <div className='bg-white shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full'>
+    <div className=' shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full bg-gray-50 dark:bg-slate-800 dark:border-gray-600 dark:text-white '>
       <div className='flex justify-between items-center'>
-        <div className='flex gap-2 items-center h-9 pb-1'>
+        <div className='flex gap-2 items-center h-12 pb-3'>
           <Link href={`/app/users/${author._id}`}>
             <Image
               src={author.profilePicture.imageUrl}
@@ -38,7 +38,9 @@ const PostPreview = ({
             </p>
           </Link>
 
-          <p className='text-gray-500 text-xs'>{formatDate(createdAt)}</p>
+          <p className='text-gray-500 dark:text-slate-300 text-xs pt-[2px]'>
+            {formatDate(createdAt)}
+          </p>
         </div>
         <div>
           {' '}
@@ -68,11 +70,13 @@ const PostPreview = ({
       <DeletePostModal session={session} author={author} postId={postId} />
 
       <hr />
-      <p className=' break-words py-4'>{content}</p>
+      <p className=' break-words py-6'>{content}</p>
       <hr />
       <div className='flex justify-between py-2'>
         <button
-          className={`text-gray-500 text-xs ${!likes && 'cursor-default'} ${
+          className={`text-gray-500 dark:text-slate-300 text-xs ${
+            !likes && 'cursor-default'
+          } ${
             likes &&
             'cursor-pointer hover:underline hover:underline-offset-4 hover:decoration-primary-400 hover:decoration-2'
           }`}
@@ -81,7 +85,7 @@ const PostPreview = ({
           {likes} {likes === 1 ? 'like' : 'likes'}
         </button>
         <button
-          className={`text-gray-500 text-xs  ${
+          className={`text-gray-500 dark:text-slate-300 text-xs  ${
             !comments.length && 'cursor-default'
           }
           ${
@@ -123,12 +127,14 @@ const PostPreview = ({
             authorId={author._id}
           />
           {likedBy.some((like) => like._id === session.user.id) && (
-            <p className='text-gray-500 text-xs ml-2'>You liked this post</p>
+            <p className='text-gray-500 dark:text-slate-300 text-xs ml-2'>
+              You liked this post
+            </p>
           )}
         </div>
         <div className='flex items-center'>
           <button
-            className='text-gray-500 text-xs'
+            className='text-gray-500 dark:text-slate-300 text-xs'
             data-hs-collapse={`#hs-unstyled-collapse-heading-comment-${postId}`}
           >
             Comment this post

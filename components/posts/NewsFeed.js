@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import PostPreview from './PostPreview';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 
 const NewsFeed = ({ search }) => {
   const { data: session, status } = useSession();
@@ -32,9 +33,14 @@ const NewsFeed = ({ search }) => {
     <>
       {!isLoading && data && !error && data.returnedPosts.length === 0 && (
         <>
-          <h1 className='text-xl font-bold text-gray-700 max-w-lg'>
+          <h1 className='text-xl  max-w-lg pt-4'>
             No featured posts yet! Follow some users to see their posts here 🥷
           </h1>
+          <Link href='/app/users'>
+            <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32  mt-4'>
+              Discover Users
+            </button>
+          </Link>
         </>
       )}
       {!isLoading && data && !error && (

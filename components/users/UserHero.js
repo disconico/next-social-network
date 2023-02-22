@@ -19,8 +19,8 @@ const UserHero = ({
   type,
 }) => {
   return (
-    <div className='flex flex-col items-center justify-center w-full h-80 bg-gray-100'>
-      <div className='flex flex-col items-center justify-center w-36 h-36 rounded-full bg-gray-200'>
+    <div className='flex flex-col items-center justify-center w-full h-80 bg-gray-100 dark:bg-[#111827]'>
+      <div className='flex flex-col items-center justify-center w-36 h-36 rounded-full bg-gray-200 mt-2 overflow-hidden'>
         <Image
           src={profilePicture.imageUrl}
           width={200}
@@ -28,6 +28,7 @@ const UserHero = ({
           className='rounded-full h-[200px] w-[200px]'
           alt='author image'
           draggable='false'
+          priority
         />
       </div>
       <div className='flex flex-col items-center justify-center w-full h-40'>
@@ -55,7 +56,7 @@ const UserHero = ({
               </Link>
             )}
           </div>
-          <div className='text-sm text-gray-500'>
+          <div className='text-sm text-gray-500 dark:text-slate-300'>
             {isAwesome ? (
               <div className='flex align-middle justify-center gap-1'>
                 Awesome
@@ -74,7 +75,7 @@ const UserHero = ({
           <div className='flex flex-col items-center justify-center w-1/3 h-full'>
             <p className='text-sm font-bold'>{followers.length}</p>
             <FollowDialog
-              className='text-sm text-gray-500'
+              className='text-sm text-gray-500 dark:text-slate-300'
               type={'followers'}
               followArray={followers}
               name={'Followers'}
@@ -83,14 +84,14 @@ const UserHero = ({
           <div className='flex flex-col items-center justify-center w-1/3 h-full'>
             <p className='text-sm font-bold'>{following.length}</p>
             <FollowDialog
-              className='text-sm text-gray-500'
+              className='text-sm text-gray-500 dark:text-slate-300'
               type={'following'}
               followArray={following}
               name={'Following'}
             />
           </div>
 
-          {!type === 'profile' && (
+          {type === 'otherUser' && (
             <div className='flex flex-col items-center justify-center w-1/3 h-full'>
               <p className='text-sm font-bold'>
                 <FollowButton
