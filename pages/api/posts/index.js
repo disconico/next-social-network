@@ -5,107 +5,88 @@ import Comment from '../../../models/Comment';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
-const handlePostPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return res.status(401).json({ message: 'Not authenticated' });
-  }
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
+};
 
-  const { content, authorId } = req.body;
-
-  if (!content) {
-    return res.status(400).json({ message: 'Content is required' });
-  }
-
+export default async function handler(req, res) {
   try {
     await dbConnect();
-    const author = await User.findById(authorId);
+    const session = await getSession({ req });
+    if (!session) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
 
-    // Don't over populate the database with post's author details
-    const post = await Post.create({
-      content,
-      author: author._id,
-    });
-    console.log('post: ', post);
-    await author.posts.push(post._id);
-    await author.save();
+    switch (req.method) {
+      case 'POST': {
+        const { content, authorId } = req.body;
 
-    // Still return some author details for the client
-    const returnedPost = clientPost(post, author);
-    res.status(201).json({ returnedPost });
+        if (!content) {
+          return res.status(400).json({ message: 'Content is required' });
+        }
+
+        const author = await User.findById(authorId);
+
+        // Don't over populate the database with post's author details
+        const post = await Post.create({
+          content,
+          author: author._id,
+        });
+        console.log('post: ', post);
+        await author.posts.push(post._id);
+        await author.save();
+
+        // Still return some author details for the client
+        const returnedPost = clientPost(post, author);
+        res.status(201).json({ returnedPost });
+        break;
+      }
+
+      case 'GET': {
+        const { _id } = req.query;
+        console.log('_id: ', _id);
+        const post = await Post.findById(_id)
+          .populate('author')
+          .populate({
+            path: 'comments',
+            populate: {
+              path: 'author',
+              model: 'User',
+            },
+          });
+        const returnedPost = clientPost(post, post.author);
+        res.status(200).json({ returnedPost });
+        break;
+      }
+
+      case 'DELETE': {
+        const { postId, userId, authorId } = req.body;
+
+        if (!postId) {
+          return res.status(400).json({ message: 'Post ID is required' });
+        }
+
+        if (userId !== authorId) {
+          return res
+            .status(400)
+            .json({ message: 'You are not authorized to delete this post' });
+        }
+
+        await Post.findByIdAndDelete(postId);
+        console.log('Ok deleted');
+        res.status(200).json({ message: 'Post deleted' });
+        break;
+      }
+
+      default:
+        return res.status(405).json({ message: 'Method not allowed' });
+    }
   } catch (err) {
-    console.log('Post POST API :', err.message);
-    res.status(401).end();
+    console.log('Error:', err.message);
+    res.status(401).json({ message: 'Error occurred' });
   }
-};
-
-const handleGetPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return res.status(401).json({ message: 'Not authenticated' });
-  }
-
-  const { _id } = req.query;
-  console.log('_id: ', _id);
-  try {
-    await dbConnect();
-    const post = await Post.findById(_id)
-      .populate('author')
-      .populate({
-        path: 'comments',
-        populate: {
-          path: 'author',
-          model: 'User',
-        },
-      });
-    const returnedPost = clientPost(post, post.author);
-    res.status(200).json({ returnedPost });
-  } catch (err) {
-    console.log('Post GET API :', err.message);
-    res.status(401).end();
-  }
-};
-
-const handleDeletePost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return res.status(401).json({ message: 'Not authenticated' });
-  }
-
-  const { postId, userId, authorId } = req.body;
-
-  if (!postId) {
-    return res.status(400).json({ message: 'Post ID is required' });
-  }
-
-  if (userId !== authorId) {
-    return res
-      .status(400)
-      .json({ message: 'You are not authorized to delete this post' });
-  }
-
-  try {
-    await dbConnect();
-    await Post.findByIdAndDelete(postId);
-    console.log('Ok deleted');
-    res.status(200).json({ message: 'Post deleted' });
-  } catch (err) {
-    console.log('Post DELETE API :', err.message);
-    res.status(401).json({ message: 'Error deleting post!' });
-  }
-};
-
-const handler = async (req, res) => {
-  switch (req.method) {
-    case 'POST':
-      return handlePostPost(req, res);
-    case 'GET':
-      return handleGetPost(req, res);
-    case 'DELETE':
-      return handleDeletePost(req, res);
-    default:
-      return res.status(405).json({ message: 'Method not allowed' });
-  }
-};
-
-export default handler;
+}

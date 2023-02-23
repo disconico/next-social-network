@@ -3,7 +3,6 @@ import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
-import { clientPost } from '../../../lib/posts';
 
 const handler = async (req, res) => {
   switch (req.method) {
@@ -21,19 +20,19 @@ const handlePatchPost = async (req, res) => {
   }
 
   const { content, authorId, postId } = req.body;
-  console.log('postId: ', postId);
-  console.log('authorId: ', authorId);
+
   try {
     await dbConnect();
-    const post = await Post.findById(postId);
+    const [post, author] = await Promise.all([
+      Post.findById(postId),
+      User.findById(authorId),
+    ]);
+
     if (!post) {
-      console.log('Post not found');
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    const author = await User.findById(authorId);
     if (!author) {
-      console.log('Author not found');
       return res.status(404).json({ message: 'Author not found' });
     }
 
@@ -44,15 +43,13 @@ const handlePatchPost = async (req, res) => {
     });
 
     await comment.save();
-    await post.comments.push(comment);
-    await post.populate('comments');
-    await post.save();
-    await author.comments.push(comment);
-    await author.save();
 
-    const returnedPost = clientPost(post, post.author);
+    await Promise.all([
+      Post.updateOne({ _id: post._id }, { $push: { comments: comment } }),
+      User.updateOne({ _id: author._id }, { $push: { comments: comment } }),
+    ]);
 
-    res.status(200).json({ returnedPost });
+    res.status(200).json({ message: 'Success' });
   } catch (err) {
     console.log('Post PATCH API :', err.message);
     res.status(401).json({ message: err.message });

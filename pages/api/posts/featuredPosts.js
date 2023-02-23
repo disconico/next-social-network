@@ -16,7 +16,7 @@ const handleGetFeaturedPost = async (req, res) => {
   try {
     await dbConnect();
     const user = await User.findById(userId);
-    // Find all posts where the author is in the user's following array or written by the user
+
     const posts = await Post.find({
       $or: [{ author: { $in: user.following } }, { author: userId }],
     })
@@ -28,18 +28,8 @@ const handleGetFeaturedPost = async (req, res) => {
           path: 'author',
           model: 'User',
         },
-      });
-
-    // const posts = await Post.find()
-    //   .populate('author')
-    //   .populate('likedBy')
-    //   .populate({
-    //     path: 'comments',
-    //     populate: {
-    //       path: 'author',
-    //       model: 'User',
-    //     },
-    //   });
+      })
+      .lean();
 
     const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);

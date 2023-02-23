@@ -26,7 +26,7 @@ const handleGetUserDetails = async (req, res) => {
   try {
     await dbConnect();
 
-    const userDetails = await User.findById(req.query.id)
+    const userDetailsPromise = User.findById(req.query.id)
       .populate('posts')
       .populate({
         path: 'posts',
@@ -62,7 +62,7 @@ const handleGetUserDetails = async (req, res) => {
       .populate('following')
       .populate('followers');
 
-    const postsLikedByUser = await Post.find({
+    const postsLikedByUserPromise = Post.find({
       likedBy: req.query.id,
     })
       .populate('author')
@@ -74,6 +74,11 @@ const handleGetUserDetails = async (req, res) => {
           model: 'User',
         },
       });
+
+    const [userDetails, postsLikedByUser] = await Promise.all([
+      userDetailsPromise,
+      postsLikedByUserPromise,
+    ]);
 
     const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
       return clientPost(post, post.author);

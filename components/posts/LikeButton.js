@@ -8,16 +8,9 @@ const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
   const mutation = useMutation(
     async () => {
       try {
-        await axios
-          .patch('/api/posts/likePost', {
-            postId,
-          })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        await axios.patch('/api/posts/likePost', {
+          postId,
+        });
       } catch (error) {
         console.log(error);
         throw new Error('Bug in ClientFetch');
@@ -25,8 +18,12 @@ const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
     },
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries('posts');
-        await queryClient.invalidateQueries('featuredPosts');
+        await queryClient.invalidateQueries('posts', {
+          postId,
+        });
+        await queryClient.invalidateQueries('featuredPosts', {
+          postId,
+        });
         await queryClient.invalidateQueries('user');
         await queryClient.invalidateQueries('singleUser', {
           id: authorId,

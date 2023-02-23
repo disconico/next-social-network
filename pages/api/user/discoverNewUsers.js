@@ -16,17 +16,26 @@ const handleGetNewUsers = async (req, res) => {
       'following'
     );
 
-    const newUsers = await User.find({
+    const newUsersQuery = User.find({
       _id: { $nin: [...userFollowing.following, session.user.id] },
     })
       .limit(10)
-      .populate('posts');
+      .lean();
+
+    const countQuery = User.countDocuments({
+      _id: { $nin: [...userFollowing.following, session.user.id] },
+    });
+
+    const [newUsers, count] = await Promise.all([
+      newUsersQuery.exec(),
+      countQuery.exec(),
+    ]);
 
     const returnedUsers = newUsers.map((user) => {
       return clientUser(user);
     });
 
-    res.status(200).json({ message: 'Success', returnedUsers });
+    res.status(200).json({ message: 'Success', returnedUsers, count });
   } catch (error) {
     console.log('newUsers GET API :', error.message);
     res.status(500).json({ message: error.message });

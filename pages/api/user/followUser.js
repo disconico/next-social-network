@@ -11,8 +11,10 @@ const handlePatchUser = async (req, res) => {
 
   try {
     await dbConnect();
-    const userDetails = await User.findById(session.user.id).populate();
-    const followedUser = await User.findById(req.body.id);
+    const [userDetails, followedUser] = await Promise.all([
+      User.findById(session.user.id).select('following'),
+      User.findById(req.body.id).select('followers'),
+    ]);
 
     if (userDetails.following.includes(req.body.id)) {
       const index = userDetails.following.indexOf(req.body.id);

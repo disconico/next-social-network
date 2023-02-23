@@ -23,15 +23,7 @@ const handlePatchPost = async (req, res) => {
   try {
     await dbConnect();
 
-    const post = await Post.findById(postId)
-      .populate('author')
-      .populate({
-        path: 'comments',
-        populate: {
-          path: 'author',
-          model: 'User',
-        },
-      });
+    const post = await Post.findOne({ _id: postId }).select('likes likedBy');
 
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
@@ -53,9 +45,7 @@ const handlePatchPost = async (req, res) => {
 
     await post.save();
 
-    const returnedPost = clientPost(post, post.author);
-
-    res.status(200).json({ returnedPost });
+    res.status(200).json({ message: 'Success' });
   } catch (err) {
     console.log('Post PATCH API :', err.message);
     res.status(401).json({ message: 'Error liking post' });

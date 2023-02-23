@@ -23,27 +23,38 @@ const handleGetUsers = async (req, res) => {
 
   try {
     await dbConnect();
-    const users = await User.find().populate('posts');
 
-    const returnedUsers = users
-      .filter((user) => user._id.toString() !== userId)
-      .map((user) => {
-        return {
-          _id: user._id,
-          profilePicture: user.profilePicture,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          createdAt: user.createdAt,
-          email: user.email,
-          posts: user.posts,
-          following: user.following.map(returnedFollow),
-          followers: user.followers.map(returnedFollow),
-          isFollowed: user.followers.includes(userId),
-          isAwesome: user.isAwesome,
-          isAdmin: user.isAdmin,
-        };
-      });
+    const users = await User.find(
+      { _id: { $ne: userId } },
+      {
+        firstName: 1,
+        lastName: 1,
+        profilePicture: 1,
+        email: 1,
+        createdAt: 1,
+        followers: 1,
+        following: 1,
+        isAdmin: 1,
+        isAwesome: 1,
+        posts: 1,
+      }
+    );
+    // .lean()
 
+    const returnedUsers = users.map((user) => ({
+      _id: user._id,
+      profilePicture: user.profilePicture,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      createdAt: user.createdAt,
+      email: user.email,
+      posts: user.posts,
+      following: user.following.map(returnedFollow),
+      followers: user.followers.map(returnedFollow),
+      isFollowed: user.followers.includes(userId),
+      isAwesome: user.isAwesome,
+      isAdmin: user.isAdmin,
+    }));
     res.status(200).json({ returnedUsers });
   } catch (err) {
     console.log('allUsers GET API :', err.message);

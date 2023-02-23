@@ -14,17 +14,21 @@ const handleGetPost = async (req, res) => {
   try {
     await dbConnect();
     const post = await Post.findById(id)
-      .populate('author')
-      .populate('likedBy')
+      .populate({
+        path: 'author',
+      })
+      .populate({
+        path: 'likedBy',
+      })
       .populate({
         path: 'comments',
         populate: {
           path: 'author',
           model: 'User',
+          select: 'name',
         },
-      });
-    console.log('post: ', post);
-    console.log('post.comments: ', post.comments);
+      })
+      .lean();
 
     // https://stackoverflow.com/questions/19222520/populate-nested-array-in-mongoose
 

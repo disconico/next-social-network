@@ -65,6 +65,10 @@ const CommentForm = ({ postId, session }) => {
       );
       window.HSCollapse.hide(commentFormDiv);
     },
+    onError: () => {
+      console.log('Error in CommentForm.js');
+      console.log(errorMessage);
+    },
   });
 
   const handleSubmit = (e) => {
@@ -105,10 +109,6 @@ const CommentForm = ({ postId, session }) => {
           </button>
         )}
       </div>
-
-      <p className='text-sm text-red-500'>{isError && errorMessage}</p>
-
-      {mutation.isError && <p>Error: {mutation.error.message}</p>}
     </form>
   );
 };

@@ -23,7 +23,9 @@ const handlePatchComment = async (req, res) => {
   try {
     await dbConnect();
 
-    const comment = await Comment.findById(commentId);
+    const comment = await Comment.findOne({ _id: commentId }).select(
+      'likes likedBy'
+    );
     if (!comment) {
       console.log('Comment not found');
       return res.status(404).json({ message: 'Comment not found' });
@@ -41,12 +43,11 @@ const handlePatchComment = async (req, res) => {
     } else {
       comment.likes++;
       comment.likedBy.push(session.user.id);
-      await comment.populate('likedBy');
     }
 
     await comment.save();
 
-    res.status(200).json({ comment });
+    res.status(200).json({ message: 'Success' });
   } catch (err) {
     console.log('Comment PATCH API :', err.message);
     res.status(401).json({ message: err.message });

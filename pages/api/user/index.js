@@ -14,54 +14,59 @@ const handleGetUserDetails = async (req, res) => {
 
   try {
     await dbConnect();
-    const userDetails = await User.findById(session.user.id)
-      .populate('posts')
-      .populate({
-        path: 'posts',
-        populate: {
-          path: 'comments',
-          model: 'Comment',
-        },
+
+    const [userDetails, postsLikedByUser] = await Promise.all([
+      User.findById(session.user.id)
+        .populate('posts')
+        .populate({
+          path: 'posts',
+          populate: {
+            path: 'comments',
+            model: 'Comment',
+          },
+        })
+        .populate({
+          path: 'posts',
+          populate: {
+            path: 'likedBy',
+            model: 'User',
+          },
+        })
+        .populate({
+          path: 'posts',
+          populate: {
+            path: 'author',
+            model: 'User',
+          },
+        })
+        .populate({
+          path: 'posts',
+          populate: {
+            path: 'comments',
+            populate: {
+              path: 'author',
+              model: 'User',
+            },
+          },
+        })
+        .populate('following')
+        .populate('followers')
+        .lean(),
+
+      Post.find({
+        likedBy: session.user.id,
       })
-      .populate({
-        path: 'posts',
-        populate: {
-          path: 'likedBy',
-          model: 'User',
-        },
-      })
-      .populate({
-        path: 'posts',
-        populate: {
-          path: 'author',
-          model: 'User',
-        },
-      })
-      .populate({
-        path: 'posts',
-        populate: {
+        .populate('author')
+        .populate('likedBy')
+        .populate({
           path: 'comments',
           populate: {
             path: 'author',
             model: 'User',
           },
-        },
-      })
-      .populate('following')
-      .populate('followers');
-
-    const postsLikedByUser = await Post.find({
-      likedBy: session.user.id,
-    })
-      .populate('author')
-      .populate('likedBy')
-      .populate({
-        path: 'comments',
-        populate: {
-          path: 'author',
-          model: 'User',
-        },
-      });
+        })
+        .lean(),
+    ]);
 
     const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
       return clientPost(post, post.author);

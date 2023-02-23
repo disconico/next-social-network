@@ -21,7 +21,8 @@ const handleGetPost = async (req, res) => {
           path: 'author',
           model: 'User',
         },
-      });
+      })
+      .lean();
 
     const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);
