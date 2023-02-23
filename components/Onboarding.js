@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { FcApproval, FcBusinessman } from 'react-icons/fc';
 import { IconContext } from 'react-icons';
-import Typed from 'react-typed';
 import svg from '../public/assets/svg/svg';
 import H1 from './ui/headings/H1';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import Typewriter from 'typewriter-effect';
 
 /**
  * This component is the onboarding page for the app. It is the first page that the user sees when they visit the app.
@@ -48,18 +48,27 @@ const Onboarding = () => {
           </span>
           {chevronRight}
         </Link>
-        <H1>
-          <span>Meet and </span>
-          <Typed
-            className='animate-text bg-gradient-to-r from-yellow-400 via-purple-500 to-primary-700 bg-clip-text text-transparent  font-black '
-            strings={['connect', 'laugh', 'share']}
-            typeSpeed={200}
-            backSpeed={100}
-            loop={true}
-          />
-          <br />
-          <span> with people around you</span>
-        </H1>
+        <div className='flex flex-col items-center pb-4 mb-2 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>
+          <div className='flex gap-2'>
+            <p>Meet and </p>
+            <Typewriter
+              options={{
+                strings: ['connect', 'laugh', 'share'],
+                autoStart: true,
+                loop: true,
+                skipAddStyles: true,
+                wrapperClassName:
+                  'animate-text bg-gradient-to-r from-yellow-400 via-purple-500 to-primary-700 bg-clip-text text-transparent  font-black w-auto',
+              }}
+              // skipAddStyles={true}
+              // strings={['connect', 'laugh', 'share']}
+              // typeSpeed={200}
+              // backSpeed={100}
+              // loop={true}
+            />
+          </div>
+          <p> with people around you</p>
+        </div>
 
         <p className='mb-8 text-lg font-normal mx-2 text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400'>
           Unlock your potential with DiscoNetwork: Dance to the beat of tech

@@ -42,8 +42,6 @@ const handler = nc({
         image.buffer
       ).content;
 
-      console.log('base64img: ', base64img);
-
       // upload image to cloudinary
       const uploadedResponse = await cloudinary.uploader.upload(
         base64img,
