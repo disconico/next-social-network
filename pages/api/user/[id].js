@@ -5,6 +5,8 @@ import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
+
+
 const returnedFollow = (user) => {
   return {
     _id: user._id,
