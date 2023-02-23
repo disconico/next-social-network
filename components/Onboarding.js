@@ -19,8 +19,8 @@ const Onboarding = () => {
     try {
       const status = await signIn('credentials', {
         redirect: false,
-        email: process.env.local.GUEST_EMAIL,
-        password: process.env.local.GUEST_PASSWORD,
+        email: 'guestuser@test.com',
+        password: 'test1234',
       });
       if (!status.error) {
         router.push('/app');

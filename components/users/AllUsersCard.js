@@ -15,6 +15,9 @@ const AllUsersCard = ({ user, session }) => {
     followers,
     isFollowed,
     isAdmin,
+    isAwesome,
+    posts,
+    following,
   } = user;
 
   return (
@@ -36,12 +39,12 @@ const AllUsersCard = ({ user, session }) => {
             </p>
           </Link>
         </div>
-        {user.isAwesome && !isAdmin && (
+        {isAwesome && !isAdmin && (
           <IconContext.Provider value={{ size: '1.5rem', color: 'green' }}>
             <MdVerified />
           </IconContext.Provider>
         )}
-        {user.isAwesome && isAdmin && (
+        {isAwesome && isAdmin && (
           <IconContext.Provider value={{ size: '1.5rem', color: 'gold' }}>
             <MdVerified />
           </IconContext.Provider>
@@ -62,11 +65,11 @@ const AllUsersCard = ({ user, session }) => {
           {followers.length} {followers.length === 1 ? 'follower' : 'followers'}
         </p>
         <p className='text-sm text-gray-500  dark:text-slate-300'>
-          {user.following.length}{' '}
-          {user.following.length === 1 ? 'following' : 'followings'}
+          {following.length}{' '}
+          {following.length === 1 ? 'following' : 'followings'}
         </p>
         <p className='text-sm text-gray-500  dark:text-slate-300'>
-          {user.posts.length} {user.posts.length === 1 ? 'post' : 'posts'}
+          {posts.length} {posts.length === 1 ? 'post' : 'posts'}
         </p>
       </div>
       <div className=' flex justify-between  items-center text-sm'>

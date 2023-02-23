@@ -5,8 +5,6 @@ import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
-
-
 const returnedFollow = (user) => {
   return {
     _id: user._id,
@@ -28,7 +26,7 @@ const handleGetUserDetails = async (req, res) => {
   try {
     await dbConnect();
 
-    const userDetailsPromise = User.findById(req.query.id)
+    const userDetails = await User.findById(req.query.id)
       .populate('posts')
       .populate({
         path: 'posts',
@@ -64,7 +62,7 @@ const handleGetUserDetails = async (req, res) => {
       .populate('following')
       .populate('followers');
 
-    const postsLikedByUserPromise = Post.find({
+    const postsLikedByUser = await Post.find({
       likedBy: req.query.id,
     })
       .populate('author')
@@ -77,10 +75,7 @@ const handleGetUserDetails = async (req, res) => {
         },
       });
 
-    const [userDetails, postsLikedByUser] = await Promise.all([
-      userDetailsPromise,
-      postsLikedByUserPromise,
-    ]);
+    console.log('user posts', userDetails.posts);
 
     const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
       return clientPost(post, post.author);

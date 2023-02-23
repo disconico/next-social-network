@@ -5,8 +5,6 @@ import Comment from '../../../models/Comment';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
 
-
-
 const handleGetFeaturedPost = async (req, res) => {
   const session = await getSession({ req });
   if (!session) {
