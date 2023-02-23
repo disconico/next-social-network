@@ -5,6 +5,7 @@ import { validateSize, isImage } from '../../lib/fileValidation';
 import LoadingButton from '../ui/LoadingButton';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { compress, compressAccurately } from 'image-conversion';
 
 const ImageUploader = () => {
   const { status } = useSession();
@@ -60,8 +61,13 @@ const ImageUploader = () => {
 
     setIsLoading(true);
 
+    const compressedImage = await compressAccurately(image, 600).then((res) => {
+      console.log('Compressed image :', res);
+      return res;
+    });
+
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('image', compressedImage);
 
     try {
       await toast
