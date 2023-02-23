@@ -6,6 +6,7 @@ import cloudinary from '../../../lib/cloud/cloudinary';
 import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
 import User from '../../../models/User';
+import Comment from '../../../models/Comment';
 
 const handler = nc({
   onError(error, req, res) {

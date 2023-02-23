@@ -1,6 +1,6 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
-// import Comment from '../../../models/Comment';
+import Comment from '../../../models/Comment';
 import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';

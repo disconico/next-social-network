@@ -2,6 +2,7 @@ import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientUser } from '../../../lib/user';
+import Comment from '../../../models/Comment';
 
 const handleGetNewUsers = async (req, res) => {
   const session = await getSession({ req });

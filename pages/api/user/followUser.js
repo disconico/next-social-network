@@ -1,5 +1,6 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
+import Comment from '../../../models/Comment';
 import { getSession } from 'next-auth/react';
 
 const handlePatchUser = async (req, res) => {
