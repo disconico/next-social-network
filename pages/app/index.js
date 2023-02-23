@@ -33,7 +33,7 @@ const AppHomePage = () => {
               <NewsFeed search={''} />
             </main>
           </div>
-          <aside className='max-md:hidden p-2 mr-1 pt-4 shadow-md rounded-md bg-white min-h-fit dark:bg-slate-800 dark:border-gray-600 dark:text-white'>
+          <aside className='max-md:hidden p-2 mr-4 pt-4 shadow-md rounded-md bg-white min-h-fit dark:bg-slate-800 dark:border-gray-600 dark:text-white'>
             <h1 className='text-xl font-medium pl-2 mb-4'>Suggestions</h1>
 
             <DiscoverNewUsers />

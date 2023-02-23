@@ -90,13 +90,13 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: RGB(30, 66, 159);
-  width: 40px;
-  height: 40px;
+  background-color: inherit;
+  width: 25px;
+  height: 25px;
   text-align: center;
   border-radius: 50%;
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   right: 30px;
   transition: background-color 0.3s, opacity 0.5s, visibility 0.5s;
   opacity: 0;
@@ -106,7 +106,7 @@ a {
 
 .back-button:hover {
   cursor: pointer;
-  background-color: #333;
+  transform: scale(1.1);
 }
 .back-button:active {
   background-color: #555;

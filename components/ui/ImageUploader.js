@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const ImageUploader = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [imageSrc, setImageSrc] = useState('');
   const [image, setImage] = useState();
   const [imageError, setImageError] = useState('');
@@ -37,7 +37,7 @@ const ImageUploader = () => {
     // check size
     const size = validateSize(img.size);
     if (!size) {
-      setImageError('File must be less or equal to 5MB');
+      setImageError('File must be less or equal to 10MB');
       return;
     }
 
@@ -65,7 +65,7 @@ const ImageUploader = () => {
 
     try {
       await toast
-        .promise(axios.post('/api/images/test', formData), {
+        .promise(axios.post('/api/images/upload', formData), {
           pending: 'Uploading image...',
           success: 'Image uploaded!',
           error: 'Error uploading image',
@@ -84,8 +84,11 @@ const ImageUploader = () => {
   };
 
   return (
-    <div className=' p-5 dark:bg-black w-full dark:text-white'>
-      <form onSubmit={handleSubmit}>
+    <div className=' p-5  w-full dark:text-white'>
+      <form
+        onSubmit={handleSubmit}
+        className='flex flex-col justify-center items-center'
+      >
         <div className='my-5'>
           <div className=''>
             <label>
@@ -96,6 +99,7 @@ const ImageUploader = () => {
             <p className='my-5 text-red-400'>{imageError}</p>
             <input
               type='file'
+              name='image'
               id='imageUploader'
               onChange={handleImageChange}
               className='block'

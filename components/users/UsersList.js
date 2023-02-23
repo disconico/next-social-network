@@ -26,7 +26,7 @@ const UsersList = ({ search = '', sortedUsersBy }) => {
   return (
     <>
       {!isLoading && data && !error && (
-        <div className='flex flex-wrap justify-center  gap-3 '>
+        <div className='flex flex-wrap justify-center  gap-3 max-md:mr-4 max-md:ml-2 '>
           {data.returnedUsers
             .filter((user) => {
               if (search === '') {

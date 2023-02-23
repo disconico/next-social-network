@@ -31,7 +31,7 @@ const UserHero = ({
           priority
         />
       </div>
-      <div className='flex flex-col items-center justify-center w-full h-40'>
+      <div className='flex flex-col items-center justify-center w-full h-40 max-w-screen-lg'>
         <div className='flex flex-col items-center justify-center w-full h-16'>
           <div className='flex gap-2 items-center text-center justify-center'>
             <p className='text-2xl font-bold'>

@@ -66,7 +66,7 @@ const UserPage = () => {
     <Page title={'View Profile'}>
       {loading && <p></p>}
       {!loading && !isLoading && !isError && (
-        <div className='max-w-screen-lg mx-auto md:gap-2 flex flex-col items-center '>
+        <div className=' mx-auto md:gap-2 flex flex-col items-center '>
           <UserHero
             _id={_id}
             profilePicture={profilePicture}

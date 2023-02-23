@@ -1,6 +1,6 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
-import Comment from '../../../models/Comment';
+// import Comment from '../../../models/Comment';
 import User from '../../../models/User';
 import { getSession } from 'next-auth/react';
 import { clientPost } from '../../../lib/posts';
@@ -139,12 +139,42 @@ const handleUpdateUserPassword = async (req, res) => {
   }
 };
 
+const handleUpdateUserAwesome = async (req, res) => {
+  const session = await getSession({ req });
+  if (!session) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  try {
+    await dbConnect();
+    const user = await User.findById(session.user.id);
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    const isAwesomeNewValue = req.body.isAwesome;
+    user.isAwesome = isAwesomeNewValue;
+    await user.save();
+    res.status(200).json({ message: 'User isAwesome updated' });
+  } catch (err) {
+    console.log('userDetails PATCH API :', err.message);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetUserDetails(req, res);
     case 'PATCH':
-      return handleUpdateUserPassword(req, res);
+      console.log('req.body :', req.body);
+      if (req.body.type === 'awesome') {
+        return handleUpdateUserAwesome(req, res);
+      } else {
+        return handleUpdateUserPassword(req, res);
+      }
 
     default:
       return res.status(405).json({ message: 'Method not allowed' });

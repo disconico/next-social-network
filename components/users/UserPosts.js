@@ -12,7 +12,7 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
           className='text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 min-w-[140px]'
           onClick={() => setUserDisplay('posts')}
         >
-          {`${firstName}' posts`}
+          {type === 'profile' ? 'Your posts' : `${firstName}' posts`}
         </button>
         <button
           className='text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 min-w-[140px]'
@@ -58,7 +58,9 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
           {postsLikedByUser.length === 0 ? (
             <div className='w-full flex justify-center items-center'>
               <h1 className='text-xl font-medium text-gray-800 dark:text-white'>
-                {` ${firstName} has no liked posts`}
+                {type === 'profile'
+                  ? 'No posts liked yet!'
+                  : ` ${firstName} has no liked posts`}
               </h1>
             </div>
           ) : (

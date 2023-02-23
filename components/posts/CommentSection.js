@@ -18,7 +18,7 @@ const Comment = ({ comment, session, postAuthorId }) => {
   );
 
   const commentDiv = (
-    <div className='w-3/4 bg-gray-100 dark:bg-gray-700  p-2 pt-1 rounded flex flex-col text-xs'>
+    <div className='w-3/4 bg-gray-100 dark:bg-gray-700  p-2 pt-1 rounded flex flex-col text-xs shadow'>
       <div className='flex items-center justify-between'>
         <div className='flex gap-2 '>
           <Link href={`/app/users/${comment.author._id}`}>

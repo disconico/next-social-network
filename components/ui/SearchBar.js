@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { ImCross } from 'react-icons/im';
-import { IconContext } from 'react-icons';
+// import { ImCross } from 'react-icons/im';
+// import { IconContext } from 'react-icons';
 
-const SearchBar = ({ handleSearch, resetSearch, search, placeholder }) => {
+const SearchBar = ({ handleSearch, search, placeholder }) => {
   return (
     <div className='flex items-center justify-center gap-4 '>
       <input
@@ -27,7 +27,7 @@ const SearchBar = ({ handleSearch, resetSearch, search, placeholder }) => {
 
 SearchBar.propTypes = {
   handleSearch: PropTypes.func.isRequired,
-  resetSearch: PropTypes.func.isRequired,
+  // resetSearch: PropTypes.func.isRequired,
   search: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
 };

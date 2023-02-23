@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import pp from '../../public/assets/images/pp.png';
 
 const Modal = ({ likes, likedBy, postId }) => {
   if (likes === 0 || !likedBy) {

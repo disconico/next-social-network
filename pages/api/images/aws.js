@@ -1,11 +1,14 @@
 import multer from 'multer';
 import nc from 'next-connect';
-import path from 'path';
-import DatauriParser from 'datauri/parser';
-import cloudinary from '../../../lib/cloud/cloudinary';
+import AWS from 'aws-sdk';
 import dbConnect from '../../../lib/db/dbConnect';
 import { getSession } from 'next-auth/react';
 import User from '../../../models/User';
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const handler = nc({
   onError(error, req, res) {
@@ -16,7 +19,7 @@ const handler = nc({
     res.status(405).json({ message: 'Method not allowed' });
   },
 })
-  .use(multer().any())
+  .use(multer().single('image'))
   .post(async (req, res) => {
     const session = await getSession({ req });
     if (!session) {
@@ -26,29 +29,23 @@ const handler = nc({
     const userId = session.user.id;
 
     // get parsed image from multer
-    const image = req.files[0];
-
-    // create datauri parser
-    const parser = new DatauriParser();
+    console.log('req.file: ', req.file);
+    const image = req.file;
 
     try {
-      // convert buffer to base64
-      const base64img = parser.format(
-        path.extname(image.originalname).toString(),
-        image.buffer
-      ).content;
-
-      // upload image to cloudinary
-      const uploadedResponse = await cloudinary.uploader.upload(
-        base64img,
-        'DiscoNetwork',
-        { resource_type: 'image' }
-      );
+      // upload image to s3 bucket
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Body: image.buffer,
+        Key: `${userId}/${image.originalname}`,
+        ACL: 'public-read',
+      };
+      const uploadedResponse = await s3.upload(params).promise();
 
       // returning image
-      const imageUrl = uploadedResponse.secure_url;
-      const publicId = uploadedResponse.public_id;
-      const imageSignature = uploadedResponse.signature;
+      const imageUrl = uploadedResponse.Location;
+      const publicId = uploadedResponse.key;
+      const imageSignature = uploadedResponse.ETag;
 
       // saving image to database
       await dbConnect();

@@ -7,6 +7,10 @@ import H1 from './ui/headings/H1';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
+/**
+ * This component is the onboarding page for the app. It is the first page that the user sees when they visit the app.
+ */
+
 const Onboarding = () => {
   const { chevronRight, arrowRight, linkedin } = svg;
   const router = useRouter();
@@ -15,8 +19,8 @@ const Onboarding = () => {
     try {
       const status = await signIn('credentials', {
         redirect: false,
-        email: 'guest@test.com',
-        password: 'guest123',
+        email: process.env.local.GUEST_EMAIL,
+        password: process.env.local.GUEST_PASSWORD,
       });
       if (!status.error) {
         router.push('/app');

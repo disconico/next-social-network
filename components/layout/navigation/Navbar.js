@@ -19,7 +19,7 @@ const NavBar = () => {
   };
 
   return (
-    <header className='border-b sticky top-0 z-50 bg-white dark:bg-[#111827] '>
+    <header className='border-b sticky top-0 z-50 bg-gray-100 dark:bg-[#111827] '>
       <nav className='max-w-screen-lg mx-auto flex justify-between items-center p-2 h-13 '>
         <div>
           <Link href='/app'>

@@ -47,8 +47,8 @@ const AllUsersCard = ({ user, session }) => {
           </IconContext.Provider>
         )}
       </div>
-      <div className='mb-2'>
-        <p className='text-sm text-gray-500  dark:text-slate-300'>
+      <div className='mb-3'>
+        <p className='text-xs text-gray-500  dark:text-slate-300 py-2'>
           Member since{' '}
           {
             // Format the date to be more readable
@@ -69,15 +69,19 @@ const AllUsersCard = ({ user, session }) => {
           {user.posts.length} {user.posts.length === 1 ? 'post' : 'posts'}
         </p>
       </div>
-      <div className=' flex justify-between'>
+      <div className=' flex justify-between  items-center text-sm'>
         <FollowButton
           id={id}
           followers={followers}
           session={session}
           firstName={firstName}
           isFollowed={isFollowed}
+          className='rounded-md hover:bg-slate-100 hover:font-medium p-1 hover:text-slate-800 px-2'
         />
-        <Link href={`/app/users/${id}`}>Visit profile 👈</Link>
+        <Link href={`/app/users/${id}`} className='group'>
+          Visit profile{' '}
+          <span className='hidden group-hover:inline-block'> 👈</span>
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
 import { verifyPassword } from '../../../lib/auth';
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
@@ -17,7 +16,6 @@ export default NextAuth({
   // Specify Provider
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: 'Credentials',
       credentials: {
         email: { label: 'E-mail', type: 'email' },
@@ -31,7 +29,6 @@ export default NextAuth({
           throw new Error('No user found!');
         }
 
-        // compare given password with hashed password from database
         const isValid = await verifyPassword(
           credentials.password,
           user.password

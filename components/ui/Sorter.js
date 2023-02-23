@@ -30,7 +30,7 @@ const Sorter = ({ handleSort, options, sortedUsersBy }) => {
 Sorter.propTypes = {
   handleSort: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  sortedUsersBy: PropTypes.string.isRequired,
+  sortedUsersBy: PropTypes.string,
 };
 
 export default Sorter;
