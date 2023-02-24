@@ -20,7 +20,7 @@ const Onboarding = () => {
       const status = await signIn('credentials', {
         redirect: false,
         email: 'guestuser@test.com',
-        password: 'test1234',
+        password: 'guest123',
       });
       if (!status.error) {
         router.push('/app');
