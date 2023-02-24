@@ -13,6 +13,7 @@ const handler = async (req, res) => {
 };
 
 const handlePatchPost = async (req, res) => {
+  await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
@@ -21,8 +22,6 @@ const handlePatchPost = async (req, res) => {
   const { postId, userId } = req.body;
 
   try {
-    await dbConnect();
-
     const post = await Post.findOne({ _id: postId }).select('likes likedBy');
 
     if (!post) {

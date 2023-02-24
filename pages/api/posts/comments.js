@@ -2,7 +2,7 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import User from '../../../models/User';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 
 const handler = async (req, res) => {
   switch (req.method) {
@@ -14,15 +14,15 @@ const handler = async (req, res) => {
 };
 
 const handlePatchPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
   const { content, authorId, postId } = req.body;
 
   try {
-    await dbConnect();
     const [post, author] = await Promise.all([
       Post.findById(postId),
       User.findById(authorId),

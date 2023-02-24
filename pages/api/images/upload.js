@@ -4,7 +4,7 @@ import path from 'path';
 import DatauriParser from 'datauri/parser';
 import cloudinary from '../../../lib/cloud/cloudinary';
 import dbConnect from '../../../lib/db/dbConnect';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
 
@@ -22,13 +22,13 @@ const handler = nc({
   // in the app.
   .use(multer().any())
   .post(async (req, res) => {
-    const session = await getSession({ req });
-    if (!session) {
+    await dbConnect();
+    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    if (!token) {
       return res.status(401).json({ message: 'Not authenticated' });
     }
 
-    // This code gets the user's id from the session object.
-    const userId = session.user.id;
+    const userId = token.uid;
 
     // get parsed image from multer
     const image = req.files[0];
@@ -54,9 +54,6 @@ const handler = nc({
       const imageUrl = uploadedResponse.secure_url;
       const publicId = uploadedResponse.public_id;
       const imageSignature = uploadedResponse.signature;
-
-      // saving image to database
-      await dbConnect();
 
       const user = await User.findById(userId);
 

@@ -1,6 +1,6 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 
 const returnedFollow = (user) => {
   return {
@@ -13,15 +13,15 @@ const returnedFollow = (user) => {
 };
 
 const handleGetUsers = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  const userId = session.user.id;
+  const userId = token.uid;
 
   try {
-    await dbConnect();
     const users = await User.find().populate('posts');
 
     const returnedUsers = users

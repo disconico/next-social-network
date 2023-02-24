@@ -1,18 +1,20 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 
 const handlePatchUser = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
+  const userId = token.uid;
+
   try {
-    await dbConnect();
     const [userDetails, followedUser] = await Promise.all([
-      User.findById(session.user.id).select('following'),
+      User.findById(userId).select('following'),
       User.findById(req.body.id).select('followers'),
     ]);
 
@@ -23,7 +25,7 @@ const handlePatchUser = async (req, res) => {
       }
       await userDetails.save();
 
-      const index2 = followedUser.followers.indexOf(session.user.id);
+      const index2 = followedUser.followers.indexOf(userId);
       if (index2 > -1) {
         followedUser.followers.splice(index2, 1);
       }
@@ -34,7 +36,7 @@ const handlePatchUser = async (req, res) => {
     } else {
       await userDetails.following.push(req.body.id);
       await userDetails.save();
-      await followedUser.followers.push(session.user.id);
+      await followedUser.followers.push(userId);
       await followedUser.save();
       res.status(200).json({ message: 'User followed' });
     }

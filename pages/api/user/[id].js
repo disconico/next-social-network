@@ -2,7 +2,7 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import User from '../../../models/User';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 
 const returnedFollow = (user) => {
@@ -16,16 +16,15 @@ const returnedFollow = (user) => {
 };
 
 const handleGetUserDetails = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  const userId = session.user.id;
+  const userId = token.uid;
 
   try {
-    await dbConnect();
-
     const userDetails = await User.findById(req.query.id)
       .populate('posts')
       .populate({
@@ -74,8 +73,6 @@ const handleGetUserDetails = async (req, res) => {
           model: 'User',
         },
       });
-
-    console.log('user posts', userDetails.posts);
 
     const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
       return clientPost(post, post.author);

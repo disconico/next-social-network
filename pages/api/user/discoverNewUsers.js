@@ -1,29 +1,28 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import User from '../../../models/User';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientUser } from '../../../lib/user';
 import Comment from '../../../models/Comment';
 
 const handleGetNewUsers = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
+  const userId = token.uid;
   try {
-    await dbConnect();
-    const userFollowing = await User.findById(session.user.id).populate(
-      'following'
-    );
+    const userFollowing = await User.findById(userId).populate('following');
 
     const newUsersQuery = User.find({
-      _id: { $nin: [...userFollowing.following, session.user.id] },
+      _id: { $nin: [...userFollowing.following, userId] },
     })
       .limit(10)
       .lean();
 
     const countQuery = User.countDocuments({
-      _id: { $nin: [...userFollowing.following, session.user.id] },
+      _id: { $nin: [...userFollowing.following, userId] },
     });
 
     const [newUsers, count] = await Promise.all([

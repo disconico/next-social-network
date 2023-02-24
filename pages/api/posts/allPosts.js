@@ -1,17 +1,17 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 
 const handleGetPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
   try {
-    await dbConnect();
     const posts = await Post.find()
       .populate('author')
       .populate('likedBy')

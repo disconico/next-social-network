@@ -6,6 +6,7 @@ import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 
 const handleGetFeaturedPost = async (req, res) => {
+  await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
@@ -18,7 +19,6 @@ const handleGetFeaturedPost = async (req, res) => {
   }
 
   try {
-    await dbConnect();
     const user = await User.findById(userId);
 
     const posts = await Post.find({

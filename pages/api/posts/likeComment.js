@@ -1,6 +1,6 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import Comment from '../../../models/Comment';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { checkIfLikedByUser } from '../../../lib/posts';
 
 const handler = async (req, res) => {
@@ -13,10 +13,13 @@ const handler = async (req, res) => {
 };
 
 const handlePatchComment = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
+
+  const userId = token.uid;
 
   const { commentId } = req.body;
 
@@ -33,16 +36,16 @@ const handlePatchComment = async (req, res) => {
 
     const likedByArray = comment.likedBy.map((user) => user._id.toString());
 
-    const isLiked = checkIfLikedByUser(likedByArray, session.user.id);
+    const isLiked = checkIfLikedByUser(likedByArray, userId);
 
     if (isLiked) {
       comment.likes--;
       comment.likedBy = comment.likedBy.filter(
-        (user) => user._id.toString() !== session.user.id
+        (user) => user._id.toString() !== userId
       );
     } else {
       comment.likes++;
-      comment.likedBy.push(session.user.id);
+      comment.likedBy.push(userId);
     }
 
     await comment.save();

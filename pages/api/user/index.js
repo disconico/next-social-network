@@ -2,21 +2,22 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import Comment from '../../../models/Comment';
 import User from '../../../models/User';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 import { hashPassword, verifyPassword } from '../../../lib/auth';
 
 const handleGetUserDetails = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  try {
-    await dbConnect();
+  const userId = token.uid;
 
+  try {
     const [userDetails, postsLikedByUser] = await Promise.all([
-      User.findById(session.user.id)
+      User.findById(userId)
         .populate('posts')
         .populate({
           path: 'posts',
@@ -54,7 +55,7 @@ const handleGetUserDetails = async (req, res) => {
         .lean(),
 
       Post.find({
-        likedBy: session.user.id,
+        likedBy: userId,
       })
         .populate('author')
         .populate('likedBy')
@@ -98,10 +99,13 @@ const handleGetUserDetails = async (req, res) => {
 };
 
 const handleUpdateUserPassword = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
+
+  const userId = token.uid;
 
   const { oldPassword, newPassword } = req.body;
 
@@ -118,8 +122,7 @@ const handleUpdateUserPassword = async (req, res) => {
   }
 
   try {
-    await dbConnect();
-    const user = await User.findById(session.user.id);
+    const user = await User.findById(userId);
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });
@@ -145,14 +148,16 @@ const handleUpdateUserPassword = async (req, res) => {
 };
 
 const handleUpdateUserAwesome = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  await dbConnect();
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
+  const userId = token.uid;
+
   try {
-    await dbConnect();
-    const user = await User.findById(session.user.id);
+    const user = await User.findById(userId);
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });

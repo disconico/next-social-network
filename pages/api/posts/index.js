@@ -2,7 +2,7 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 
 export const config = {
@@ -14,10 +14,10 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+  await dbConnect();
   try {
-    await dbConnect();
-    const session = await getSession({ req });
-    if (!session) {
+    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    if (!token) {
       return res.status(401).json({ message: 'Not authenticated' });
     }
 
