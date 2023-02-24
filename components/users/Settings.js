@@ -12,7 +12,7 @@ const Settings = ({ data }) => {
     <div className='w-full flex flex-col items-center p-2 gap-4 my-4'>
       <h1 className='text-2xl font-bold'>Settings</h1>
       <Accordion.Root
-        className=' bg-white dark:bg-[#111827]  w-[400px] rounded-md shadow-[0_2px_10px] shadow-black/5 mx-8'
+        className=' bg-white dark:bg-[#111827] w-full p-2 rounded-md shadow-[0_2px_10px] shadow-black/5 mx-8'
         type='single'
         // defaultValue='item-1'
         collapsible
@@ -85,13 +85,13 @@ const AccordionContent = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => (
     <Accordion.Content
       className={classNames(
-        ' bg-gray-white dark:bg-slate-800  data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]',
+        ' bg-gray-white dark:bg-slate-800  data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px] ',
         className
       )}
       {...props}
       ref={forwardedRef}
     >
-      <div className='py-[15px] px-5'>{children}</div>
+      <div className='py-[15px] mx-5 '>{children}</div>
     </Accordion.Content>
   )
 );

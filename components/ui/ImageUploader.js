@@ -90,7 +90,7 @@ const ImageUploader = () => {
   };
 
   return (
-    <div className=' p-5  w-full dark:text-white'>
+    <div className=' p-5  w-[90%] dark:text-white'>
       <form
         onSubmit={handleSubmit}
         className='flex flex-col justify-center items-center'
@@ -108,7 +108,8 @@ const ImageUploader = () => {
               name='image'
               id='imageUploader'
               onChange={handleImageChange}
-              className='block'
+              // className='block'
+              className='block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'
             />
           </div>
           {image && (
