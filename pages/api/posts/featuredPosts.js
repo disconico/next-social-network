@@ -2,16 +2,20 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 
 const handleGetFeaturedPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
 
-  const userId = session.user.id;
+  const userId = token.uid;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID not provided' });
+  }
 
   try {
     await dbConnect();
@@ -37,7 +41,7 @@ const handleGetFeaturedPost = async (req, res) => {
 
     res.status(200).json({ returnedPosts });
   } catch (err) {
-    console.log('AllPost GET API :', err.message);
+    console.log('Featured posts GET API :', err.message);
     res.status(500).json({ message: err.message });
   }
 };

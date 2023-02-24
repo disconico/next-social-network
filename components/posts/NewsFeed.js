@@ -1,13 +1,13 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import PostPreview from './PostPreview';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-const NewsFeed = ({ search }) => {
-  const { data: session, status } = useSession();
+const NewsFeed = ({ search, userId, session, status }) => {
+  console.log('status', status);
+  console.log(userId);
   const router = useRouter();
   const { isLoading, isError, data, error } = useQuery(
     'featuredPosts',
@@ -91,6 +91,9 @@ const NewsFeed = ({ search }) => {
 
 NewsFeed.propTypes = {
   search: PropTypes.string,
+  userId: PropTypes.string,
+  session: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default NewsFeed;

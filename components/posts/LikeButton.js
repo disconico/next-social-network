@@ -4,12 +4,14 @@ import { useQueryClient, useMutation } from 'react-query';
 
 const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
   const queryClient = useQueryClient();
+  const userId = session.user.id;
 
   const mutation = useMutation(
     async () => {
       try {
         await axios.patch('/api/posts/likePost', {
           postId,
+          userId,
         });
       } catch (error) {
         console.log(error);

@@ -1,7 +1,7 @@
 import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
-import { getSession } from 'next-auth/react';
-import { checkIfLikedByUser, clientPost } from '../../../lib/posts';
+import { checkIfLikedByUser } from '../../../lib/posts';
+import { getToken } from 'next-auth/jwt';
 
 const handler = async (req, res) => {
   switch (req.method) {
@@ -13,12 +13,12 @@ const handler = async (req, res) => {
 };
 
 const handlePatchPost = async (req, res) => {
-  const session = await getSession({ req });
-  if (!session) {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  if (!token) {
     return res.status(401).json({ message: 'Not authenticated' });
   }
-  const userId = session.user.id;
-  const { postId } = req.body;
+
+  const { postId, userId } = req.body;
 
   try {
     await dbConnect();
