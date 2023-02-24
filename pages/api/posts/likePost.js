@@ -46,7 +46,7 @@ const handlePatchPost = async (req, res) => {
 
     res.status(200).json({ message: 'Success' });
   } catch (err) {
-    console.log('Post PATCH API :', err.message);
+    console.log('Post Like API :', err.message);
     res.status(401).json({ message: 'Error liking post' });
   }
 };
