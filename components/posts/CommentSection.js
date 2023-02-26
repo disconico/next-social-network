@@ -3,8 +3,13 @@ import Image from 'next/image';
 import formatDate from '../../lib/date';
 import LikeComment from './LikeComment';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const Comment = ({ comment, session, postAuthorId }) => {
+  const [isLiked, setIsLiked] = useState(
+    comment.likedBy.some((user) => user._id === session.user.id)
+  );
+
   const imageDiv = (
     <Link href={`/app/users/${comment.author._id}`}>
       <Image
@@ -38,6 +43,8 @@ const Comment = ({ comment, session, postAuthorId }) => {
           )}
 
           <LikeComment
+            isLiked={isLiked}
+            setIsLiked={setIsLiked}
             commentId={comment._id}
             likedBy={comment.likedBy}
             session={session}

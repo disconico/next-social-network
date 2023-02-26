@@ -1,8 +1,16 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useQueryClient, useMutation } from 'react-query';
+import { useEffect } from 'react';
 
-const LikeComment = ({ commentId, session, likedBy, postAuthorId }) => {
+const LikeComment = ({
+  commentId,
+  session,
+  likedBy,
+  postAuthorId,
+  isLiked,
+  setIsLiked,
+}) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -31,11 +39,23 @@ const LikeComment = ({ commentId, session, likedBy, postAuthorId }) => {
   );
 
   const handleLikeComment = () => {
-    if (!session || !session.user || status === 'loading') {
+    if (
+      !session ||
+      !session.user ||
+      status === 'loading' ||
+      mutation.isLoading
+    ) {
       return;
     }
+    setIsLiked(!isLiked);
     mutation.mutate();
   };
+
+  useEffect(() => {
+    if (likedBy.some((user) => user._id === session.user.id)) {
+      setIsLiked(true);
+    }
+  }, [likedBy, session, setIsLiked]);
 
   return (
     <>
@@ -45,11 +65,7 @@ const LikeComment = ({ commentId, session, likedBy, postAuthorId }) => {
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
-          fill={
-            likedBy.some((user) => user._id === session.user.id)
-              ? 'red'
-              : 'white'
-          }
+          fill={isLiked ? 'red' : 'white'}
           viewBox='0 0 24 24'
           strokeWidth={1}
           stroke='red'
@@ -72,6 +88,8 @@ LikeComment.propTypes = {
   postAuthorId: PropTypes.string.isRequired,
   //   postId: PropTypes.string.isRequired,
   session: PropTypes.object.isRequired,
+  isLiked: PropTypes.bool.isRequired,
+  setIsLiked: PropTypes.func.isRequired,
   //   status: PropTypes.string.isRequired,
 };
 

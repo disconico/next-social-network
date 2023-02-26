@@ -7,6 +7,7 @@ import Comment from './CommentSection';
 import CommentForm from './CommentForm';
 import Modal from './LikesModal';
 import DeletePostModal from './DeletePostModal';
+import { useState } from 'react';
 
 const PostPreview = ({
   content,
@@ -19,6 +20,10 @@ const PostPreview = ({
   status,
   postId,
 }) => {
+  const [isLiked, setIsLiked] = useState(
+    likedBy.some((user) => user._id === session.user.id)
+  );
+
   return (
     <div className=' shadow-md rounded-md p-4 my-4 max-w-lg text-sm w-full bg-gray-50 dark:bg-slate-800 dark:border-gray-600 dark:text-white '>
       <div className='flex justify-between items-center'>
@@ -125,8 +130,10 @@ const PostPreview = ({
             session={session}
             status={status}
             authorId={author._id}
+            setIsLiked={setIsLiked}
+            isLiked={isLiked}
           />
-          {likedBy.some((like) => like._id === session.user.id) && (
+          {isLiked && (
             <p className='text-gray-500 dark:text-slate-300 text-xs ml-2'>
               You liked this post
             </p>

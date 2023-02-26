@@ -20,9 +20,9 @@ const FollowButton = ({
     toast.success(<ToastText firstName={firstName} id={id} />, {
       position: 'bottom-right',
       autoClose: 3000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: false,
-      pauseOnHover: true,
+      pauseOnHover: false,
       draggable: true,
       progress: undefined,
       theme: theme === 'dark' ? 'colored' : 'light',

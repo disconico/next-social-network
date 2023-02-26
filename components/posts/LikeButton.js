@@ -1,8 +1,17 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useQueryClient, useMutation } from 'react-query';
+import { useEffect } from 'react';
 
-const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
+const LikeButton = ({
+  session,
+  status,
+  postId,
+  likedBy,
+  authorId,
+  setIsLiked,
+  isLiked,
+}) => {
   const queryClient = useQueryClient();
   const userId = session.user.id;
 
@@ -35,11 +44,25 @@ const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
   );
 
   const handleLikePost = () => {
-    if (!session || !session.user || status === 'loading') {
+    if (
+      !session ||
+      !session.user ||
+      status === 'loading' ||
+      mutation.isLoading
+    ) {
       return;
     }
+    setIsLiked(!isLiked);
     mutation.mutate();
   };
+
+  useEffect(() => {
+    if (likedBy.some((user) => user._id === session.user.id)) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [likedBy, session.user.id, setIsLiked]);
 
   return (
     <>
@@ -49,11 +72,7 @@ const LikeButton = ({ session, status, postId, likedBy, authorId }) => {
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
-          fill={
-            likedBy.some((user) => user._id === session.user.id)
-              ? 'red'
-              : 'white'
-          }
+          fill={isLiked ? 'red' : 'white'}
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='red'
@@ -75,6 +94,8 @@ LikeButton.propTypes = {
   status: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   likedBy: PropTypes.array.isRequired,
+  setIsLiked: PropTypes.func.isRequired,
+  isLiked: PropTypes.bool.isRequired,
   authorId: PropTypes.string.isRequired,
 };
 
