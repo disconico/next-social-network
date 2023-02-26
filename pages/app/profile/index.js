@@ -50,6 +50,7 @@ const ProfilePage = () => {
             followers={data.returnedUserDetails.followers}
             following={data.returnedUserDetails.following}
             isAwesome={data.returnedUserDetails.isAwesome}
+            isAdmin={data.returnedUserDetails.isAdmin}
             isFollowed={data.returnedUserDetails.isFollowed}
             createdAt={data.returnedUserDetails.createdAt}
             session={session}

@@ -43,6 +43,7 @@ const UserPage = () => {
           followers,
           following,
           isAwesome,
+          isAdmin,
           isFollowed,
           createdAt,
         } = {},
@@ -78,6 +79,7 @@ const UserPage = () => {
             followers={followers}
             following={following}
             isAwesome={isAwesome}
+            isAdmin={isAdmin}
             createdAt={createdAt}
             isFollowed={isFollowed}
             session={session}

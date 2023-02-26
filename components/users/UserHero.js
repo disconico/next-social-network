@@ -16,6 +16,7 @@ const UserHero = ({
   followers,
   following,
   session,
+  isAdmin = false,
   type,
 }) => {
   return (
@@ -57,7 +58,15 @@ const UserHero = ({
             )}
           </div>
           <div className='text-sm text-gray-500 dark:text-slate-300'>
-            {isAwesome ? (
+            {isAdmin && (
+              <div className='flex align-middle justify-center gap-1'>
+                Admin
+                <IconContext.Provider value={{ size: '1.2rem', color: 'gold' }}>
+                  <MdVerified />
+                </IconContext.Provider>
+              </div>
+            )}
+            {isAwesome && !isAdmin ? (
               <div className='flex align-middle justify-center gap-1'>
                 Awesome
                 <IconContext.Provider
@@ -121,6 +130,7 @@ UserHero.propTypes = {
   following: PropTypes.array.isRequired,
   session: PropTypes.object.isRequired,
   type: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 
 export default UserHero;
