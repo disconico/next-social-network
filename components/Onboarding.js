@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { FcApproval, FcBusinessman } from 'react-icons/fc';
 import { IconContext } from 'react-icons';
 import svg from '../public/assets/svg/svg';
-import H1 from './ui/headings/H1';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Typewriter from 'typewriter-effect';
@@ -20,7 +19,7 @@ const Onboarding = () => {
       const status = await signIn('credentials', {
         redirect: false,
         email: 'guestuser@test.com',
-        password: 'guest123',
+        password: 'test1234',
       });
       if (!status.error) {
         router.push('/app');
