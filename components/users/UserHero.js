@@ -22,16 +22,18 @@ const UserHero = ({
   return (
     <div className='flex flex-col items-center justify-center w-full h-80 bg-gray-100 dark:bg-[#111827]'>
       <div className='flex flex-col items-center justify-center w-36 h-36 rounded-full bg-gray-200 mt-2 overflow-hidden'>
-        <Image
-          src={profilePicture.imageUrl}
-          width={200}
-          height={200}
-          className='rounded-full h-[200px] w-[200px]'
-          alt='author image'
-          draggable='false'
-          priority
-        />
+        <div className='relative w-full h-full'>
+          <Image
+            src={profilePicture.imageUrl}
+            alt='author image'
+            draggable='false'
+            priority='true'
+            fill
+            className=' object-cover object-center'
+          />
+        </div>
       </div>
+
       <div className='flex flex-col items-center justify-center w-full h-40 max-w-screen-lg'>
         <div className='flex flex-col items-center justify-center w-full h-16'>
           <div className='flex gap-2 items-center text-center justify-center'>
