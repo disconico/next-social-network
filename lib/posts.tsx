@@ -1,4 +1,31 @@
-const clientPost = (post, author) => {
+interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+  fullName?: string;
+}
+
+interface Comment {
+  _id: string;
+  content: string;
+  createdAt: string;
+  likes: number;
+  likedBy: User[];
+  author: User;
+}
+
+interface Post {
+  _id: string;
+  author: User;
+  content: string;
+  createdAt: string;
+  comments: Comment[];
+  likes: number;
+  likedBy: User[];
+}
+
+const clientPost = (post: Post, author: User): Post => {
   return {
     _id: post._id,
     content: post.content,
@@ -55,7 +82,7 @@ const clientPost = (post, author) => {
 
 export { clientPost };
 
-const checkIfLikedByUser = (likedBy, userId) => {
+const checkIfLikedByUser = (likedBy: string[], userId: string) => {
   return likedBy.some((user) => user === userId);
 };
 

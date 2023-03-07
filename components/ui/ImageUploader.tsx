@@ -1,27 +1,27 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { validateSize, isImage } from '../../lib/fileValidation';
-import LoadingButton from '../ui/LoadingButton';
+import LoadingButton from './LoadingButton';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { compress, compressAccurately } from 'image-conversion';
+import { compressAccurately } from 'image-conversion';
 
 const ImageUploader = () => {
   const { status } = useSession();
   const [imageSrc, setImageSrc] = useState('');
-  const [image, setImage] = useState();
+  const [image, setImage] = useState<File | null>(null);
   const [imageError, setImageError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   if (status === 'loading') return <div>Loading...</div>;
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageSrc('');
     setImage(null);
     setImageError('');
 
-    const img = e.target.files[0];
+    const img = e.target.files?.[0] as File;
 
     if (!img) {
       setImageError('Please select an image');
@@ -46,12 +46,12 @@ const ImageUploader = () => {
     // convert image to base64 string
     reader.readAsDataURL(img);
     reader.addEventListener('load', () => {
-      setImageSrc(reader.result);
+      setImageSrc(reader.result as string);
       setImage(img);
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!image) {
@@ -82,7 +82,12 @@ const ImageUploader = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      document.getElementById('imageUploader').value = '';
+      const uploader = document.getElementById(
+        'imageUploader'
+      ) as HTMLInputElement;
+      if (uploader) {
+        uploader.value = '';
+      }
       setImageSrc('');
       setImage(null);
       setIsLoading(false);
@@ -119,7 +124,6 @@ const ImageUploader = () => {
               width={200}
               src={imageSrc}
               className='basis-1/2 h-auto w-48 my-5'
-              accept='image/*'
             />
           )}
         </div>

@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 
 export default function Example() {
@@ -148,7 +148,7 @@ export default function Example() {
   );
 }
 
-function EditInactiveIcon(props) {
+function EditInactiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -166,7 +166,7 @@ function EditInactiveIcon(props) {
   );
 }
 
-function EditActiveIcon(props) {
+function EditActiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -184,7 +184,7 @@ function EditActiveIcon(props) {
   );
 }
 
-function DuplicateInactiveIcon(props) {
+function DuplicateInactiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -208,7 +208,7 @@ function DuplicateInactiveIcon(props) {
   );
 }
 
-function DuplicateActiveIcon(props) {
+function DuplicateActiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -232,7 +232,7 @@ function DuplicateActiveIcon(props) {
   );
 }
 
-function ArchiveInactiveIcon(props) {
+function ArchiveInactiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -263,7 +263,7 @@ function ArchiveInactiveIcon(props) {
   );
 }
 
-function ArchiveActiveIcon(props) {
+function ArchiveActiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -294,7 +294,7 @@ function ArchiveActiveIcon(props) {
   );
 }
 
-function MoveInactiveIcon(props) {
+function MoveInactiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -309,7 +309,7 @@ function MoveInactiveIcon(props) {
   );
 }
 
-function MoveActiveIcon(props) {
+function MoveActiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -324,7 +324,7 @@ function MoveActiveIcon(props) {
   );
 }
 
-function DeleteInactiveIcon(props) {
+function DeleteInactiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -347,7 +347,7 @@ function DeleteInactiveIcon(props) {
   );
 }
 
-function DeleteActiveIcon(props) {
+function DeleteActiveIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

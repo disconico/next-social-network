@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 
-const Button = ({ type, children, onClick }) => {
+type ButtonProps = {
+  type: 'button' | 'submit' | 'reset';
+  children: ReactNode;
+  onClick?: () => void;
+};
+
+const Button = ({ type, children, onClick }: ButtonProps) => {
   return (
     <button
       type={type}
@@ -10,12 +16,6 @@ const Button = ({ type, children, onClick }) => {
       {children}
     </button>
   );
-};
-
-Button.propTypes = {
-  type: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
 };
 
 export default Button;

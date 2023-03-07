@@ -53,9 +53,9 @@ const dbConnect = async () => {
   }
   mongoose.set('strictQuery', false);
 
-  return mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  return mongoose.connect(process.env.MONGODB_URI!, {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     bufferCommands: false,
   });
 };

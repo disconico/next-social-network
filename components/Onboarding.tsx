@@ -6,22 +6,21 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Typewriter from 'typewriter-effect';
 
-/**
- * This component is the onboarding page for the app. It is the first page that the user sees when they visit the app.
- */
-
 const Onboarding = () => {
   const { chevronRight, arrowRight, linkedin } = svg;
   const router = useRouter();
 
   const signUserAsGuest = async () => {
     try {
-      const status = await signIn('credentials', {
-        redirect: false,
-        email: 'guestuser@test.com',
-        password: 'test1234',
-      });
-      if (!status.error) {
+      const status: { error?: string } | undefined = await signIn(
+        'credentials',
+        {
+          redirect: false,
+          email: 'guestuser@test.com',
+          password: 'test1234',
+        }
+      );
+      if (!status?.error) {
         router.push('/app');
       } else if (status.error) {
         console.log(status.error);

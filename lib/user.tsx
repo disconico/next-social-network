@@ -1,4 +1,19 @@
-const clientUser = (user) => {
+interface User {
+  _id: string;
+  profilePicture: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  posts: string[];
+  postsLikedByUser: string[];
+  following: string[];
+  followers: string[];
+  isAwesome: boolean;
+  isFollowed: boolean;
+  isAdmin: boolean;
+}
+
+const clientUser = (user: User) => {
   return {
     _id: user._id,
     profilePicture: user.profilePicture,
