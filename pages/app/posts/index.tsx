@@ -1,16 +1,16 @@
-import Page from '../../../components/layout/Page';
-import UsersList from '../../../components/users/UsersList';
-import SearchUsers from '../../../components/ui/SearchBar';
-import Sorter from '../../../components/ui/Sorter';
 import { getSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Page from '../../../components/layout/Page';
+import SearchBar from '../../../components/ui/SearchBar';
+import AllPosts from '../../../components/posts/AllPosts';
+import Sorter from '../../../components/ui/Sorter';
 
-const BrowseUsersPage = () => {
+const AllPostsPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [sortedUsersBy, setSortedUsersBy] = useState('newest');
+  const [sortedPostsBy, setSortedPostsBy] = useState('newest');
 
   useEffect(() => {
     getSession()
@@ -24,45 +24,42 @@ const BrowseUsersPage = () => {
       .catch((err) => console.log(err));
   }, [router]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const resetSearch = () => {
-    setSearch('');
-  };
-
-  const handleSort = (e) => {
-    setSortedUsersBy(e.target.value);
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortedPostsBy(e.target.value);
   };
 
   return (
-    <Page title={'Browse Users'}>
+    <Page title={'Posts'}>
       {loading && <p></p>}
       {!loading && (
         <div className='max-w-screen-lg mx-auto p-2 '>
           <div className='flex justify-center w-full gap-2'>
-            <SearchUsers
+            <SearchBar
               handleSearch={handleSearch}
-              resetSearch={resetSearch}
               search={search}
-              placeholder={'Search Users...'}
+              placeholder={'Search Posts...'}
             />
             <Sorter
               handleSort={handleSort}
-              sortedBy={sortedUsersBy}
+              sortedBy={sortedPostsBy}
               options={[
                 { value: 'newest', label: 'Newest' },
                 { value: 'oldest', label: 'Oldest' },
-                { value: 'most-followers', label: 'Most Followers' },
+                { value: 'most-liked', label: 'Most Liked' },
               ]}
             />
           </div>
-          <UsersList search={search} sortedUsersBy={sortedUsersBy} />
+          <main className='w-full flex flex-col items-center max-md:items-center'>
+            <AllPosts search={search} sortedPostsBy={sortedPostsBy} />
+          </main>
         </div>
       )}
     </Page>
   );
 };
 
-export default BrowseUsersPage;
+export default AllPostsPage;

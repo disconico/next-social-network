@@ -1,9 +1,12 @@
 import dbConnect from '../../../lib/db/dbConnect';
+// @ts-ignore
 import User from '../../../models/User';
+// @ts-ignore
 import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const handlePatchUser = async (req, res) => {
+const handlePatchUser = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -41,12 +44,12 @@ const handlePatchUser = async (req, res) => {
       res.status(200).json({ message: 'User followed' });
     }
   } catch (error) {
-    console.log('Patch follow API :', error.message);
-    res.status(500).json({ message: error.message });
+    console.log('Patch follow API :', (error as Error).message);
+    res.status(500).json({ message: (error as Error).message });
   }
 };
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'PATCH':
       return handlePatchUser(req, res);

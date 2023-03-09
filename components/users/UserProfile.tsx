@@ -7,7 +7,7 @@ import FollowDialog from './FollowDialog';
 import { Post } from '../../types';
 
 const UserProfile = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const { isLoading, isError, data, error } = useQuery('user', async () => {
     try {
       const res = await axios.get('/api/user');
@@ -64,7 +64,6 @@ const UserProfile = () => {
                     comments={post.comments}
                     author={post.author}
                     session={session}
-                    status={status}
                     postId={post._id}
                   />
                 ))}
@@ -89,7 +88,6 @@ const UserProfile = () => {
                     comments={post.comments}
                     author={post.author}
                     session={session}
-                    status={status}
                     postId={post._id}
                   />
                 ))}

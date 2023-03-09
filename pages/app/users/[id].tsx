@@ -87,6 +87,7 @@ const UserPage = () => {
             type={'otherUser'}
           />
           <UserPosts
+            type='otherUser'
             posts={posts}
             postsLikedByUser={postsLikedByUser}
             firstName={firstName}

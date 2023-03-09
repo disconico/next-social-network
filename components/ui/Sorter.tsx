@@ -1,10 +1,12 @@
+import React from 'react';
+
 type Props = {
-  handleSort: () => void;
+  handleSort: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string }[];
-  sortedUsersBy: string;
+  sortedBy: string;
 };
 
-const Sorter = ({ handleSort, options, sortedUsersBy }: Props) => {
+const Sorter = ({ handleSort, options, sortedBy }: Props) => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='flex flex-row items-center justify-center w-full h-14'>
@@ -12,7 +14,7 @@ const Sorter = ({ handleSort, options, sortedUsersBy }: Props) => {
           <select
             className=' border p-2 rounded text-sm font-light outline-primary-400 dark:bg-gray-800'
             onChange={handleSort}
-            value={sortedUsersBy}
+            value={sortedBy}
             defaultValue='newest'
           >
             {options.map((option) => (

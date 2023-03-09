@@ -1,8 +1,23 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import PostPreview from '../posts/PostPreview';
+import { Post } from '../../types';
+import { Session } from 'next-auth/core/types';
 
-const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
+type Props = {
+  firstName: string;
+  posts: Post[];
+  postsLikedByUser: Post[];
+  session: Session | null;
+  type: string;
+};
+
+const UserPosts = ({
+  firstName,
+  posts,
+  postsLikedByUser,
+  session,
+  type,
+}: Props) => {
   const [userDisplay, setUserDisplay] = useState('posts');
 
   return (
@@ -34,7 +49,10 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
           ) : (
             posts
               .sort((a, b) => {
-                return new Date(b.createdAt) - new Date(a.createdAt);
+                return (
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+                );
               })
               .map((post, index) => (
                 <PostPreview
@@ -46,7 +64,6 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
                   comments={post.comments}
                   author={post.author}
                   session={session}
-                  status={status}
                   postId={post._id}
                 />
               ))
@@ -66,7 +83,10 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
           ) : (
             postsLikedByUser
               .sort((a, b) => {
-                return new Date(b.createdAt) - new Date(a.createdAt);
+                return (
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+                );
               })
               .map((post, index) => (
                 <PostPreview
@@ -78,7 +98,6 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
                   comments={post.comments}
                   author={post.author}
                   session={session}
-                  status={status}
                   postId={post._id}
                 />
               ))
@@ -87,14 +106,6 @@ const UserPosts = ({ firstName, posts, postsLikedByUser, session, type }) => {
       )}
     </main>
   );
-};
-
-UserPosts.propTypes = {
-  posts: PropTypes.array.isRequired,
-  firstName: PropTypes.string.isRequired,
-  postsLikedByUser: PropTypes.array.isRequired,
-  session: PropTypes.object.isRequired,
-  type: PropTypes.string,
 };
 
 export default UserPosts;

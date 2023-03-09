@@ -1,11 +1,15 @@
 import dbConnect from '../../../lib/db/dbConnect';
+// @ts-ignore
 import Post from '../../../models/Post';
+// @ts-ignore
 import Comment from '../../../models/Comment';
+// @ts-ignore
 import User from '../../../models/User';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const returnedFollow = (user) => {
+const returnedFollow = (user: User) => {
   return {
     _id: user._id,
     profilePicture: user.profilePicture,
@@ -15,7 +19,10 @@ const returnedFollow = (user) => {
   };
 };
 
-const handleGetUserDetails = async (req, res) => {
+const handleGetUserDetails = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -74,11 +81,11 @@ const handleGetUserDetails = async (req, res) => {
         },
       });
 
-    const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
+    const returnedPostsLikedByUser = postsLikedByUser.map((post: Post) => {
       return clientPost(post, post.author);
     });
 
-    const returnedPosts = userDetails.posts.map((post) => {
+    const returnedPosts = userDetails.posts.map((post: Post) => {
       return clientPost(post, post.author);
     });
 
@@ -93,7 +100,7 @@ const handleGetUserDetails = async (req, res) => {
       following: userDetails.following.map(returnedFollow),
       followers: userDetails.followers.map(returnedFollow),
       isFollowed: userDetails.followers.some(
-        (follower) => follower._id.toString() === userId
+        (follower: User) => follower._id.toString() === userId
       ),
       isAwesome: userDetails.isAwesome,
       isAdmin: userDetails.isAdmin,
@@ -102,12 +109,12 @@ const handleGetUserDetails = async (req, res) => {
 
     res.status(200).json({ returnedUserDetails });
   } catch (err) {
-    console.log('userDetails GET API :', err.message);
-    res.status(500).json({ message: err.message });
+    console.log('userDetails GET API :', (err as Error).message);
+    res.status(500).json({ message: (err as Error).message });
   }
 };
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET':
       return handleGetUserDetails(req, res);

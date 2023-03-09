@@ -38,7 +38,8 @@ const UsersList = ({ search = '', sortedUsersBy }: Props) => {
                 return user;
               } else if (
                 user.firstName.toLowerCase().includes(search.toLowerCase()) ||
-                user.lastName.toLowerCase().includes(search.toLowerCase())
+                user.lastName.toLowerCase().includes(search.toLowerCase()) ||
+                user.fullName.toLowerCase().includes(search.toLowerCase())
               ) {
                 return user;
               }

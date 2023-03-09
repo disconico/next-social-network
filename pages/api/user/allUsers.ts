@@ -1,8 +1,10 @@
 import dbConnect from '../../../lib/db/dbConnect';
+// @ts-ignore
 import User from '../../../models/User';
 import { getToken } from 'next-auth/jwt';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const returnedFollow = (user) => {
+const returnedFollow = (user: User) => {
   return {
     _id: user._id,
     profilePicture: user.profilePicture,
@@ -12,7 +14,7 @@ const returnedFollow = (user) => {
   };
 };
 
-const handleGetUsers = async (req, res) => {
+const handleGetUsers = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -25,13 +27,14 @@ const handleGetUsers = async (req, res) => {
     const users = await User.find().populate('posts');
 
     const returnedUsers = users
-      .filter((user) => user._id.toString() !== userId)
-      .map((user) => {
+      .filter((user: User) => user._id.toString() !== userId)
+      .map((user: User) => {
         return {
           _id: user._id,
           profilePicture: user.profilePicture,
           firstName: user.firstName,
           lastName: user.lastName,
+          fullName: `${user.firstName} ${user.lastName}`,
           createdAt: user.createdAt,
           email: user.email,
           posts: user.posts,
@@ -45,12 +48,12 @@ const handleGetUsers = async (req, res) => {
 
     res.status(200).json({ returnedUsers });
   } catch (err) {
-    console.log('allUsers GET API :', err.message);
-    res.status(500).json({ message: err.message });
+    console.log('allUsers GET API :', (err as Error).message);
+    res.status(500).json({ message: (err as Error).message });
   }
 };
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET':
       return handleGetUsers(req, res);

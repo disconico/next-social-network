@@ -1,5 +1,7 @@
+import React from 'react';
+
 type Props = {
-  handleSearch: () => void;
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   search: string;
   placeholder: string;
 };

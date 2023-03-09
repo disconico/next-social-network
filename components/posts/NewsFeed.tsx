@@ -11,7 +11,7 @@ type Props = {
   status: 'loading' | 'authenticated' | 'unauthenticated';
 };
 
-const NewsFeed = ({ search, session, status }: Props) => {
+const NewsFeed = ({ search, session }: Props) => {
   const { isLoading, isError, data, error } = useQuery(
     'featuredPosts',
     async () => {
@@ -80,7 +80,6 @@ const NewsFeed = ({ search, session, status }: Props) => {
                 comments={post.comments}
                 author={post.author}
                 session={session}
-                status={status}
                 postId={post._id}
               />
             ))}

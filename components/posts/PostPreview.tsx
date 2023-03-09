@@ -18,7 +18,6 @@ type Props = {
   comments: CommentType[];
   author: Author;
   session: Session | null;
-  status: 'authenticated' | 'loading' | 'unauthenticated';
   postId: string;
 };
 
@@ -30,7 +29,6 @@ const PostPreview = ({
   author,
   likedBy,
   session,
-  status,
   postId,
 }: Props) => {
   const [isLiked, setIsLiked] = useState(
@@ -144,7 +142,6 @@ const PostPreview = ({
             postId={postId}
             likedBy={likedBy}
             session={session as Session}
-            status={status}
             authorId={author._id}
             setIsLiked={setIsLiked}
             isLiked={isLiked}
@@ -173,17 +170,5 @@ const PostPreview = ({
     </div>
   );
 };
-
-// PostPreview.propTypes = {
-//   content: PropTypes.string.isRequired,
-//   createdAt: PropTypes.string.isRequired,
-//   likes: PropTypes.number.isRequired,
-//   comments: PropTypes.array.isRequired,
-//   likedBy: PropTypes.array.isRequired,
-//   session: PropTypes.object.isRequired,
-//   status: PropTypes.string.isRequired,
-//   postId: PropTypes.string.isRequired,
-//   author: PropTypes.object.isRequired,
-// };
 
 export default PostPreview;

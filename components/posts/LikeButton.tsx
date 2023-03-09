@@ -7,7 +7,6 @@ import { QueryFilters } from 'react-query/types/core/utils';
 
 type Props = {
   session: Session | null;
-  status: 'loading' | 'authenticated' | 'unauthenticated';
   postId: string;
   likedBy: Users[];
   authorId: string;
@@ -23,7 +22,6 @@ type CustomQueryFilters = QueryFilters & {
 
 const LikeButton = ({
   session,
-  status,
   postId,
   likedBy,
   authorId,
@@ -69,12 +67,7 @@ const LikeButton = ({
   );
 
   const handleLikePost = () => {
-    if (
-      !session ||
-      !session.user ||
-      status === 'loading' ||
-      mutation.isLoading
-    ) {
+    if (!session || !session.user || mutation.isLoading) {
       return;
     }
     setIsLiked(!isLiked);

@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import PostPreview from './PostPreview';
 import { Post } from '../../types';
@@ -11,8 +10,7 @@ type Props = {
 };
 
 const AllPosts = ({ search, sortedPostsBy }: Props) => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
   const { isLoading, isError, data, error } = useQuery('posts', async () => {
     try {
       const res = await axios.get('/api/posts/allPosts');
@@ -22,10 +20,6 @@ const AllPosts = ({ search, sortedPostsBy }: Props) => {
       throw new Error('Something went wrong!');
     }
   });
-
-  const handleNavigateToPost = (id: string) => {
-    router.push(`/app/posts/${id}`);
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {(error as Error).message}</div>;
@@ -74,7 +68,6 @@ const AllPosts = ({ search, sortedPostsBy }: Props) => {
             .map((post: Post, index: number) => (
               <PostPreview
                 key={index}
-                handleNavigateToPost={() => handleNavigateToPost}
                 content={post.content}
                 createdAt={post.createdAt}
                 likes={post.likes}
@@ -82,7 +75,6 @@ const AllPosts = ({ search, sortedPostsBy }: Props) => {
                 comments={post.comments}
                 author={post.author}
                 session={session}
-                status={status}
                 postId={post._id}
               />
             ))}

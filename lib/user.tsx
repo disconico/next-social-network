@@ -3,6 +3,7 @@ interface User {
   profilePicture: string;
   firstName: string;
   lastName: string;
+  fullName: string;
   email: string;
   posts: string[];
   postsLikedByUser: string[];
@@ -19,6 +20,7 @@ const clientUser = (user: User) => {
     profilePicture: user.profilePicture,
     firstName: user.firstName,
     lastName: user.lastName,
+    fullName: `${user.firstName} ${user.lastName}`,
     email: user.email,
     posts: user.posts,
     postsLikedByUser: user.postsLikedByUser,

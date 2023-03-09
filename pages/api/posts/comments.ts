@@ -1,10 +1,14 @@
 import dbConnect from '../../../lib/db/dbConnect';
+// @ts-ignore
 import Post from '../../../models/Post';
+// @ts-ignore
 import Comment from '../../../models/Comment';
+// @ts-ignore
 import User from '../../../models/User';
 import { getToken } from 'next-auth/jwt';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'PATCH':
       return handlePatchPost(req, res);
@@ -13,7 +17,7 @@ const handler = async (req, res) => {
   }
 };
 
-const handlePatchPost = async (req, res) => {
+const handlePatchPost = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -51,8 +55,8 @@ const handlePatchPost = async (req, res) => {
 
     res.status(200).json({ message: 'Success' });
   } catch (err) {
-    console.log('Post PATCH API :', err.message);
-    res.status(401).json({ message: err.message });
+    console.log('Post PATCH API :', (err as Error).message);
+    res.status(401).json({ message: (err as Error).message });
   }
 };
 
