@@ -1,4 +1,4 @@
-const formatDate = (date: Date) => {
+const formatDate = (date: Date | string) => {
   const d = new Date(date);
   const day = d.getDate();
   const month = d.getMonth() + 1;
