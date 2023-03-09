@@ -1,15 +1,9 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import Post from '../../../models/Post';
-// @ts-ignore
-import User from '../../../models/User';
-// @ts-ignore
-import Comment from '../../../models/Comment';
 import { checkIfLikedByUser } from '../../../lib/posts';
 import { getToken } from 'next-auth/jwt';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case 'PATCH':
       return handlePatchPost(req, res);
@@ -18,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const handlePatchPost = async (req: NextApiRequest, res: NextApiResponse) => {
+const handlePatchPost = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -34,13 +28,13 @@ const handlePatchPost = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    const likedByArray = post.likedBy.map((user: User) => user._id.toString());
+    const likedByArray = post.likedBy.map((user) => user._id.toString());
     const isLiked = checkIfLikedByUser(likedByArray, userId);
 
     if (isLiked) {
       post.likes--;
       post.likedBy = post.likedBy.filter(
-        (user: User) => user._id.toString() !== userId
+        (user) => user._id.toString() !== userId
       );
     } else {
       post.likes++;
@@ -52,7 +46,7 @@ const handlePatchPost = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ message: 'Success' });
   } catch (err) {
-    console.log('Post Like API :', (err as Error).message);
+    console.log('Post Like API :', err.message);
     res.status(401).json({ message: 'Error liking post' });
   }
 };

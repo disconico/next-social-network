@@ -1,19 +1,12 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import Post from '../../../models/Post';
-// @ts-ignore
 import Comment from '../../../models/Comment';
-// @ts-ignore
 import User from '../../../models/User';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
 import { hashPassword, verifyPassword } from '../../../lib/auth';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-const handleGetUserDetails = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handleGetUserDetails = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -76,11 +69,11 @@ const handleGetUserDetails = async (
         .lean(),
     ]);
 
-    const returnedPostsLikedByUser = postsLikedByUser.map((post: Post) => {
+    const returnedPostsLikedByUser = postsLikedByUser.map((post) => {
       return clientPost(post, post.author);
     });
 
-    const returnedPosts = userDetails.posts.map((post: Post) => {
+    const returnedPosts = userDetails.posts.map((post) => {
       return clientPost(post, post.author);
     });
 
@@ -100,15 +93,12 @@ const handleGetUserDetails = async (
 
     res.status(200).json({ returnedUserDetails });
   } catch (err) {
-    console.log('userDetails GET API :', (err as Error).message);
-    res.status(500).json({ message: (err as Error).message });
+    console.log('userDetails GET API :', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
-const handleUpdateUserPassword = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handleUpdateUserPassword = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -152,15 +142,12 @@ const handleUpdateUserPassword = async (
     await user.save();
     res.status(200).json({ message: 'Password updated' });
   } catch (err) {
-    console.log('userDetails PATCH API :', (err as Error).message);
-    res.status(500).json({ message: (err as Error).message });
+    console.log('userDetails PATCH API :', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
-const handleUpdateUserAwesome = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handleUpdateUserAwesome = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -182,12 +169,12 @@ const handleUpdateUserAwesome = async (
     await user.save();
     res.status(200).json({ message: 'User isAwesome updated' });
   } catch (err) {
-    console.log('userDetails PATCH API :', (err as Error).message);
-    res.status(500).json({ message: (err as Error).message });
+    console.log('userDetails PATCH API :', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetUserDetails(req, res);

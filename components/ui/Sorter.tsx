@@ -15,7 +15,6 @@ const Sorter = ({ handleSort, options, sortedBy }: Props) => {
             className=' border p-2 rounded text-sm font-light outline-primary-400 dark:bg-gray-800'
             onChange={handleSort}
             value={sortedBy}
-            defaultValue='newest'
           >
             {options.map((option) => (
               <option

@@ -1,13 +1,10 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import Post from '../../../models/Post';
-// @ts-ignore
 import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-const handleGetPost = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleGetPost = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -27,18 +24,18 @@ const handleGetPost = async (req: NextApiRequest, res: NextApiResponse) => {
       })
       .lean();
 
-    const returnedPosts = posts.map((post: Post) => {
+    const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);
     });
 
     res.status(200).json({ returnedPosts });
   } catch (err) {
-    console.log('AllPost GET API :', (err as Error).message);
-    res.status(500).json({ message: (err as Error).message });
+    console.log('AllPost GET API :', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetPost(req, res);

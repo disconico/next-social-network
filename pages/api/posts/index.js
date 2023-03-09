@@ -1,13 +1,9 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import Post from '../../../models/Post';
-// @ts-ignore
 import User from '../../../models/User';
-// @ts-ignore
 import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 export const config = {
   api: {
@@ -17,10 +13,7 @@ export const config = {
   },
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req, res) {
   await dbConnect();
   try {
     const token = await getToken({ req, secret: process.env.AUTH_SECRET });
@@ -93,7 +86,7 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (err) {
-    console.log('Error:', (err as Error).message);
+    console.log('Error:', err.message);
     res.status(401).json({ message: 'Error occurred' });
   }
 }

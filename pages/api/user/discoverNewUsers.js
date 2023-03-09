@@ -1,13 +1,10 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import User from '../../../models/User';
-// @ts-ignore
-import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
 import { clientUser } from '../../../lib/user';
-import { NextApiRequest, NextApiResponse } from 'next';
+import Comment from '../../../models/Comment';
 
-const handleGetNewUsers = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleGetNewUsers = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -33,18 +30,18 @@ const handleGetNewUsers = async (req: NextApiRequest, res: NextApiResponse) => {
       countQuery.exec(),
     ]);
 
-    const returnedUsers = newUsers.map((user: User) => {
+    const returnedUsers = newUsers.map((user) => {
       return clientUser(user);
     });
 
     res.status(200).json({ message: 'Success', returnedUsers, count });
   } catch (error) {
-    console.log('newUsers GET API :', (error as Error).message);
-    res.status(500).json({ message: (error as Error).message });
+    console.log('newUsers GET API :', error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetNewUsers(req, res);

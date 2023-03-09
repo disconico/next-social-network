@@ -2,7 +2,6 @@ import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { verifyPassword } from '../../../lib/auth';
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import User from '../../../models/User';
 
 export default NextAuth({
@@ -23,11 +22,6 @@ export default NextAuth({
       },
       async authorize(credentials) {
         await dbConnect();
-
-        if (!credentials) {
-          throw new Error('No credentials provided!');
-        }
-
         const user = await User.findOne({ email: credentials.email });
 
         if (!user) {
@@ -60,7 +54,7 @@ export default NextAuth({
   callbacks: {
     session: async ({ session, token }) => {
       if (session?.user) {
-        session.user.id = token.uid as string;
+        session.user.id = token.uid;
       }
       return session;
     },

@@ -1,10 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '../../../lib/auth';
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import User from '../../../models/User';
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return;
   }

@@ -1,18 +1,11 @@
 import dbConnect from '../../../lib/db/dbConnect';
-// @ts-ignore
 import Post from '../../../models/Post';
-// @ts-ignore
 import User from '../../../models/User';
-// @ts-ignore
 import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-const handleGetFeaturedPost = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handleGetFeaturedPost = async (req, res) => {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (!token) {
@@ -42,18 +35,18 @@ const handleGetFeaturedPost = async (
       })
       .lean();
 
-    const returnedPosts = posts.map((post: Post) => {
+    const returnedPosts = posts.map((post) => {
       return clientPost(post, post.author);
     });
 
     res.status(200).json({ returnedPosts });
   } catch (err) {
-    console.log('Featured posts GET API :', (err as Error).message);
-    res.status(500).json({ message: (err as Error).message });
+    console.log('Featured posts GET API :', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return handleGetFeaturedPost(req, res);
