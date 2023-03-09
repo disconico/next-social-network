@@ -2,8 +2,6 @@ import dbConnect from '../../../lib/db/dbConnect';
 // @ts-ignore
 import Post from '../../../models/Post';
 // @ts-ignore
-import Comment from '../../../models/Comment';
-// @ts-ignore
 import User from '../../../models/User';
 import { getToken } from 'next-auth/jwt';
 import { clientPost } from '../../../lib/posts';
