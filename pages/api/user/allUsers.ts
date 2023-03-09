@@ -1,6 +1,8 @@
 import dbConnect from '../../../lib/db/dbConnect';
 // @ts-ignore
 import User from '../../../models/User';
+// @ts-ignore
+import Comment from '../../../models/Comment';
 import { getToken } from 'next-auth/jwt';
 import { NextApiRequest, NextApiResponse } from 'next';
 

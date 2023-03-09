@@ -3,6 +3,8 @@ import dbConnect from '../../../lib/db/dbConnect';
 import Post from '../../../models/Post';
 // @ts-ignore
 import User from '../../../models/User';
+// @ts-ignore
+import Comment from '../../../models/Comment';
 import { checkIfLikedByUser } from '../../../lib/posts';
 import { getToken } from 'next-auth/jwt';
 import { NextApiRequest, NextApiResponse } from 'next';
